@@ -445,4 +445,4 @@ def abre_consultaG():
     consultaG.cosulta_grafica()
 
 
-ventana_InicioR()
+#ventana_InicioR()
