@@ -5,6 +5,14 @@ import inicio_recepcion
 import Inicio_Admin
 from DBconection import *
 import os
+import customtkinter
+
+
+class App(customtkinter.CTk):
+
+    def __init__(self):
+        super().__init__()
+        self.home_frame_claveR = tk.StringVar()
 
 #Función que detecta el tipo de usuario que se esta loggeando
 def verificaInicio():
@@ -40,6 +48,7 @@ def cerrar_sesion():
 #Función para colocar la ventana de Login
 def ventana_inicio():
     #Variables para la colocación de la pantalla
+
     global ventana_principal
     ventana_principal=Tk()
     screen_width = ventana_principal.winfo_screenwidth()
@@ -55,7 +64,7 @@ def ventana_inicio():
     #Barra Superior "Sistema de bajas"
     lbl_SB = Label(text="Sistema de bajas", fg="white", bg="darkblue", width="300", height="2", font=("Calibri", 30))
     lbl_SB.pack(fill=X)
-
+    
     separator = ttk.Separator(ventana_principal, orient='horizontal')
     separator.pack(fill=X, padx=20, pady=50)
 
@@ -73,14 +82,14 @@ def ventana_inicio():
     #Nombre de usuario
     lblNombreUsuario = Label(frame_login, text="Nombre de usuario:", font=("Calibri", 14))
     lblNombreUsuario.grid(row=0, column=0, sticky="w")
-
+    
     entrada_login_usuario = ttk.Entry(frame_login, width=30, textvariable=verifica_usuario, font=("Calibri", 14))
     entrada_login_usuario.grid(row=0, column=1, padx=10, pady=10)
 
     #Contraseña
     lblContraseña = Label(frame_login, text="Contraseña:", font=("Calibri", 14))
     lblContraseña.grid(row=1, column=0, sticky="w")
-
+     
     entrada_login_clave = ttk.Entry(frame_login, width=30, show= '*', textvariable=verifica_clave, font=("Calibri", 14))
     entrada_login_clave.grid(row=1, column=1, padx=10, pady=10)
 
@@ -91,6 +100,7 @@ def ventana_inicio():
     #Texto de pie de página
     lblPie = Label(text="©2023 INFOCOMP. Todos los derechos reservados.", font=("Calibri", 10))
     lblPie.pack(side=BOTTOM, fill=X)
+    
 
     ventana_principal.mainloop()
 
