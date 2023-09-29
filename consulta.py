@@ -228,17 +228,6 @@ def emergente_consulta():
     # Agregar los resultados al ComboBox
     BuscarAnio['values'] = [""] + [resultado[0] for resultado in resultados]
     
-    
-    """
-    #Búsqueda por FECHA específica de la creación del formulario a consultar 
-    Fecha = Label(ventana_emergente, text="Fecha:")
-    Fecha.place(x=15, y=100)
-
-    BuscarFecha = DateEntry(ventana_emergente, selectmode='day', date_pattern='yyyy/mm/dd', textvariable=fechaC)
-    BuscarFecha.delete(0, "end")  ## Only this line needed to be added to clear the field.
-    BuscarFecha.grid(row=1,column=1,padx=85, pady=100)
-    """
-
     #SELECT * FROM datosalumnosbajas.view_generaciones;
 
     #Búsqueda por GENERACIÓN. En la línea de values es dónde se anexan los valores del combobox. 

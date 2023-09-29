@@ -146,7 +146,6 @@ class App(customtkinter.CTk):
         # Crear un botón "Generar Formulario" que muestra la ventana con los datos correspondientes
         #
         btn_formulario = customtkinter.CTkButton(self.second_frame, text="Abrir Formulario", command=lambda: self.formularios(treeview.item(treeview.focus(), "values")))
-        #, command=lambda:formularios(treeview.item(treeview.focus(), "values"))
         btn_formulario.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
 
         self.lbl_fecha = customtkinter.CTkLabel(self.second_frame, text="")
@@ -237,6 +236,175 @@ class App(customtkinter.CTk):
         # create third frame
         self.third_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
+        #label consultas
+        Cons = customtkinter.CTkLabel(self.third_frame, text="Consultas")
+        Cons.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+
+        #, command=abrir_ventana_nueva
+        btn_VF = customtkinter.CTkButton(self.third_frame, text="Ver todos los formularios", width=25, height=2)
+        btn_VF.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+
+        #Inicialización de variables para la realización de las consultas en cada filtro
+        self.anioC = StringVar()
+        self.generacionC = StringVar()
+        self.carreraC = StringVar()
+        self.tipoC = StringVar()
+        self.motivoC = StringVar()
+        self.materiaC = StringVar()
+        self.escuelaC = StringVar()
+
+        #Búsqueda por AÑO en el que se creó el formulario. En la línea de values es dónde se anexan los valores del combobox. 
+        Año = customtkinter.CTkLabel(self.third_frame, text="Año:")
+        Año.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+
+        #combobox para la busqueda por anio de completacion de formulario
+        BuscarAnio = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.anioC)
+        BuscarAnio.grid(row=1, column=1, padx=10, pady=10, sticky="w")
+
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+        conexion.conectar()
+        consulta = f"SELECT * FROM datosalumnosbajas.view_anio;"
+        resultados = conexion.ejecutar_consulta(consulta)
+        conexion.desconectar()
+
+        # Limpiar el ComboBox
+        BuscarAnio['values'] = ()
+
+        # Agregar los resultados al ComboBox
+        BuscarAnio['values'] = [""] + [resultado[0] for resultado in resultados]
+        
+        #SELECT * FROM datosalumnosbajas.view_generaciones;
+
+        #Búsqueda por GENERACIÓN. En la línea de values es dónde se anexan los valores del combobox. 
+        Generacion = customtkinter.CTkLabel(self.third_frame, text="Generación:")
+        Generacion.grid(row=1, column=2, padx=10, pady=10, sticky="w")
+
+        #BuscarGeneracion = ttk.Entry(self.third_frame, width=20, variable=generacionC)
+        #BuscarGeneracion.place(x=85, y=100)
+
+        #combobox para la busqueda por generacion de los alumnos
+        BuscarGen = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.generacionC)
+        BuscarGen.grid(row=1, column=3, padx=10, pady=10, sticky="w")
+
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+        conexion.conectar()
+        consulta = f"SELECT * FROM datosalumnosbajas.view_generaciones;"
+        resultados = conexion.ejecutar_consulta(consulta)
+        conexion.desconectar()
+
+        # Limpiar el ComboBox
+        BuscarGen['values'] = ()
+
+        # Agregar los resultados al ComboBox
+        BuscarGen['values'] = [""] + [resultado[0] for resultado in resultados]
+
+        #Búsqueda por CARRERA. En la línea de values es dónde se anexan los valores del combobox. 
+        Carrera = customtkinter.CTkLabel(self.third_frame, text="Carrera:")
+        Carrera.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+
+        BuscarCarrera = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.carreraC)
+        BuscarCarrera.grid(row=2, column=1, padx=10, pady=10, sticky="w")
+
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+        conexion.conectar()
+        consulta = f"SELECT * FROM datosalumnosbajas.view_carreras;"
+        resultados = conexion.ejecutar_consulta(consulta)
+        conexion.desconectar()
+
+        # Limpiar el ComboBox
+        BuscarCarrera['values'] = ()
+
+        # Agregar los resultados al ComboBox
+        BuscarCarrera['values'] = [""] + [resultado[0] for resultado in resultados]
+
+        #Búsqueda por TIPO DE BAJA. En la línea de values es dónde se anexan los valores del combobox. 
+        TipoBaja = customtkinter.CTkLabel(self.third_frame, text="Tipo de baja:")
+        TipoBaja.grid(row=2, column=2, padx=10, pady=10, sticky="w")
+
+        BuscarTipoBaja = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.tipoC)
+        BuscarTipoBaja.grid(row=2, column=3, padx=10, pady=10, sticky="w")
+
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+        conexion.conectar()
+        consulta = f"SELECT nombre_tipobaja FROM tipo_de_baja"
+        resultados = conexion.ejecutar_consulta(consulta)
+        conexion.desconectar()
+
+        # Limpiar el ComboBox
+        BuscarTipoBaja['values'] = ()
+
+        # Agregar los resultados al ComboBox
+        BuscarTipoBaja['values'] = [""] + [resultado[0] for resultado in resultados]
+
+        #Búsqueda por MOTIVO DE BAJA. En la línea de values es dónde se anexan los valores del combobox. 
+        MotivoBaja = customtkinter.CTkLabel(self.third_frame, text="Motivo de baja:")
+        MotivoBaja.grid(row=3, column=0, padx=10, pady=10, sticky="w")
+
+        BuscarMotivoBaja = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.motivoC)
+        BuscarMotivoBaja.grid(row=3, column=1, padx=10, pady=10, sticky="w")
+
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+        conexion.conectar()
+        consulta = f"SELECT nombre_motbaja FROM motivo_baja"
+        resultados = conexion.ejecutar_consulta(consulta)
+        conexion.desconectar()
+
+        # Limpiar el ComboBox
+        BuscarMotivoBaja['values'] = ()
+
+        # Agregar los resultados al ComboBox
+        BuscarMotivoBaja['values'] = [""] + [resultado[0] for resultado in resultados]
+
+        #Búsqueda por MATERIA MÁS DIFÍCIL. En la línea de values es dónde se anexan los valores del combobox. 
+        MateriaDificil = customtkinter.CTkLabel(self.third_frame, text="Materia más difícil:")
+        MateriaDificil.grid(row=3, column=2, padx=10, pady=10, sticky="w")
+
+        BuscarMateriaDificil = customtkinter.CTkComboBox(self.third_frame, state="readonly", width=30, variable=self.materiaC)
+        BuscarMateriaDificil.grid(row=3, column=3, padx=10, pady=10, sticky="w")
+
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+        conexion.conectar()
+        consulta = f"SELECT nombre_materia FROM materias_dificiles"
+        resultados = conexion.ejecutar_consulta(consulta)
+        conexion.desconectar()
+
+        # Limpiar el ComboBox
+        BuscarMateriaDificil['values'] = ()
+
+        # Agregar los resultados al ComboBox
+        BuscarMateriaDificil['values'] = [""] + [resultado[0] for resultado in resultados]
+
+        #Búsqueda por ESCUELA DE PROCEDENCIA. En la línea de values es dónde se anexan los valores del combobox. 
+        EscuelaProc = customtkinter.CTkLabel(self.third_frame, text="Escuela de procedencia:")
+        EscuelaProc.grid(row=4, column=0, padx=10, pady=10, sticky="w")
+
+        BuscarEscuelaProc = customtkinter.CTkComboBox(self.third_frame, state="readonly", width=30, variable=self.escuelaC)
+        BuscarEscuelaProc.grid(row=4, column=1, padx=10, pady=10, sticky="w")
+        
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+        conexion.conectar()
+        consulta = f"SELECT nombre_prepa FROM prepa_procedencia"
+        resultados = conexion.ejecutar_consulta(consulta)
+        conexion.desconectar()
+
+        # Limpiar el ComboBox
+        BuscarEscuelaProc['values'] = ()
+
+        # Agregar los resultados al ComboBox
+        BuscarEscuelaProc['values'] = [""] + [resultado[0] for resultado in resultados]
+
+        #, command=haz_consulta
+        btn_RB = customtkinter.CTkButton(self.third_frame, text="Realizar búsqueda", width=25, height=2)
+        btn_RB.grid(row=5, column=0, padx=10, pady=10, sticky="w")
+
+
+        # Crear un botón "Haz consulta"
+        btn_consulta = customtkinter.CTkButton(self.third_frame, text="Consulta de datos", command=lambda:self.abre_consulta())
+        btn_consulta.grid(row= 99, column=0, padx=10, pady=10, sticky="w")
+
+        # Crear un botón "Haz consulta grafica"
+        btn_consulta = customtkinter.CTkButton(self.third_frame, text="Consulta grafica", command=lambda:self.abre_consultaG())
+        btn_consulta.grid(row= 98, column=0, padx=10, pady=10, sticky="w")
         # select default frame
         self.select_frame_by_name("Inicio")
 
@@ -280,6 +448,11 @@ class App(customtkinter.CTk):
         self.home_frame_button_Registrar.grid_remove()
         self.home_frame_button_Limpiar.grid_remove()
         
+    def abre_consulta(self):
+        consulta.emergente_consulta()
+
+    def abre_consultaG(self):
+        consultaG.cosulta_grafica()
         
 
     def mostrar_informacion_alumno(self):
