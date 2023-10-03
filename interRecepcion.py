@@ -268,10 +268,12 @@ class App(customtkinter.CTk):
         conexion.desconectar()
 
         # Limpiar el ComboBox
-        BuscarAnio['values'] = ()
-
+        BuscarAnio.configure(values=[""])
+        #BuscarAnio['values'] = ()
+        print(resultado[0] for resultado in resultados)
         # Agregar los resultados al ComboBox
-        BuscarAnio['values'] = [""] + [resultado[0] for resultado in resultados]
+        #BuscarAnio.configure(values=[""] + [resultado[0] for resultado in resultados])
+        #BuscarAnio['values'] = [""] + [resultado[0] for resultado in resultados]
         
         #SELECT * FROM datosalumnosbajas.view_generaciones;
 
