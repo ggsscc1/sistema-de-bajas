@@ -502,15 +502,25 @@ class App(customtkinter.CTk):
         # Crear una ventana para mostrar los resultados
         ventana_resultados = Toplevel()
         ventana_resultados.title("Resultados de la búsqueda")
-        ventana_resultados.geometry("800x300")
+        #ventana_resultados.geometry("800x300")
+
+        # Crear un Frame principal dentro de la ventana
+        frame_principal = Frame(ventana_resultados)
+        frame_principal.pack(fill=BOTH, expand=YES)
+
+        """frame_sec1= Frame(frame_principal)
+        frame_sec1.grid(row=0, column=0)
+        
+        frame_sec2 = Frame(frame_principal)
+        frame_sec2.grid(row=0, column=1)"""
 
         # Add a Scrollbar(horizontal)
-        h=Scrollbar(ventana_resultados, orient='horizontal')
-        h.pack(side=BOTTOM, fill='x')
+        h = Scrollbar(frame_principal, orient='horizontal')
+        h.grid(row=1, column=0, columnspan=2, sticky="ew")
         
         # Crear una tabla para mostrar los resultados
         global tabla_resultados
-        tabla_resultados = ttk.Treeview(ventana_resultados, xscrollcommand=h.set)
+        tabla_resultados = ttk.Treeview(frame_principal, xscrollcommand=h.set)
         tabla_resultados['columns'] = ('ID', 'Clave', 'Nombre', 'Apellido paterno', 'Apellido materno',
                                     'Correo', 'Fecha de solicitud', 'Carrera', 'Generación', 'Tipo baja',
                                     'Motivo baja', 'Prepa origen', 'Materia difícil I', 'Materia difícil II',
@@ -562,34 +572,35 @@ class App(customtkinter.CTk):
         for row in results:
             tabla_resultados.insert('', 'end', values=row)
 
-        tabla_resultados.pack(expand=YES, fill=BOTH)
+        #tabla_resultados.pack(expand=YES, fill=BOTH)
+        tabla_resultados.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
         # Attach the scrollbar with the text widget
         h.config(command=tabla_resultados.xview)
 
         # Agregar botón de exportar a Excel
-        btn_exportar = customtkinter.CTkButton(ventana_resultados, text="Exportar a Excel", command=lambda:self.exportar_a_excel)
-        btn_exportar.pack()
+        btn_exportar = customtkinter.CTkButton(frame_principal, text="Exportar a Excel", command=lambda:self.exportar_a_excel)
+        btn_exportar.grid(row=0, column=1, padx=10, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_Gen = customtkinter.CTkButton(ventana_resultados, text="Grafica Generacion", command=lambda:consultaG.consulta_generacion2(results))
-        btn_Gen.pack()
+        btn_Gen = customtkinter.CTkButton(frame_principal, text="Grafica Generacion", command=lambda:consultaG.consulta_generacion2(results))
+        btn_Gen.grid(row=2, column=1, padx=10, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_Carrera = customtkinter.CTkButton(ventana_resultados, text="Grafica Carrera", command=lambda:consultaG.consulta_carrera2(results))
-        btn_Carrera.pack()
+        btn_Carrera = customtkinter.CTkButton(frame_principal, text="Grafica Carrera", command=lambda:consultaG.consulta_carrera2(results))
+        btn_Carrera.grid(row=3, column=0, padx=10, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_escuela = customtkinter.CTkButton(ventana_resultados, text="Grafica escuela", command=lambda:self.exportar_a_excel)
-        btn_escuela.pack()
+        btn_escuela = customtkinter.CTkButton(frame_principal, text="Grafica escuela", command=lambda:self.exportar_a_excel)
+        btn_escuela.grid(row=3, column=1, padx=10, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_tramite = customtkinter.CTkButton(ventana_resultados, text="Grafica tramite", command=lambda:self.exportar_a_excel)
-        btn_tramite.pack()
+        btn_tramite = customtkinter.CTkButton(frame_principal, text="Grafica tramite", command=lambda:self.exportar_a_excel)
+        btn_tramite.grid(row=4, column=0, padx=10, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_Mat = customtkinter.CTkButton(ventana_resultados, text="Materia dificil", command=lambda:self.exportar_a_excel)
-        btn_Mat.pack()
+        btn_Mat = customtkinter.CTkButton(frame_principal, text="Materia dificil", command=lambda:self.exportar_a_excel)
+        btn_Mat.grid(row=4, column=1, padx=10, pady=10)
 
         ventana_resultados.mainloop()
 
