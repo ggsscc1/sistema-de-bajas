@@ -2,6 +2,7 @@ import customtkinter
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
+import tkinter 
 from tkinter import messagebox
 from tkcalendar import DateEntry
 from DBconection import *
@@ -12,6 +13,7 @@ import consulta
 import consultaG
 import os
 from PIL import Image
+import pandas as pd
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -61,13 +63,13 @@ class App(customtkinter.CTk):
         self.home_frame_Titulo = customtkinter.CTkLabel(self.home_frame, text="Sistema de bajas", fg_color="grey", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
         self.home_frame_Titulo.grid(row=0, column=0, padx=20, pady=10, columnspan=3)
         
-        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Clave única\ndel alumno: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.home_frame_Clave.grid(row=1, column=0, padx=20, pady=10)
+        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Clave única del alumno: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_Clave.grid(row=1, column=0, padx=5, pady=10, sticky="e")
         
         
         self.home_frame_claveA = tk.StringVar()
         self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.home_frame_claveA)
-        self.home_frame_Clave_Entry.grid(row=1, column=1, padx=20, pady=10)
+        self.home_frame_Clave_Entry.grid(row=1, column=1, padx=5, pady=10)
 
         
 
@@ -77,19 +79,29 @@ class App(customtkinter.CTk):
         self.home_frame_carreraR = tk.StringVar()
         self.home_frame_generacionR = tk.StringVar()
 
-        self.home_frame_clave_alumno_label = customtkinter.CTkLabel(self.home_frame, anchor="w",text="",font=customtkinter.CTkFont(size=15, weight="normal"), justify="left")
-        self.home_frame_nombre_alumno_label = customtkinter.CTkLabel(self.home_frame, anchor="w",text="", font=customtkinter.CTkFont(size=15, weight="normal"), justify="left")
-        self.home_frame_carrera_alumno_label = customtkinter.CTkLabel(self.home_frame, anchor="w",text="", font=customtkinter.CTkFont(size=15, weight="normal"), justify="left")
-        self.home_frame_generacion_alumno_label = customtkinter.CTkLabel(self.home_frame, anchor="w",text="", font=customtkinter.CTkFont(size=15, weight="normal"), justify="left")
+        self.home_frame_clave_alumno_label = customtkinter.CTkLabel(self.home_frame, anchor="w",text="",font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_nombre_alumno_label = customtkinter.CTkLabel(self.home_frame, anchor="w",text="", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_carrera_alumno_label = customtkinter.CTkLabel(self.home_frame, anchor="w",text="", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_generacion_alumno_label = customtkinter.CTkLabel(self.home_frame, anchor="w",text="", font=customtkinter.CTkFont(size=15, weight="normal"))
+
+        self.home_frame_clave_alumno_valor = customtkinter.CTkLabel(self.home_frame, anchor="w",text="",font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_nombre_alumno_valor = customtkinter.CTkLabel(self.home_frame, anchor="w",text="", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_carrera_alumno_valor = customtkinter.CTkLabel(self.home_frame, anchor="w",text="", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_generacion_alumno_valor = customtkinter.CTkLabel(self.home_frame, anchor="w",text="", font=customtkinter.CTkFont(size=15, weight="normal"))
 
         self.home_frame_button_Buscar = customtkinter.CTkButton(self.home_frame, text="Buscar", command=lambda:self.buscaAlumno())
         self.home_frame_button_Buscar.grid(row=1, column=2, padx=20, pady=10)
 
         
-        self.home_frame_clave_alumno_label.grid(row=2, column=0, padx=20, pady=10)
-        self.home_frame_nombre_alumno_label.grid(row=3, column=0, padx=20, pady=10)
-        self.home_frame_carrera_alumno_label.grid(row=4, column=0, padx=20, pady=10)
-        self.home_frame_generacion_alumno_label.grid(row=5, column=0, padx=20, pady=10)
+        self.home_frame_clave_alumno_label.grid(row=2, column=0, padx=5, pady=10, sticky="e")
+        self.home_frame_nombre_alumno_label.grid(row=3, column=0, padx=5, pady=10, sticky="e")
+        self.home_frame_carrera_alumno_label.grid(row=4, column=0, padx=5, pady=10, sticky="e")
+        self.home_frame_generacion_alumno_label.grid(row=5, column=0, padx=5, pady=10, sticky="e")
+
+        self.home_frame_clave_alumno_valor.grid(row=2, column=1, padx=5, pady=10, sticky="w")
+        self.home_frame_nombre_alumno_valor.grid(row=3, column=1, padx=5, pady=10, sticky="w")
+        self.home_frame_carrera_alumno_valor.grid(row=4, column=1, padx=5, pady=10, sticky="w")
+        self.home_frame_generacion_alumno_valor.grid(row=5, column=1, padx=5, pady=10, sticky="w")
 
         self.home_frame_button_Registrar = customtkinter.CTkButton(self.home_frame, text="Registrar", command=lambda:self.insertaEnLista())
         self.home_frame_button_Registrar.grid(row=6, column=2, padx=20, pady=10)
@@ -120,7 +132,7 @@ class App(customtkinter.CTk):
 
         # Crear un Treeview con 3 columnas
         treeview = ttk.Treeview(self.second_frame, columns=('fecha', 'clave', 'nombre', 'completado'), show='headings', style="mystyle.Treeview")
-        treeview.grid(row= 1, column=0, pady=10, padx=20, sticky="nsew", rowspan=2)
+        treeview.grid(row= 1, column=0, pady=10, padx=20, sticky="nsew", rowspan=2, columnspan=6)
 
         # Configurar encabezados de columna
         treeview.heading('fecha', text='Fecha')
@@ -141,108 +153,108 @@ class App(customtkinter.CTk):
         treeview.column('nombre', width=100)
         treeview.column('completado', width=110)
 
-
-
         # Crear un botón "Generar Formulario" que muestra la ventana con los datos correspondientes
         #
         btn_formulario = customtkinter.CTkButton(self.second_frame, text="Abrir Formulario", command=lambda: self.formularios(treeview.item(treeview.focus(), "values")))
         btn_formulario.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
 
         self.lbl_fecha = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_fecha.grid(row=1, column=3, padx=10, pady=10)
+        self.lbl_fecha.grid(row=4, column=0, padx=5, pady=5, sticky="e")
         self.lbl_fecha_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_fecha_valor.grid(row=1, column=4, padx=10, pady=10)
+        self.lbl_fecha_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
 
         self.lbl_clave = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_clave.grid(row=1, column=5, padx=10, pady=10)
+        self.lbl_clave.grid(row=4, column=2, padx=5, pady=5, sticky="e")
         self.lbl_clave_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_clave_valor.grid(row=1, column=6, padx=10, pady=10)
+        self.lbl_clave_valor.grid(row=4, column=3, padx=5, pady=5, sticky="w")
 
         self.lbl_nombre = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_nombre.grid(row=2, column=3, padx=10, pady=10)
+        self.lbl_nombre.grid(row=4, column=4, padx=5, pady=5, sticky="e")
         self.lbl_nombre_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_nombre_valor.grid(row=2, column=4, padx=10, pady=10) 
+        self.lbl_nombre_valor.grid(row=4, column=5, padx=5, pady=5, sticky="w") 
         
         self.lbl_correo = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_correo.grid(row=2, column=5, padx=10, pady=10)
+        self.lbl_correo.grid(row=5, column=0, padx=5, pady=5, sticky="e")
         self.lbl_correo_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_correo_valor.grid(row=2, column=6, padx=10, pady=10)
+        self.lbl_correo_valor.grid(row=5, column=1, padx=5, pady=5, sticky="w")
         
         self.lbl_carrera = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_carrera.grid(row=3, column=3, padx=10, pady=10)
+        self.lbl_carrera.grid(row=5, column=2, padx=5, pady=5, sticky="e")
         self.lbl_carrera_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_carrera_valor.grid(row=3, column=4, padx=10, pady=10)
+        self.lbl_carrera_valor.grid(row=5, column=3, padx=5, pady=5, sticky="w")
 
         self.lbl_generacion = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_generacion.grid(row=3, column=5, padx=10, pady=10)
+        self.lbl_generacion.grid(row=5, column=4, padx=5, pady=5, sticky="e")
         self.lbl_generacion_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_generacion_valor.grid(row=3, column=6, padx=10, pady=10)
+        self.lbl_generacion_valor.grid(row=5, column=5, padx=5, pady=5, sticky="w")
         
         #"Motivo de Baja"
         self.lbl_motivo = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_motivo.grid(row=4, column=3, padx=10, pady=10)
+        self.lbl_motivo.grid(row=6, column=0, padx=5, pady=5, sticky="e")
         self.lbl_motivo_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_motivo_valor.grid(row=4, column=4, padx=10, pady=10)
+        self.lbl_motivo_valor.grid(row=6, column=1, padx=5, pady=5, sticky="w")
 
         #Escuela de procedencia
         self.lbl_prpa = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_prpa.grid(row=4, column=5, padx=10, pady=10)
+        self.lbl_prpa.grid(row=6, column=2, padx=5, pady=5, sticky="e")
         self.lbl_prepa_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_prepa_valor.grid(row=4, column=6, padx=10, pady=10)
+        self.lbl_prepa_valor.grid(row=6, column=3, padx=5, pady=5, sticky="w")
 
         #materias mas dificiles
         
         self.lbl_materia = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia.grid(row=5, column=3, padx=10, pady=10)
+        self.lbl_materia.grid(row=6, column=4, padx=5, pady=5, sticky="e")
         self.lbl_materia_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia_valor.grid(row=5, column=4, padx=10, pady=10)
+        self.lbl_materia_valor.grid(row=6, column=5, padx=5, pady=5, sticky="w")
 
         self.lbl_materia2 = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia2.grid(row=5, column=5, padx=10, pady=10)
+        self.lbl_materia2.grid(row=7, column=0, padx=5, pady=5, sticky="e")
         self.lbl_materia2_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia2_valor.grid(row=5, column=6, padx=10, pady=10)
+        self.lbl_materia2_valor.grid(row=7, column=1, padx=5, pady=5, sticky="w")
 
         self.lbl_materia3 = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia3.grid(row=6, column=3, padx=10, pady=10)    
+        self.lbl_materia3.grid(row=7, column=2, padx=5, pady=5, sticky="e")    
         self.lbl_materia3_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia3_valor.grid(row=6, column=4, padx=10, pady=10)
+        self.lbl_materia3_valor.grid(row=7, column=3, padx=5, pady=5, sticky="w")
         
         self.lbl_tipoB = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_tipoB.grid(row=6, column=5, padx=10, pady=10)
+        self.lbl_tipoB.grid(row=7, column=4, padx=5, pady=5, sticky="e")
         self.lbl_tipoB_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_tipoB_valor.grid(row=6, column=6, padx=10, pady=10)
+        self.lbl_tipoB_valor.grid(row=7, column=5, padx=5, pady=5, sticky="w")
 
         # Agregar etiquetas para mostrar los datos adicionales
         self.lbl_motivotexto = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_motivotexto.grid(row=7, column=3, padx=10, pady=10)
+        self.lbl_motivotexto.grid(row=8, column=0, padx=5, pady=5, sticky="e")
         self.lbl_motivotexto_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_motivotexto_valor.grid(row=7, column=4, padx=10, pady=10)
+        self.lbl_motivotexto_valor.grid(row=8, column=1, padx=5, pady=5, sticky="w")
 
         self.lbl_formatexto = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_formatexto.grid(row=7, column=5, padx=10, pady=10)
+        self.lbl_formatexto.grid(row=8, column=2, padx=5, pady=5, sticky="e")
         self.lbl_formatexto_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_formatexto_valor.grid(row=7, column=6, padx=10, pady=10)
+        self.lbl_formatexto_valor.grid(row=8, column=3, padx=5, pady=5, sticky="w")
 
         self.lbl_fechaTtexto = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_fechaTtexto.grid(row=8, column=3, padx=10, pady=10)
+        self.lbl_fechaTtexto.grid(row=8, column=4, padx=5, pady=5, sticky="e")
         self.lbl_fechaTtexto_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_fechaTtexto_valor.grid(row=8, column=4, padx=10, pady=10)
+        self.lbl_fechaTtexto_valor.grid(row=8, column=5, padx=5, pady=5, sticky="w")
 
         self.lbl_empresa = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_empresa.grid(row=8, column=5, padx=10, pady=10)
+        self.lbl_empresa.grid(row=9, column=0, padx=5, pady=5, sticky="e")
         self.lbl_empresa_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_empresa_valor.grid(row=8, column=6, padx=10, pady=10)
+        self.lbl_empresa_valor.grid(row=9, column=1, padx=5, pady=5, sticky="w")
 
         # create third frame
         self.third_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
         #label consultas
-        Cons = customtkinter.CTkLabel(self.third_frame, text="Consultas")
-        Cons.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+        #cambiando fuentes
+        self.third_frame_Titulo = customtkinter.CTkLabel(self.third_frame, text="Consultas", fg_color="grey", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
+        self.third_frame_Titulo.grid(row=0, column=0, padx=20, pady=10, columnspan=4)
+        
 
-        #, command=abrir_ventana_nueva
-        btn_VF = customtkinter.CTkButton(self.third_frame, text="Ver todos los formularios", width=25, height=2)
-        btn_VF.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+        """#, command=abrir_ventana_nueva
+        btn_VF = customtkinter.CTkButton(self.third_frame, text="Ver todos los formularios", command=lambda:self.haz_consulta())
+        btn_VF.grid(row=0, column=1, padx=10, pady=10, sticky="w")"""
 
         #Inicialización de variables para la realización de las consultas en cada filtro
         self.anioC = StringVar()
@@ -255,22 +267,28 @@ class App(customtkinter.CTk):
 
         #Búsqueda por AÑO en el que se creó el formulario. En la línea de values es dónde se anexan los valores del combobox. 
         Año = customtkinter.CTkLabel(self.third_frame, text="Año:")
-        Año.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+        Año.grid(row=1, column=0, padx=10, pady=10, sticky="e", columnspan=1)
 
         #combobox para la busqueda por anio de completacion de formulario
         BuscarAnio = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.anioC)
-        BuscarAnio.grid(row=1, column=1, padx=10, pady=10, sticky="w")
+        BuscarAnio.grid(row=1, column=1, padx=10, pady=10, sticky="e")
 
         conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         consulta = f"SELECT * FROM datosalumnosbajas.view_anio;"
+        
         resultados = conexion.ejecutar_consulta(consulta)
         conexion.desconectar()
+        
+        
+        #BuscarAnio.configure(values= "" + [str(resultado[0]) for resultado in resultados])
+        BuscarAnio.configure(values=[""]+[str(resultado[0]) for resultado in resultados])
+        
 
         # Limpiar el ComboBox
-        BuscarAnio.configure(values=[""])
+        
         #BuscarAnio['values'] = ()
-        print(resultado[0] for resultado in resultados)
+        
         # Agregar los resultados al ComboBox
         #BuscarAnio.configure(values=[""] + [resultado[0] for resultado in resultados])
         #BuscarAnio['values'] = [""] + [resultado[0] for resultado in resultados]
@@ -279,14 +297,14 @@ class App(customtkinter.CTk):
 
         #Búsqueda por GENERACIÓN. En la línea de values es dónde se anexan los valores del combobox. 
         Generacion = customtkinter.CTkLabel(self.third_frame, text="Generación:")
-        Generacion.grid(row=1, column=2, padx=10, pady=10, sticky="w")
+        Generacion.grid(row=1, column=2, padx=10, pady=10, sticky="e")
 
         #BuscarGeneracion = ttk.Entry(self.third_frame, width=20, variable=generacionC)
         #BuscarGeneracion.place(x=85, y=100)
 
         #combobox para la busqueda por generacion de los alumnos
         BuscarGen = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.generacionC)
-        BuscarGen.grid(row=1, column=3, padx=10, pady=10, sticky="w")
+        BuscarGen.grid(row=1, column=3, padx=10, pady=10, sticky="e")
 
         conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
@@ -294,15 +312,12 @@ class App(customtkinter.CTk):
         resultados = conexion.ejecutar_consulta(consulta)
         conexion.desconectar()
 
-        # Limpiar el ComboBox
-        BuscarGen['values'] = ()
+        BuscarGen.configure(values=[""]+[str(resultado[0]) for resultado in resultados])
 
-        # Agregar los resultados al ComboBox
-        BuscarGen['values'] = [""] + [resultado[0] for resultado in resultados]
 
         #Búsqueda por CARRERA. En la línea de values es dónde se anexan los valores del combobox. 
         Carrera = customtkinter.CTkLabel(self.third_frame, text="Carrera:")
-        Carrera.grid(row=2, column=0, padx=10, pady=10, sticky="w")
+        Carrera.grid(row=2, column=0, padx=10, pady=10, sticky="e")
 
         BuscarCarrera = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.carreraC)
         BuscarCarrera.grid(row=2, column=1, padx=10, pady=10, sticky="w")
@@ -313,15 +328,11 @@ class App(customtkinter.CTk):
         resultados = conexion.ejecutar_consulta(consulta)
         conexion.desconectar()
 
-        # Limpiar el ComboBox
-        BuscarCarrera['values'] = ()
-
-        # Agregar los resultados al ComboBox
-        BuscarCarrera['values'] = [""] + [resultado[0] for resultado in resultados]
+        BuscarCarrera.configure(values=[""]+[str(resultado[0]) for resultado in resultados])
 
         #Búsqueda por TIPO DE BAJA. En la línea de values es dónde se anexan los valores del combobox. 
         TipoBaja = customtkinter.CTkLabel(self.third_frame, text="Tipo de baja:")
-        TipoBaja.grid(row=2, column=2, padx=10, pady=10, sticky="w")
+        TipoBaja.grid(row=2, column=2, padx=10, pady=10, sticky="e")
 
         BuscarTipoBaja = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.tipoC)
         BuscarTipoBaja.grid(row=2, column=3, padx=10, pady=10, sticky="w")
@@ -332,15 +343,11 @@ class App(customtkinter.CTk):
         resultados = conexion.ejecutar_consulta(consulta)
         conexion.desconectar()
 
-        # Limpiar el ComboBox
-        BuscarTipoBaja['values'] = ()
-
-        # Agregar los resultados al ComboBox
-        BuscarTipoBaja['values'] = [""] + [resultado[0] for resultado in resultados]
+        BuscarTipoBaja.configure(values=[""]+[str(resultado[0]) for resultado in resultados])
 
         #Búsqueda por MOTIVO DE BAJA. En la línea de values es dónde se anexan los valores del combobox. 
         MotivoBaja = customtkinter.CTkLabel(self.third_frame, text="Motivo de baja:")
-        MotivoBaja.grid(row=3, column=0, padx=10, pady=10, sticky="w")
+        MotivoBaja.grid(row=3, column=0, padx=10, pady=10, sticky="e")
 
         BuscarMotivoBaja = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.motivoC)
         BuscarMotivoBaja.grid(row=3, column=1, padx=10, pady=10, sticky="w")
@@ -351,17 +358,14 @@ class App(customtkinter.CTk):
         resultados = conexion.ejecutar_consulta(consulta)
         conexion.desconectar()
 
-        # Limpiar el ComboBox
-        BuscarMotivoBaja['values'] = ()
-
         # Agregar los resultados al ComboBox
-        BuscarMotivoBaja['values'] = [""] + [resultado[0] for resultado in resultados]
+        BuscarMotivoBaja.configure(values=[""]+[str(resultado[0]) for resultado in resultados])
 
         #Búsqueda por MATERIA MÁS DIFÍCIL. En la línea de values es dónde se anexan los valores del combobox. 
         MateriaDificil = customtkinter.CTkLabel(self.third_frame, text="Materia más difícil:")
-        MateriaDificil.grid(row=3, column=2, padx=10, pady=10, sticky="w")
+        MateriaDificil.grid(row=3, column=2, padx=10, pady=10, sticky="e")
 
-        BuscarMateriaDificil = customtkinter.CTkComboBox(self.third_frame, state="readonly", width=30, variable=self.materiaC)
+        BuscarMateriaDificil = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.materiaC)
         BuscarMateriaDificil.grid(row=3, column=3, padx=10, pady=10, sticky="w")
 
         conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
@@ -370,17 +374,14 @@ class App(customtkinter.CTk):
         resultados = conexion.ejecutar_consulta(consulta)
         conexion.desconectar()
 
-        # Limpiar el ComboBox
-        BuscarMateriaDificil['values'] = ()
-
         # Agregar los resultados al ComboBox
-        BuscarMateriaDificil['values'] = [""] + [resultado[0] for resultado in resultados]
+        BuscarMateriaDificil.configure(values=[""]+[str(resultado[0]) for resultado in resultados])
 
         #Búsqueda por ESCUELA DE PROCEDENCIA. En la línea de values es dónde se anexan los valores del combobox. 
         EscuelaProc = customtkinter.CTkLabel(self.third_frame, text="Escuela de procedencia:")
-        EscuelaProc.grid(row=4, column=0, padx=10, pady=10, sticky="w")
+        EscuelaProc.grid(row=4, column=0, padx=10, pady=10, sticky="e")
 
-        BuscarEscuelaProc = customtkinter.CTkComboBox(self.third_frame, state="readonly", width=30, variable=self.escuelaC)
+        BuscarEscuelaProc = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.escuelaC)
         BuscarEscuelaProc.grid(row=4, column=1, padx=10, pady=10, sticky="w")
         
         conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
@@ -389,24 +390,20 @@ class App(customtkinter.CTk):
         resultados = conexion.ejecutar_consulta(consulta)
         conexion.desconectar()
 
-        # Limpiar el ComboBox
-        BuscarEscuelaProc['values'] = ()
-
         # Agregar los resultados al ComboBox
-        BuscarEscuelaProc['values'] = [""] + [resultado[0] for resultado in resultados]
+        BuscarEscuelaProc.configure(values=[""]+[str(resultado[0]) for resultado in resultados])
 
         #, command=haz_consulta
-        btn_RB = customtkinter.CTkButton(self.third_frame, text="Realizar búsqueda", width=25, height=2)
-        btn_RB.grid(row=5, column=0, padx=10, pady=10, sticky="w")
+        self.btn_RB = customtkinter.CTkButton(self.third_frame, text="Consulta de datos", command=lambda:self.haz_consulta())
+        self.btn_RB.grid(row=5, column=0, padx=10, pady=10, sticky="w")
 
-
-        # Crear un botón "Haz consulta"
-        btn_consulta = customtkinter.CTkButton(self.third_frame, text="Consulta de datos", command=lambda:self.abre_consulta())
+        """# Crear un botón "Haz consulta"
+        btn_consulta = customtkinter.CTkButton(self.third_frame, text="Consulta de datos", command=lambda:self.haz_consulta())
         btn_consulta.grid(row= 99, column=0, padx=10, pady=10, sticky="w")
 
         # Crear un botón "Haz consulta grafica"
         btn_consulta = customtkinter.CTkButton(self.third_frame, text="Consulta grafica", command=lambda:self.abre_consultaG())
-        btn_consulta.grid(row= 98, column=0, padx=10, pady=10, sticky="w")
+        btn_consulta.grid(row= 98, column=0, padx=10, pady=10, sticky="w")"""
         # select default frame
         self.select_frame_by_name("Inicio")
 
@@ -447,11 +444,185 @@ class App(customtkinter.CTk):
         self.home_frame_nombre_alumno_label.grid_remove()
         self.home_frame_carrera_alumno_label.grid_remove()
         self.home_frame_generacion_alumno_label.grid_remove()
+        self.home_frame_clave_alumno_valor.grid_remove()
+        self.home_frame_nombre_alumno_valor.grid_remove()
+        self.home_frame_carrera_alumno_valor.grid_remove()
+        self.home_frame_generacion_alumno_valor.grid_remove()
         self.home_frame_button_Registrar.grid_remove()
         self.home_frame_button_Limpiar.grid_remove()
         
     def abre_consulta(self):
         consulta.emergente_consulta()
+
+    #Función para la creación de las consultas
+    def haz_consulta(self):
+        # Tomar valores necesarios
+        anioConsulta = self.anioC.get ()
+        generacionConsulta = self.generacionC.get()
+        carreraConsulta = self.carreraC.get()
+        tipoConsulta = self.tipoC.get()
+        motivoConsulta = self.motivoC.get()
+        materiaConsulta = self.materiaC.get()
+        escuelaConsulta = self.escuelaC.get()
+
+        # Conexión a la base de datos
+        conn = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='root',
+            database='datosalumnosbajas'
+        )
+
+        cursor = conn.cursor()
+
+        # Construir la consulta SQL con los filtros ingresados
+        query = f" SELECT * FROM formulario WHERE 1=1"
+
+        if anioConsulta:
+            query += f" AND (fecha_solicitud >= '{anioConsulta}-01-01' AND fecha_solicitud <= '{anioConsulta}-12-31')"
+        if generacionConsulta:
+            query += f" AND generacion = {generacionConsulta}"
+        if carreraConsulta:
+            query += f" AND carrera = '{carreraConsulta}'"
+        if tipoConsulta:
+            query += f" AND tipobaja = '{tipoConsulta}'"
+        if motivoConsulta:
+            query += f" AND motbaja = '{motivoConsulta}'"
+        if materiaConsulta:
+            query += f" AND (matdif1 = '{materiaConsulta}' OR matdif2 = '{materiaConsulta}' OR matdif3 = '{materiaConsulta}')"
+        if escuelaConsulta:
+            query += f" AND prepa_origen = '{escuelaConsulta}'"
+
+        # Ejecutar la consulta SQL
+        cursor.execute(query)
+
+        # Obtener los resultados de la consulta
+        results = cursor.fetchall()
+
+        # Crear una ventana para mostrar los resultados
+        ventana_resultados = Toplevel()
+        ventana_resultados.title("Resultados de la búsqueda")
+        ventana_resultados.geometry("800x300")
+
+        # Add a Scrollbar(horizontal)
+        h=Scrollbar(ventana_resultados, orient='horizontal')
+        h.pack(side=BOTTOM, fill='x')
+        
+        # Crear una tabla para mostrar los resultados
+        global tabla_resultados
+        tabla_resultados = ttk.Treeview(ventana_resultados, xscrollcommand=h.set)
+        tabla_resultados['columns'] = ('ID', 'Clave', 'Nombre', 'Apellido paterno', 'Apellido materno',
+                                    'Correo', 'Fecha de solicitud', 'Carrera', 'Generación', 'Tipo baja',
+                                    'Motivo baja', 'Prepa origen', 'Materia difícil I', 'Materia difícil II',
+                                    'Materia difícil III', 'Forma titulación', 'Fecha egel', 'Detalles baja', 'Empresa')
+
+        tabla_resultados.column('#0', width=0, stretch=NO)
+        tabla_resultados.column('ID', anchor=CENTER, width=40)
+        tabla_resultados.column('Clave', anchor=CENTER, width=60)
+        tabla_resultados.column('Nombre', anchor=CENTER, width=80)
+        tabla_resultados.column('Apellido paterno', anchor=CENTER, width=110)
+        tabla_resultados.column('Apellido materno', anchor=CENTER, width=110)
+        tabla_resultados.column('Correo', anchor=CENTER, width=160)
+        tabla_resultados.column('Fecha de solicitud', anchor=CENTER, width=120)
+        tabla_resultados.column('Carrera', anchor=CENTER, width=130)
+        tabla_resultados.column('Generación', anchor=CENTER, width=90)
+        tabla_resultados.column('Tipo baja', anchor=CENTER, width=90)
+        tabla_resultados.column('Motivo baja', anchor=CENTER, width=110)
+        tabla_resultados.column('Prepa origen', anchor=CENTER, width=120)
+        tabla_resultados.column('Materia difícil I', anchor=CENTER, width=130)
+        tabla_resultados.column('Materia difícil II', anchor=CENTER, width=130)
+        tabla_resultados.column('Materia difícil III', anchor=CENTER, width=130)
+        tabla_resultados.column('Forma titulación', anchor=CENTER, width=130)
+        tabla_resultados.column('Fecha egel', anchor=CENTER, width=120)
+        tabla_resultados.column('Detalles baja', anchor=CENTER, width=110)
+        tabla_resultados.column('Empresa', anchor=CENTER, width=100)
+
+        tabla_resultados.heading('#0', text='', anchor=CENTER)
+        tabla_resultados.heading('ID', text='ID', anchor=CENTER)
+        tabla_resultados.heading('Clave', text='Clave', anchor=CENTER)
+        tabla_resultados.heading('Nombre', text='Nombre', anchor=CENTER)
+        tabla_resultados.heading('Apellido paterno', text='Apellido paterno', anchor=CENTER)
+        tabla_resultados.heading('Apellido materno', text='Apellido materno', anchor=CENTER)
+        tabla_resultados.heading('Correo', text='Correo', anchor=CENTER)
+        tabla_resultados.heading('Fecha de solicitud', text='Fecha de solicitud', anchor=CENTER)
+        tabla_resultados.heading('Carrera', text='Carrera', anchor=CENTER)
+        tabla_resultados.heading('Generación', text='Generación', anchor=CENTER)
+        tabla_resultados.heading('Tipo baja', text='Tipo baja', anchor=CENTER)
+        tabla_resultados.heading('Motivo baja', text='Motivo baja', anchor=CENTER)
+        tabla_resultados.heading('Prepa origen', text='Prepa origen', anchor=CENTER)
+        tabla_resultados.heading('Materia difícil I', text='Materia difícil I', anchor=CENTER)
+        tabla_resultados.heading('Materia difícil II', text='Materia difícil II', anchor=CENTER)
+        tabla_resultados.heading('Materia difícil III', text='Materia difícil III', anchor=CENTER)
+        tabla_resultados.heading('Forma titulación', text='Forma titulación', anchor=CENTER)
+        tabla_resultados.heading('Fecha egel', text='Fecha egel', anchor=CENTER)
+        tabla_resultados.heading('Detalles baja', text='Detalles baja', anchor=CENTER)
+        tabla_resultados.heading('Empresa', text='Empresa', anchor=CENTER)
+
+        # Insertar los resultados en la tabla
+        for row in results:
+            tabla_resultados.insert('', 'end', values=row)
+
+        tabla_resultados.pack(expand=YES, fill=BOTH)
+
+        # Attach the scrollbar with the text widget
+        h.config(command=tabla_resultados.xview)
+
+        # Agregar botón de exportar a Excel
+        btn_exportar = customtkinter.CTkButton(ventana_resultados, text="Exportar a Excel", command=lambda:self.exportar_a_excel)
+        btn_exportar.pack()
+
+        # Agregar botón de exportar a Excel
+        btn_Gen = customtkinter.CTkButton(ventana_resultados, text="Grafica Generacion", command=lambda:consultaG.consulta_generacion2(results))
+        btn_Gen.pack()
+
+        # Agregar botón de exportar a Excel
+        btn_Carrera = customtkinter.CTkButton(ventana_resultados, text="Grafica Carrera", command=lambda:consultaG.consulta_carrera2(results))
+        btn_Carrera.pack()
+
+        # Agregar botón de exportar a Excel
+        btn_escuela = customtkinter.CTkButton(ventana_resultados, text="Grafica escuela", command=lambda:self.exportar_a_excel)
+        btn_escuela.pack()
+
+        # Agregar botón de exportar a Excel
+        btn_tramite = customtkinter.CTkButton(ventana_resultados, text="Grafica tramite", command=lambda:self.exportar_a_excel)
+        btn_tramite.pack()
+
+        # Agregar botón de exportar a Excel
+        btn_Mat = customtkinter.CTkButton(ventana_resultados, text="Materia dificil", command=lambda:self.exportar_a_excel)
+        btn_Mat.pack()
+
+        ventana_resultados.mainloop()
+
+    def exportar_a_excel(self):
+        # Obtener los datos de la tabla
+        datos = []
+        for item in tabla_resultados.get_children():
+            datos.append(tabla_resultados.item(item)['values'])
+
+        # Crear un DataFrame de pandas con los datos
+        df = pd.DataFrame(datos, columns=['ID', 'Clave', 'Nombre', 'Apellido paterno', 'Apellido materno',
+                                        'Correo', 'Fecha de solicitud', 'Carrera', 'Generación', 'Tipo baja',
+                                        'Motivo baja', 'Prepa origen', 'Materia difícil I', 'Materia difícil II',
+                                        'Materia difícil III', 'Forma titulación', 'Fecha egel', 'Detalles baja', 'Empresa'])
+
+        # Obtener el directorio y nombre del archivo para guardar
+        directorio = filedialog.askdirectory()
+        nombre_archivo = filedialog.asksaveasfilename(defaultextension=".xlsx")
+
+        if directorio and nombre_archivo:
+            # Crear un objeto Path para el directorio y el archivo
+            directorio_path = Path(directorio)
+            archivo_path = Path(nombre_archivo)
+
+            # Combinar el directorio y el nombre de archivo correctamente
+            archivo_guardar = directorio_path / archivo_path
+
+            # Guardar el DataFrame en un archivo Excel
+            df.to_excel(archivo_guardar, index=False)
+            messagebox.showinfo("Exportar a Excel", "Los datos se exportaron correctamente.")
+        else:
+            messagebox.showwarning("Exportar a Excel", "Debes seleccionar un directorio y proporcionar un nombre de archivo.")
+
 
     def abre_consultaG(self):
         consultaG.cosulta_grafica()
@@ -462,13 +633,21 @@ class App(customtkinter.CTk):
         self.home_frame_nombre_alumno_label.grid()
         self.home_frame_carrera_alumno_label.grid()
         self.home_frame_generacion_alumno_label.grid()
+        self.home_frame_clave_alumno_valor.grid()
+        self.home_frame_nombre_alumno_valor.grid()
+        self.home_frame_carrera_alumno_valor.grid()
+        self.home_frame_generacion_alumno_valor.grid()
         self.home_frame_button_Registrar.grid()
         self.home_frame_button_Limpiar.grid()
          
-        self.home_frame_clave_alumno_label.configure(text="Clave única del alumno: " + self.home_frame_claveR.get())
-        self.home_frame_nombre_alumno_label.configure(text="Nombre del Alumno: " + self.home_frame_nombreR.get())
-        self.home_frame_carrera_alumno_label.configure(text="Carrera del Alumno: " + self.home_frame_carreraR.get())
-        self.home_frame_generacion_alumno_label.configure(text="Generación del Alumno: " + self.home_frame_generacionR.get())
+        self.home_frame_clave_alumno_label.configure(text="Clave única del alumno:")
+        self.home_frame_nombre_alumno_label.configure(text="Nombre del Alumno:")
+        self.home_frame_carrera_alumno_label.configure(text="Carrera del Alumno:")
+        self.home_frame_generacion_alumno_label.configure(text="Generación del Alumno:")
+        self.home_frame_clave_alumno_valor.configure(text=self.home_frame_claveR.get())
+        self.home_frame_nombre_alumno_valor.configure(text=self.home_frame_nombreR.get())
+        self.home_frame_carrera_alumno_valor.configure(text=self.home_frame_carreraR.get())
+        self.home_frame_generacion_alumno_valor.configure(text=self.home_frame_generacionR.get())
 
     def buscaAlumno(self):
         claveAlumno = self.home_frame_claveA.get()
@@ -616,15 +795,15 @@ class App(customtkinter.CTk):
         
         # Crear un botón para generar documento sellos
         btn_sell = customtkinter.CTkButton(self.second_frame, text="Generar carta de sellos",text_color="black", command= lambda:GeneraCarta(resultado[0][1]))
-        btn_sell.grid(row=9, column=3, padx=10, pady=10)
+        btn_sell.grid(row=10, column=3, padx=10, pady=10)
 
         # Crear un botón para generar documento sellos
         btn_cart = customtkinter.CTkButton(self.second_frame, text="Generar carta de no adeudo", fg_color="light blue", text_color="black", command= lambda:GeneraCarta(resultado[0][1]))
-        btn_cart.grid(row=9, column=4, padx=10, pady=10)
+        btn_cart.grid(row=10, column=4, padx=10, pady=10)
 
         # Crear un botón para generar documento sellos
         btn_edit = customtkinter.CTkButton(self.second_frame, text="Regresa a edición", fg_color="transparent", text_color="black", command= lambda:GeneraCarta(resultado[0][1]))
-        btn_edit.grid(row=9, column=5, padx=10, pady=10)
+        btn_edit.grid(row=10, column=5, padx=10, pady=10)
     
 if __name__ == "__main__":
     app = App()
