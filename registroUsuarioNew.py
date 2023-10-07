@@ -11,6 +11,12 @@ import consulta
 import consultaG
 import os
 from PIL import Image
+import CTkMessagebox
+
+
+
+
+    
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -52,41 +58,63 @@ class App(customtkinter.CTk):
         self.home_frame.grid_columnconfigure(0, weight=1)
 
         #cambiando fuentes
-        self.home_frame_Titulo = customtkinter.CTkLabel(self.home_frame, text="Sistema de bajas", fg_color="darkblue", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
+        self.home_frame_Titulo = customtkinter.CTkLabel(self.home_frame, text="Registrar nuevo usuario", fg_color="darkblue", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
         self.home_frame_Titulo.grid(row=0, column=0, padx=20, pady=10, columnspan=3)
         
-        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Clave única\ndel alumno: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.home_frame_Clave.grid(row=1, column=0, padx=20, pady=10)
+        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Nombre: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_Clave.grid(row=1, column=0, padx=20, pady=10, sticky = "w")
         
-        global claveA
-        claveA = tk.StringVar()
-        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=claveA)
+        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Primer apellido: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_Clave.grid(row=2, column=0, padx=20, pady=10, sticky = "w")
+        
+        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Segundo apellido: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_Clave.grid(row=3, column=0, padx=20, pady=10, sticky = "w")
+
+        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Email: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_Clave.grid(row=4, column=0, padx=20, pady=10, sticky = "w")
+
+        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Nuevo nombre de usuario: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_Clave.grid(row=5, column=0, padx=20, pady=10, sticky = "w")
+
+        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Nueva contraseña: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_Clave.grid(row=6, column=0, padx=20, pady=10, sticky = "w")
+
+        
+        self.clave1 = tk.StringVar()
+        self.clave2 = tk.StringVar()
+        self.clave3 = tk.StringVar()
+        self.clave4 = tk.StringVar()
+        self.clave5 = tk.StringVar()
+        self.clave6 = tk.StringVar()
+        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave1)
         self.home_frame_Clave_Entry.grid(row=1, column=1, padx=20, pady=10)
 
+        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave2)
+        self.home_frame_Clave_Entry.grid(row=2, column=1, padx=20, pady=10)
+
+        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave3)
+        self.home_frame_Clave_Entry.grid(row=3, column=1, padx=20, pady=10)
+
+        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave4)
+        self.home_frame_Clave_Entry.grid(row=4, column=1, padx=20, pady=10)
+
+        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave5)
+        self.home_frame_Clave_Entry.grid(row=5, column=1, padx=20, pady=10)
+
+        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave6)
+        self.home_frame_Clave_Entry.grid(row=6, column=1, padx=20, pady=10)
+        
         
 
-    # Crear etiquetas para mostrar la información del alumno
-        self.home_frame_claveR = tk.StringVar()
-        self.home_frame_nombreR = tk.StringVar()
-        self.home_frame_carreraR = tk.StringVar()
-        self.home_frame_generacionR = tk.StringVar()
-
-        self.home_frame_clave_alumno_label = customtkinter.CTkLabel(self.home_frame, text="",font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.home_frame_nombre_alumno_label = customtkinter.CTkLabel(self.home_frame, text="", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.home_frame_carrera_alumno_label = customtkinter.CTkLabel(self.home_frame, text="", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.home_frame_generacion_alumno_label = customtkinter.CTkLabel(self.home_frame, text="", font=customtkinter.CTkFont(size=15, weight="normal"))
-
-        self.home_frame_button_Buscar = customtkinter.CTkButton(self.home_frame, text="Buscar", command=lambda:self.buscaAlumno())
-        self.home_frame_button_Buscar.grid(row=1, column=2, padx=20, pady=10)
-
-        
-        self.home_frame_clave_alumno_label.grid(row=2, column=0, padx=20, pady=10)
-        self.home_frame_nombre_alumno_label.grid(row=2, column=1, padx=20, pady=10)
-        self.home_frame_carrera_alumno_label.grid(row=3, column=0, padx=20, pady=10)
-        self.home_frame_generacion_alumno_label.grid(row=3, column=1, padx=20, pady=10)
+    
+       
+        #register_button =Button(text="Registrar", borderwidth=5, command=registro)
 
         self.home_frame_button_Registrar = customtkinter.CTkButton(self.home_frame, text="Registrar")
         #""", command=lambda:insertaEnLista(claveAlumno)"""
+        self.home_frame_button_Buscar = customtkinter.CTkButton(self.home_frame, text="Registrar", command=lambda:self.registro())
+        self.home_frame_button_Buscar.grid(row=7, column=1, padx=20, pady=10)
+
         self.home_frame_button_Registrar.grid(row=4, column=1, padx=20, pady=10)
         self.home_frame_button_Registrar.grid_remove()
         
@@ -142,47 +170,33 @@ class App(customtkinter.CTk):
         self.home_frame_button_Registrar.grid_remove()
         self.home_frame_button_Limpiar.grid_remove()
         
-        
+    def registro(self):
+        #claveAlumno = self.claveA.get()
+        #Consultar los datos necesarios
+        bd_nombre = self.clave1.get()
+        bd_ap_paterno = self.clave2.get()
+        bd_ap_materno = self.clave3.get()
+        bd_email = self.clave4.get()
+        bd_nom_usuario = self.clave5.get()
+        bd_password = self.clave6.get()
 
-    def mostrar_informacion_alumno(self):
-        self.home_frame_clave_alumno_label.grid()
-        self.home_frame_nombre_alumno_label.grid()
-        self.home_frame_carrera_alumno_label.grid()
-        self.home_frame_generacion_alumno_label.grid()
-        self.home_frame_button_Registrar.grid()
-        self.home_frame_button_Limpiar.grid()
-        claveAlumno = self.home_frame_claveR.get() 
-        self.home_frame_clave_alumno_label.configure(text="Clave única del alumno: " + self.home_frame_claveR.get())
-        self.home_frame_nombre_alumno_label.configure(text="Nombre del Alumno: " + self.home_frame_nombreR.get())
-        self.home_frame_carrera_alumno_label.configure(text="Carrera del Alumno: " + self.home_frame_carreraR.get())
-        self.home_frame_generacion_alumno_label.configure(text="Generación del Alumno: " + self.home_frame_generacionR.get())
-
-    def buscaAlumno(self):
-        claveAlumno = claveA.get()
-        print(claveAlumno)
-        # Realizar la consulta del alumno mediante su clave única
+        #Consulta necesaria para el registro del usuario
         conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
-        consulta = f"SELECT * FROM alumnos_infbasica WHERE clave_unica = '{claveAlumno}'"
-        resultado = conexion.ejecutar_consulta(consulta)
+        insertar = f"INSERT INTO usuarios (nom_usuario, password, nombre, ap_paterno, ap_materno, email, tipo_usuario) VALUES ('{bd_nom_usuario}','{bd_password}','{bd_nombre}','{bd_ap_paterno}','{bd_ap_materno}','{bd_email}','1')"
+        resultado = conexion.ejecutar_consulta(insertar)
 
-        if resultado:
-            
-            self.home_frame_claveR.set(resultado[0][0])
-            self.home_frame_nombreR.set(resultado[0][1])
-            self.home_frame_carreraR.set(resultado[0][4])
-            self.home_frame_generacionR.set(resultado[0][5])
+        validacion = f"SELECT * FROM usuarios WHERE nom_usuario = '{bd_nom_usuario}"
+        resVal = conexion.ejecutar_consulta(validacion)
 
-            
-            self.mostrar_informacion_alumno()
-            conexion.desconectar()   
+        conexion.desconectar()
+
+        #Validar
+        if(resVal is not NONE):
+            messagebox.showinfo(message="Usuario registrado con éxito", title="Éxito")
         else:
-            messagebox.showerror("Error", "No se encontró ningún alumno con la clave proporcionada.")
-            conexion.desconectar()
-
-
-
+            messagebox.showerror(message="Error en el registro", title="Error")
+            
 if __name__ == "__main__":
     app = App()
     app.mainloop()
-
