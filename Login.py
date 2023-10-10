@@ -6,13 +6,7 @@ import Inicio_Admin
 from DBconection import *
 import os
 import customtkinter
-
-
-class App(customtkinter.CTk):
-
-    def __init__(self):
-        super().__init__()
-        self.home_frame_claveR = tk.StringVar()
+from registroUsuarioNew import App
 
 #Función que detecta el tipo de usuario que se esta loggeando
 def verificaInicio():

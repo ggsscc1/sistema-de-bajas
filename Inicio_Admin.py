@@ -7,6 +7,7 @@ from tkinter import messagebox
 from tkcalendar import DateEntry
 from GeneraCarta import * 
 import os
+from registroUsuarioNew import App
 
 #Función que se ejecuta cuando se presiona el botón "Cerrar Sesión"
 def cerrar_sesion():
@@ -14,6 +15,7 @@ def cerrar_sesion():
 
 #Función que llama a la ventana para registrar a usuario
 def admin_agregarUsuario():
+    #agrega = App.__init__()
     RegistroUsuario.ventana_regU()
 
 #Función para mostrar la ventana con los formularios llenos
