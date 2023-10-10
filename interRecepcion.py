@@ -123,10 +123,10 @@ class App(customtkinter.CTk):
         iniform = customtkinter.CTkLabel(self.second_frame, text="Selecciona tu formulario")
         iniform.grid(row=0, column=0, padx=10, pady=10, sticky="w", columnspan=3)
 
-        style = ttk.Style()
-        style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Calibri', 13)) # Modify the font of the body
-        style.configure("mystyle.Treeview.Heading", font=('Calibri', 13,'bold')) # Modify the font of the headings
-        style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
+        self.style = ttk.Style()
+        self.style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Calibri', 13)) # Modify the font of the body
+        self.style.configure("mystyle.Treeview.Heading", font=('Calibri', 13,'bold')) # Modify the font of the headings
+        self.style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
 
      
 
@@ -394,16 +394,9 @@ class App(customtkinter.CTk):
         BuscarEscuelaProc.configure(values=[""]+[str(resultado[0]) for resultado in resultados])
 
         #, command=haz_consulta
-        self.btn_RB = customtkinter.CTkButton(self.third_frame, text="Consulta de datos", command=lambda:self.haz_consulta())
+        self.btn_RB = customtkinter.CTkButton(self.third_frame, text="Haz Consulta", command=lambda:self.haz_consulta())
         self.btn_RB.grid(row=5, column=0, padx=10, pady=10, sticky="w")
 
-        """# Crear un botón "Haz consulta"
-        btn_consulta = customtkinter.CTkButton(self.third_frame, text="Consulta de datos", command=lambda:self.haz_consulta())
-        btn_consulta.grid(row= 99, column=0, padx=10, pady=10, sticky="w")
-
-        # Crear un botón "Haz consulta grafica"
-        btn_consulta = customtkinter.CTkButton(self.third_frame, text="Consulta grafica", command=lambda:self.abre_consultaG())
-        btn_consulta.grid(row= 98, column=0, padx=10, pady=10, sticky="w")"""
         # select default frame
         self.select_frame_by_name("Inicio")
 
@@ -502,113 +495,107 @@ class App(customtkinter.CTk):
         # Crear una ventana para mostrar los resultados
         ventana_resultados = Toplevel()
         ventana_resultados.title("Resultados de la búsqueda")
-        #ventana_resultados.geometry("800x300")
+        #ventana_resultados.geometry("800x480")
 
         # Crear un Frame principal dentro de la ventana
-        frame_principal = Frame(ventana_resultados)
+        frame_principal = customtkinter.CTkScrollableFrame(ventana_resultados, orientation='horizontal')
         frame_principal.pack(fill=BOTH, expand=YES)
 
-        """frame_sec1= Frame(frame_principal)
-        frame_sec1.grid(row=0, column=0)
         
-        frame_sec2 = Frame(frame_principal)
-        frame_sec2.grid(row=0, column=1)"""
-
-        # Add a Scrollbar(horizontal)
-        h = Scrollbar(frame_principal, orient='horizontal')
-        h.grid(row=1, column=0, columnspan=2, sticky="ew")
         
         # Crear una tabla para mostrar los resultados
-        global tabla_resultados
-        tabla_resultados = ttk.Treeview(frame_principal, xscrollcommand=h.set)
-        tabla_resultados['columns'] = ('ID', 'Clave', 'Nombre', 'Apellido paterno', 'Apellido materno',
+        
+        self.tabla_resultados = ttk.Treeview(frame_principal)
+        self.tabla_resultados['columns'] = ('ID', 'Clave', 'Nombre', 'Apellido paterno', 'Apellido materno',
                                     'Correo', 'Fecha de solicitud', 'Carrera', 'Generación', 'Tipo baja',
                                     'Motivo baja', 'Prepa origen', 'Materia difícil I', 'Materia difícil II',
                                     'Materia difícil III', 'Forma titulación', 'Fecha egel', 'Detalles baja', 'Empresa')
 
-        tabla_resultados.column('#0', width=0, stretch=NO)
-        tabla_resultados.column('ID', anchor=CENTER, width=40)
-        tabla_resultados.column('Clave', anchor=CENTER, width=60)
-        tabla_resultados.column('Nombre', anchor=CENTER, width=80)
-        tabla_resultados.column('Apellido paterno', anchor=CENTER, width=110)
-        tabla_resultados.column('Apellido materno', anchor=CENTER, width=110)
-        tabla_resultados.column('Correo', anchor=CENTER, width=160)
-        tabla_resultados.column('Fecha de solicitud', anchor=CENTER, width=120)
-        tabla_resultados.column('Carrera', anchor=CENTER, width=130)
-        tabla_resultados.column('Generación', anchor=CENTER, width=90)
-        tabla_resultados.column('Tipo baja', anchor=CENTER, width=90)
-        tabla_resultados.column('Motivo baja', anchor=CENTER, width=110)
-        tabla_resultados.column('Prepa origen', anchor=CENTER, width=120)
-        tabla_resultados.column('Materia difícil I', anchor=CENTER, width=130)
-        tabla_resultados.column('Materia difícil II', anchor=CENTER, width=130)
-        tabla_resultados.column('Materia difícil III', anchor=CENTER, width=130)
-        tabla_resultados.column('Forma titulación', anchor=CENTER, width=130)
-        tabla_resultados.column('Fecha egel', anchor=CENTER, width=120)
-        tabla_resultados.column('Detalles baja', anchor=CENTER, width=110)
-        tabla_resultados.column('Empresa', anchor=CENTER, width=100)
+        self.tabla_resultados.column('#0', width=0, stretch=NO)
+        self.tabla_resultados.column('ID', anchor=CENTER, width=40)
+        self.tabla_resultados.column('Clave', anchor=CENTER, width=60)
+        self.tabla_resultados.column('Nombre', anchor=CENTER, width=80)
+        self.tabla_resultados.column('Apellido paterno', anchor=CENTER, width=110)
+        self.tabla_resultados.column('Apellido materno', anchor=CENTER, width=110)
+        self.tabla_resultados.column('Correo', anchor=CENTER, width=160)
+        self.tabla_resultados.column('Fecha de solicitud', anchor=CENTER, width=120)
+        self.tabla_resultados.column('Carrera', anchor=CENTER, width=130)
+        self.tabla_resultados.column('Generación', anchor=CENTER, width=90)
+        self.tabla_resultados.column('Tipo baja', anchor=CENTER, width=90)
+        self.tabla_resultados.column('Motivo baja', anchor=CENTER, width=110)
+        self.tabla_resultados.column('Prepa origen', anchor=CENTER, width=120)
+        self.tabla_resultados.column('Materia difícil I', anchor=CENTER, width=130)
+        self.tabla_resultados.column('Materia difícil II', anchor=CENTER, width=130)
+        self.tabla_resultados.column('Materia difícil III', anchor=CENTER, width=130)
+        self.tabla_resultados.column('Forma titulación', anchor=CENTER, width=130)
+        self.tabla_resultados.column('Fecha egel', anchor=CENTER, width=120)
+        self.tabla_resultados.column('Detalles baja', anchor=CENTER, width=110)
+        self.tabla_resultados.column('Empresa', anchor=CENTER, width=100)
 
-        tabla_resultados.heading('#0', text='', anchor=CENTER)
-        tabla_resultados.heading('ID', text='ID', anchor=CENTER)
-        tabla_resultados.heading('Clave', text='Clave', anchor=CENTER)
-        tabla_resultados.heading('Nombre', text='Nombre', anchor=CENTER)
-        tabla_resultados.heading('Apellido paterno', text='Apellido paterno', anchor=CENTER)
-        tabla_resultados.heading('Apellido materno', text='Apellido materno', anchor=CENTER)
-        tabla_resultados.heading('Correo', text='Correo', anchor=CENTER)
-        tabla_resultados.heading('Fecha de solicitud', text='Fecha de solicitud', anchor=CENTER)
-        tabla_resultados.heading('Carrera', text='Carrera', anchor=CENTER)
-        tabla_resultados.heading('Generación', text='Generación', anchor=CENTER)
-        tabla_resultados.heading('Tipo baja', text='Tipo baja', anchor=CENTER)
-        tabla_resultados.heading('Motivo baja', text='Motivo baja', anchor=CENTER)
-        tabla_resultados.heading('Prepa origen', text='Prepa origen', anchor=CENTER)
-        tabla_resultados.heading('Materia difícil I', text='Materia difícil I', anchor=CENTER)
-        tabla_resultados.heading('Materia difícil II', text='Materia difícil II', anchor=CENTER)
-        tabla_resultados.heading('Materia difícil III', text='Materia difícil III', anchor=CENTER)
-        tabla_resultados.heading('Forma titulación', text='Forma titulación', anchor=CENTER)
-        tabla_resultados.heading('Fecha egel', text='Fecha egel', anchor=CENTER)
-        tabla_resultados.heading('Detalles baja', text='Detalles baja', anchor=CENTER)
-        tabla_resultados.heading('Empresa', text='Empresa', anchor=CENTER)
+        self.tabla_resultados.heading('#0', text='', anchor=CENTER)
+        self.tabla_resultados.heading('ID', text='ID', anchor=CENTER)
+        self.tabla_resultados.heading('Clave', text='Clave', anchor=CENTER)
+        self.tabla_resultados.heading('Nombre', text='Nombre', anchor=CENTER)
+        self.tabla_resultados.heading('Apellido paterno', text='Apellido paterno', anchor=CENTER)
+        self.tabla_resultados.heading('Apellido materno', text='Apellido materno', anchor=CENTER)
+        self.tabla_resultados.heading('Correo', text='Correo', anchor=CENTER)
+        self.tabla_resultados.heading('Fecha de solicitud', text='Fecha de solicitud', anchor=CENTER)
+        self.tabla_resultados.heading('Carrera', text='Carrera', anchor=CENTER)
+        self.tabla_resultados.heading('Generación', text='Generación', anchor=CENTER)
+        self.tabla_resultados.heading('Tipo baja', text='Tipo baja', anchor=CENTER)
+        self.tabla_resultados.heading('Motivo baja', text='Motivo baja', anchor=CENTER)
+        self.tabla_resultados.heading('Prepa origen', text='Prepa origen', anchor=CENTER)
+        self.tabla_resultados.heading('Materia difícil I', text='Materia difícil I', anchor=CENTER)
+        self.tabla_resultados.heading('Materia difícil II', text='Materia difícil II', anchor=CENTER)
+        self.tabla_resultados.heading('Materia difícil III', text='Materia difícil III', anchor=CENTER)
+        self.tabla_resultados.heading('Forma titulación', text='Forma titulación', anchor=CENTER)
+        self.tabla_resultados.heading('Fecha egel', text='Fecha egel', anchor=CENTER)
+        self.tabla_resultados.heading('Detalles baja', text='Detalles baja', anchor=CENTER)
+        self.tabla_resultados.heading('Empresa', text='Empresa', anchor=CENTER)
 
         # Insertar los resultados en la tabla
         for row in results:
-            tabla_resultados.insert('', 'end', values=row)
+            self.tabla_resultados.insert('', 'end', values=row)
 
-        #tabla_resultados.pack(expand=YES, fill=BOTH)
-        tabla_resultados.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+        #self.tabla_resultados.pack(expand=YES, fill=BOTH)
+        self.tabla_resultados.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+        
 
-        # Attach the scrollbar with the text widget
-        h.config(command=tabla_resultados.xview)
+        frame_sec1= Frame(ventana_resultados)
+        frame_sec1.pack()
+
+        
+        # Agregar botón de exportar a Excel
+        btn_exportar = customtkinter.CTkButton(frame_sec1, text="Exportar a Excel", command=lambda:self.exportar_a_excel())
+        btn_exportar.grid(row=0, column=0, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_exportar = customtkinter.CTkButton(frame_principal, text="Exportar a Excel", command=lambda:self.exportar_a_excel)
-        btn_exportar.grid(row=0, column=1, padx=10, pady=10)
+        btn_Gen = customtkinter.CTkButton(frame_sec1, text="Grafica Generacion", command=lambda:consultaG.consulta_generacion2(results))
+        btn_Gen.grid(row=0, column=1, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_Gen = customtkinter.CTkButton(frame_principal, text="Grafica Generacion", command=lambda:consultaG.consulta_generacion2(results))
-        btn_Gen.grid(row=2, column=1, padx=10, pady=10)
+        btn_Carrera = customtkinter.CTkButton(frame_sec1, text="Grafica Carrera", command=lambda:consultaG.consulta_carrera2(results))
+        btn_Carrera.grid(row=0, column=2, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_Carrera = customtkinter.CTkButton(frame_principal, text="Grafica Carrera", command=lambda:consultaG.consulta_carrera2(results))
-        btn_Carrera.grid(row=3, column=0, padx=10, pady=10)
+        btn_escuela = customtkinter.CTkButton(frame_sec1, text="Grafica escuela", command=lambda:consultaG.consulta_escuela2(results))
+        btn_escuela.grid(row=0, column=3, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_escuela = customtkinter.CTkButton(frame_principal, text="Grafica escuela", command=lambda:self.exportar_a_excel)
-        btn_escuela.grid(row=3, column=1, padx=10, pady=10)
+        btn_tramite = customtkinter.CTkButton(frame_sec1, text="Grafica tramite", command=lambda:self.exportar_a_excel)
+        btn_tramite.grid(row=0, column=4, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_tramite = customtkinter.CTkButton(frame_principal, text="Grafica tramite", command=lambda:self.exportar_a_excel)
-        btn_tramite.grid(row=4, column=0, padx=10, pady=10)
-
-        # Agregar botón de exportar a Excel
-        btn_Mat = customtkinter.CTkButton(frame_principal, text="Materia dificil", command=lambda:self.exportar_a_excel)
-        btn_Mat.grid(row=4, column=1, padx=10, pady=10)
+        btn_Mat = customtkinter.CTkButton(frame_sec1, text="Materia dificil", command=lambda:self.exportar_a_excel)
+        btn_Mat.grid(row=0, column=5, padx=5, pady=10)
 
         ventana_resultados.mainloop()
 
     def exportar_a_excel(self):
         # Obtener los datos de la tabla
         datos = []
-        for item in tabla_resultados.get_children():
-            datos.append(tabla_resultados.item(item)['values'])
+        for item in self.tabla_resultados.get_children():
+            datos.append(self.tabla_resultados.item(item)['values'])
 
         # Crear un DataFrame de pandas con los datos
         df = pd.DataFrame(datos, columns=['ID', 'Clave', 'Nombre', 'Apellido paterno', 'Apellido materno',

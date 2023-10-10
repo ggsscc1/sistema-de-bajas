@@ -21,6 +21,7 @@ def guardar_grafica(libro_excel):
     messagebox.showinfo(message="Archivo guardado con exito", title="Guardado")
 
 def consulta_carrera2(resultados):
+    plt.close()
     # Crear la gráfica de barras en el mostrador
     #generaciones = [resultado[8] for resultado in resultados]
     #cantidades = [resultado[8] for resultado in resultados]
@@ -31,30 +32,17 @@ def consulta_carrera2(resultados):
             carrera_count[carrera] += 1
 
     # Separa las generaciones y cantidades en listas separadas
-    carreras = list(carrera_count.keys())
+    carreras = (list(carrera_count.keys()))
     cantidades = list(carrera_count.values())
-    plt.close()
-    """    
-    # Crear la gráfica de barras en el mostrador
-    carrera = [resultado[0] for resultado in resultados]
-    cantidades = [resultado[1] for resultado in resultados]
-    
-    """
     plt.pie(cantidades, labels=carreras, autopct = '%1.1f%%')
     plt.title('Cantidad de alumnos por carrera')
-    """
-    plt.bar(carreras, cantidades)
-    plt.xlabel('Carrera')
-    plt.ylabel('Cantidad de alumnos')
-    plt.xscale('linear')"""
-    plt.title('Cantidad de alumnos por Carrera')
-
     # Mostrar la gráfica en una ventana
     plt.show()
 
 
 
 def consulta_generacion2(resultados):
+    plt.close()
     # Crear la gráfica de barras en el mostrador
     #generaciones = [resultado[8] for resultado in resultados]
     #cantidades = [resultado[8] for resultado in resultados]
@@ -67,13 +55,34 @@ def consulta_generacion2(resultados):
     # Separa las generaciones y cantidades en listas separadas
     generaciones = list(generacion_count.keys())
     cantidades = list(generacion_count.values())
-    
-    plt.close
     plt.bar(generaciones, cantidades)
     plt.xlabel('Generación')
     plt.ylabel('Cantidad de alumnos')
     plt.xscale('linear')
     plt.title('Cantidad de alumnos por generación')
+
+    # Mostrar la gráfica en una ventana
+    plt.show()
+
+def consulta_escuela2(resultados):
+    
+    plt.close()
+    # Procesa los resultados para contar la cantidad de cada generación
+    escuela_count = defaultdict(int)
+    for fila in resultados:
+            escuela = fila[11]  # Supongamos que la generación está en el tercer campo (índice 2)
+            escuela_count[escuela] += 1
+
+    # Separa las generaciones y cantidades en listas separadas
+    
+    escuelas = list(escuela_count.keys())
+    cantidades = list(escuela_count.values())
+    plt.bar(escuelas, cantidades)
+    plt.xlabel('Escuela de procedencia')
+    plt.xticks(rotation=45)
+    plt.ylabel('Cantidad de alumnos')
+    plt.yscale('linear')
+    plt.title('Cantidad de alumnos por Escuela')
 
     # Mostrar la gráfica en una ventana
     plt.show()
