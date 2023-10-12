@@ -6,6 +6,7 @@ import openpyxl
 from openpyxl.chart import BarChart, PieChart, Reference
 import matplotlib.pyplot as plt
 import mysql.connector
+import numpy as np
 from collections import defaultdict
 
 # Funciones para manejar los eventos de los botones
@@ -55,6 +56,15 @@ def consulta_generacion2(resultados):
     # Separa las generaciones y cantidades en listas separadas
     generaciones = list(generacion_count.keys())
     cantidades = list(generacion_count.values())
+    print(cantidades)
+    print(generaciones)
+    """mayor=generaciones[0]
+    print(mayor)
+    for x in range(0, generaciones.):
+        if generaciones[x]>mayor:
+            mayor=generaciones[x]
+    print(mayor)"""
+
     plt.bar(generaciones, cantidades)
     plt.xlabel('Generación')
     plt.ylabel('Cantidad de alumnos')
@@ -69,19 +79,23 @@ def consulta_escuela2(resultados):
     plt.close()
     # Procesa los resultados para contar la cantidad de cada generación
     escuela_count = defaultdict(int)
+    #mayor
+    
     for fila in resultados:
             escuela = fila[11]  # Supongamos que la generación está en el tercer campo (índice 2)
             escuela_count[escuela] += 1
+
 
     # Separa las generaciones y cantidades en listas separadas
     
     escuelas = list(escuela_count.keys())
     cantidades = list(escuela_count.values())
+    plt.figure().set_figwidth(18)
     plt.bar(escuelas, cantidades)
     plt.xlabel('Escuela de procedencia')
-    plt.xticks(rotation=45)
     plt.ylabel('Cantidad de alumnos')
     plt.yscale('linear')
+    plt.yticks(np.arange(0, 2, 1))
     plt.title('Cantidad de alumnos por Escuela')
 
     # Mostrar la gráfica en una ventana

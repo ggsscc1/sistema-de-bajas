@@ -60,7 +60,7 @@ class App(customtkinter.CTk):
         self.home_frame.grid_columnconfigure(0, weight=1)
 
         #cambiando fuentes
-        self.home_frame_Titulo = customtkinter.CTkLabel(self.home_frame, text="Sistema de bajas", fg_color="grey", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
+        self.home_frame_Titulo = customtkinter.CTkLabel(self.home_frame, text="Sistema de bajas", fg_color="darkblue", text_color="white",font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
         self.home_frame_Titulo.grid(row=0, column=0, padx=20, pady=10, columnspan=3)
         
         self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Clave única del alumno: ", font=customtkinter.CTkFont(size=15, weight="normal"))
@@ -248,7 +248,7 @@ class App(customtkinter.CTk):
 
         #label consultas
         #cambiando fuentes
-        self.third_frame_Titulo = customtkinter.CTkLabel(self.third_frame, text="Consultas", fg_color="grey", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
+        self.third_frame_Titulo = customtkinter.CTkLabel(self.third_frame, text="Consultas", fg_color="darkblue", text_color="white", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
         self.third_frame_Titulo.grid(row=0, column=0, padx=20, pady=10, columnspan=4)
         
 
