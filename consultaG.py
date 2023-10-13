@@ -128,26 +128,40 @@ def consulta_tramite2(resultados):
 
 def consulta_materia2(resultados):
     plt.close()
-    # Crear un diccionario para rastrear la cantidad de alumnos por materia
-    materia_count = defaultdict(int)
+    columnas_materias = [fila[12] for fila in resultados] + [fila[13] for fila in resultados] + [fila[14] for fila in resultados]
 
-    for fila in resultados:
-        # Combina las tres columnas 12, 13 y 14 para representar la materia
-        materia = f"{fila[12]}_{fila[13]}_{fila[14]}"
-        # Suma la cantidad de alumnos a la materia correspondiente
+    # Combina los valores de las tres columnas en una sola lista
+    materias = [materia for materia in columnas_materias if materia]
+    print(materias)
+    # Cuenta la cantidad de repeticiones de cada materia en la lista
+    materia_count = defaultdict(int)
+    for materia in materias:
         materia_count[materia] += 1
 
-    # Crear un diccionario para mapear el nombre de la materia a la cantidad total de alumnos
-    materia_nombres = defaultdict(int)
-    for materia, cantidad in materia_count.items():
-        nombre_original = '_'.join(materia.split('_')[0:3])  # Recupera el nombre original
-        materia_nombres[nombre_original] += cantidad
-
-    # Separar las materias y cantidades en listas separadas
-    materias = list(materia_nombres.keys())
-    cantidades = list(materia_nombres.values())
+    # Separa las materias y cantidades en listas separadas
+    materias = list(materia_count.keys())
+    cantidades = list(materia_count.values())
 
     plt.bar(materias, cantidades)
+    plt.xlabel('Materias')
+    plt.ylabel('Cantidad de Alumnos')
+    plt.figure().set_figwidth(18)
+    plt.yscale('linear')
+    max_value = max(cantidades)
+    plt.yticks(range(max_value + 1))
+    plt.title('Cantidad de Alumnos por Materia')
+
+    # Mostrar la gráfica en una ventana
+    plt.show()
+
+
+
+
+
+
+
+
+    """plt.bar(materias, cantidades)
     plt.xlabel('Materias')
     plt.ylabel('Cantidad de Alumnos')
     plt.xticks(rotation=90)  # Rotar las etiquetas del eje X para que sean legibles
@@ -157,7 +171,7 @@ def consulta_materia2(resultados):
     plt.title('Cantidad de Alumnos por Materia')
 
     # Mostrar la gráfica en una ventana
-    plt.show()
+    plt.show()"""
 
 
 def consulta_generacion():

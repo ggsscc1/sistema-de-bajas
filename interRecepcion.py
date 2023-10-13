@@ -252,11 +252,7 @@ class App(customtkinter.CTk):
         self.third_frame_Titulo.grid(row=0, column=0, padx=20, pady=10, columnspan=4)
         
 
-        """#, command=abrir_ventana_nueva
-        btn_VF = customtkinter.CTkButton(self.third_frame, text="Ver todos los formularios", command=lambda:self.haz_consulta())
-        btn_VF.grid(row=0, column=1, padx=10, pady=10, sticky="w")"""
-
-        #Inicialización de variables para la realización de las consultas en cada filtro
+         #Inicialización de variables para la realización de las consultas en cada filtro
         self.anioC = StringVar()
         self.generacionC = StringVar()
         self.carreraC = StringVar()
@@ -266,8 +262,8 @@ class App(customtkinter.CTk):
         self.escuelaC = StringVar()
 
         #Búsqueda por AÑO en el que se creó el formulario. En la línea de values es dónde se anexan los valores del combobox. 
-        Año = customtkinter.CTkLabel(self.third_frame, text="Año:")
-        Año.grid(row=1, column=0, padx=10, pady=10, sticky="e", columnspan=1)
+        Anio = customtkinter.CTkLabel(self.third_frame, text="Año:")
+        Anio.grid(row=1, column=0, padx=10, pady=10, sticky="e", columnspan=1)
 
         #combobox para la busqueda por anio de completacion de formulario
         BuscarAnio = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.anioC)
