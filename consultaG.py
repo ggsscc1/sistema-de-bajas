@@ -44,10 +44,6 @@ def consulta_carrera2(resultados):
 
 def consulta_generacion2(resultados):
     plt.close()
-    # Crear la gráfica de barras en el mostrador
-    #generaciones = [resultado[8] for resultado in resultados]
-    #cantidades = [resultado[8] for resultado in resultados]
-    # Procesa los resultados para contar la cantidad de cada generación
     generacion_count = defaultdict(int)
     for fila in resultados:
             generacion = fila[8]  # Supongamos que la generación está en el tercer campo (índice 2)
@@ -56,19 +52,13 @@ def consulta_generacion2(resultados):
     # Separa las generaciones y cantidades en listas separadas
     generaciones = list(generacion_count.keys())
     cantidades = list(generacion_count.values())
-    print(cantidades)
-    print(generaciones)
-    """mayor=generaciones[0]
-    print(mayor)
-    for x in range(0, generaciones.):
-        if generaciones[x]>mayor:
-            mayor=generaciones[x]
-    print(mayor)"""
 
     plt.bar(generaciones, cantidades)
     plt.xlabel('Generación')
     plt.ylabel('Cantidad de alumnos')
     plt.xscale('linear')
+    max_value = max(cantidades)
+    plt.yticks(np.arange(0, max_value+1, 1))
     plt.title('Cantidad de alumnos por generación')
 
     # Mostrar la gráfica en una ventana
@@ -95,8 +85,76 @@ def consulta_escuela2(resultados):
     plt.xlabel('Escuela de procedencia')
     plt.ylabel('Cantidad de alumnos')
     plt.yscale('linear')
-    plt.yticks(np.arange(0, 2, 1))
+    max_value = max(cantidades)
+    plt.yticks(np.arange(0, max_value+1, 1))
     plt.title('Cantidad de alumnos por Escuela')
+
+    # Mostrar la gráfica en una ventana
+    plt.show()
+
+def consulta_tramite2(resultados):
+    
+    plt.close()
+    # Procesa los resultados para contar la cantidad de cada generación
+    tramite_count = defaultdict(int)
+    #mayor
+    
+    for fila in resultados:
+            tramite = fila[10]  
+            tramite_count[tramite] += 1
+
+
+    # Separa las generaciones y cantidades en listas separadas
+    
+    tramites = list(tramite_count.keys())
+    cantidades = list(tramite_count.values())
+    #plt.figure().set_figwidth(18)
+    # Obtener el valor más grande de las cantidades
+    
+
+
+    plt.bar(tramites, cantidades)
+    plt.xlabel('Tramites de baja.')
+    plt.ylabel('Cantidad de alumnos')
+    plt.yscale('linear')
+    max_value = max(cantidades)
+    plt.yticks(np.arange(0, max_value+1, 1))
+    plt.title('Cantidad de alumnos por tramite')
+
+    # Mostrar la gráfica en una ventana
+    plt.show()
+
+
+
+def consulta_materia2(resultados):
+    plt.close()
+    # Crear un diccionario para rastrear la cantidad de alumnos por materia
+    materia_count = defaultdict(int)
+
+    for fila in resultados:
+        # Combina las tres columnas 12, 13 y 14 para representar la materia
+        materia = f"{fila[12]}_{fila[13]}_{fila[14]}"
+        # Suma la cantidad de alumnos a la materia correspondiente
+        materia_count[materia] += 1
+
+    # Crear un diccionario para mapear el nombre de la materia a la cantidad total de alumnos
+    materia_nombres = defaultdict(int)
+    for materia, cantidad in materia_count.items():
+        nombre_original = '_'.join(materia.split('_')[0:3])  # Recupera el nombre original
+        materia_nombres[nombre_original] += cantidad
+
+    # Separar las materias y cantidades en listas separadas
+    materias = list(materia_nombres.keys())
+    cantidades = list(materia_nombres.values())
+
+    plt.bar(materias, cantidades)
+    plt.xlabel('Materias')
+    plt.ylabel('Cantidad de Alumnos')
+    plt.xticks(rotation=90)  # Rotar las etiquetas del eje X para que sean legibles
+    plt.yscale('linear')
+    max_value = max(cantidades)
+    plt.yticks(np.arange(0, max_value+1, 1))
+    plt.title('Cantidad de Alumnos por Materia')
 
     # Mostrar la gráfica en una ventana
     plt.show()

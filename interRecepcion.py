@@ -582,11 +582,11 @@ class App(customtkinter.CTk):
         btn_escuela.grid(row=0, column=3, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_tramite = customtkinter.CTkButton(frame_sec1, text="Grafica tramite", command=lambda:self.exportar_a_excel)
+        btn_tramite = customtkinter.CTkButton(frame_sec1, text="Grafica tramite", command=lambda:consultaG.consulta_tramite2(results))
         btn_tramite.grid(row=0, column=4, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_Mat = customtkinter.CTkButton(frame_sec1, text="Materia dificil", command=lambda:self.exportar_a_excel)
+        btn_Mat = customtkinter.CTkButton(frame_sec1, text="Materia dificil", command=lambda:consultaG.consulta_materia2(results))
         btn_Mat.grid(row=0, column=5, padx=5, pady=10)
 
         ventana_resultados.mainloop()
