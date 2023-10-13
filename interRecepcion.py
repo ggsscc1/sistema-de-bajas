@@ -2,18 +2,17 @@ import customtkinter
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
-import tkinter 
 from tkinter import messagebox
-from tkcalendar import DateEntry
 from DBconection import *
-from GeneraCarta import * 
+import GeneraCarta
 import customtkinter
 from CTkTable import *
 import consulta
 import consultaG
 import os
-from PIL import Image
 import pandas as pd
+from tkinter import filedialog
+from pathlib import Path
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -733,7 +732,7 @@ class App(customtkinter.CTk):
         self.lbl_clave_valor.configure(text=resultado[0][1])
 
         self.lbl_nombre.configure(text="Nombre:")
-        self.lbl_nombre_valor.configure(text=resultado[0][2]+"\n"+resultado[0][3]+" "+resultado[0][4])
+        self.lbl_nombre_valor.configure(text=resultado[0][2]+" "+resultado[0][3]+" "+resultado[0][4])
 
         self.lbl_correo.configure(text="Correo electronico:")
         self.lbl_correo_valor.configure(text=resultado[0][5])
@@ -788,16 +787,15 @@ class App(customtkinter.CTk):
 
         
         # Crear un botón para generar documento sellos
-        btn_sell = customtkinter.CTkButton(self.second_frame, text="Generar carta de sellos",text_color="black", command= lambda:GeneraCarta(resultado[0][1]))
-        btn_sell.grid(row=10, column=3, padx=10, pady=10)
+        btn_sell = customtkinter.CTkButton(self.second_frame, text="Generar carta de sellos", fg_color="light blue",text_color="black", command=lambda:GeneraCarta.GeneraCarta(resultado[0][1]))
+        btn_sell.grid(row=10, column=4, padx=10, pady=10)
 
         # Crear un botón para generar documento sellos
-        btn_cart = customtkinter.CTkButton(self.second_frame, text="Generar carta de no adeudo", fg_color="light blue", text_color="black", command= lambda:GeneraCarta(resultado[0][1]))
-        btn_cart.grid(row=10, column=4, padx=10, pady=10)
+        btn_cart = customtkinter.CTkButton(self.second_frame, text="Generar carta de no adeudo", text_color="black")
+        btn_cart.grid(row=10, column=5, padx=10, pady=10)
 
         # Crear un botón para generar documento sellos
-        btn_edit = customtkinter.CTkButton(self.second_frame, text="Regresa a edición", fg_color="transparent", text_color="black", command= lambda:GeneraCarta(resultado[0][1]))
-        btn_edit.grid(row=10, column=5, padx=10, pady=10)
+        btn_edit = customtkinter.CTkButton(self.second_frame, text="Regresa a edición", fg_color="transparent", text_color="black")
     
 if __name__ == "__main__":
     app = App()
