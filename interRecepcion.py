@@ -68,6 +68,7 @@ class App(customtkinter.CTk):
         
         self.home_frame_claveA = tk.StringVar()
         self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.home_frame_claveA)
+        self.home_frame_Clave_Entry.bind("<Return>",lambda:self.realizar_busqueda(self))
         self.home_frame_Clave_Entry.grid(row=1, column=1, padx=5, pady=10)
 
         
@@ -796,6 +797,13 @@ class App(customtkinter.CTk):
 
         # Crear un botón para generar documento sellos
         btn_edit = customtkinter.CTkButton(self.second_frame, text="Regresa a edición", fg_color="transparent", text_color="black")
+
+    def realizar_busqueda(event, self):
+        # Coloca aquí el código para realizar la búsqueda
+        # Por ejemplo, puedes obtener el texto del Entry con entry.get()
+        texto_busqueda = self.home
+        print(f"Realizando búsqueda para: {texto_busqueda}")
+        lambda:self.buscaAlumno()
     
 if __name__ == "__main__":
     app = App()
