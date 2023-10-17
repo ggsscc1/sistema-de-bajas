@@ -141,11 +141,13 @@ def consulta_materia2(resultados):
     # Separa las materias y cantidades en listas separadas
     materias = list(materia_count.keys())
     cantidades = list(materia_count.values())
-
+    plt.figure().set_figwidth(20)
+    plt.xticks(fontsize=6)
+    plt.xticks(rotation = -15)
     plt.bar(materias, cantidades)
     plt.xlabel('Materias')
     plt.ylabel('Cantidad de Alumnos')
-    plt.figure().set_figwidth(18)
+    
     plt.yscale('linear')
     max_value = max(cantidades)
     plt.yticks(range(max_value + 1))

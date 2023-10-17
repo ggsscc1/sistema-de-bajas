@@ -29,7 +29,14 @@ entry1.pack(pady=12, padx=10)
 
 global entry2
 entry2 = customtkinter.CTkEntry(master=frame, placeholder_text="Contraseña", font=("Arial", 14), show='*')  # Aumenta el tamaño de la fuente del entry
+entry2.bind("<Return>",lambda event: realizar_busqueda(event))
 entry2.pack(pady=12, padx=10)
+
+def realizar_busqueda(event):
+        # Coloca aquí el código para realizar la búsqueda
+        # Por ejemplo, puedes obtener el texto del Entry con entry.get()
+        
+   verificaInicio()
 
 # Función que detecta el tipo de usuario que se está loggeando
 def verificaInicio():

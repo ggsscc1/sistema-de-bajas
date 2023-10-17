@@ -19,7 +19,7 @@ class ConexionBD:
                 password=self.password,
                 database=self.database
             )
-            print("Conexión exitosa a la base de datos")
+            #print("Conexión exitosa a la base de datos")
         except mysql.connector.Error as error:
             print(f"Error al conectar a la base de datos: {error}")
 
@@ -27,7 +27,7 @@ class ConexionBD:
     def desconectar(self):
         if self.conexion:
             self.conexion.close()
-            print("Desconexión exitosa de la base de datos")
+            #print("Desconexión exitosa de la base de datos")
 
     #Función para realizar la consulta requerida
     def ejecutar_consulta(self, consulta):

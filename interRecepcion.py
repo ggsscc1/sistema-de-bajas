@@ -24,6 +24,7 @@ class App(customtkinter.CTk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
         self.__appearance_mode=customtkinter.set_appearance_mode("light")
+        
 
 
         # create navigation frame
@@ -50,9 +51,7 @@ class App(customtkinter.CTk):
                                                       anchor="w", command=self.frame_3_button_event)
         self.frame_3_button.grid(row=3, column=0, sticky="ew")
 
-        self.appearance_mode_menu = customtkinter.CTkOptionMenu(self.navigation_frame, values=["Light", "System", "Dark"],
-                                                                command=self.change_appearance_mode_event)
-        self.appearance_mode_menu.grid(row=6, column=0, padx=20, pady=20, sticky="s")
+       
 
         # create home frame
         self.home_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
@@ -68,7 +67,7 @@ class App(customtkinter.CTk):
         
         self.home_frame_claveA = tk.StringVar()
         self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.home_frame_claveA)
-        self.home_frame_Clave_Entry.bind("<Return>",lambda:self.realizar_busqueda(self))
+        self.home_frame_Clave_Entry.bind("<Return>",lambda event: self.realizar_busqueda(event))
         self.home_frame_Clave_Entry.grid(row=1, column=1, padx=5, pady=10)
 
         
@@ -131,31 +130,38 @@ class App(customtkinter.CTk):
      
 
         # Crear un Treeview con 3 columnas
-        treeview = ttk.Treeview(self.second_frame, columns=('fecha', 'clave', 'nombre', 'completado'), show='headings', style="mystyle.Treeview")
-        treeview.grid(row= 1, column=0, pady=10, padx=20, sticky="nsew", rowspan=2, columnspan=6)
+        self.treeview = ttk.Treeview(self.second_frame, columns=('fecha', 'clave', 'nombre', 'completado'), show='headings', style="mystyle.Treeview")
+        self.treeview.grid(row= 1, column=0, pady=10, padx=20, sticky="nsew", rowspan=2, columnspan=6)
 
+        self.treeview.bind("<Double-1>", lambda event: self.open_formularios(event))
+      
+
+        """ # Loop through the items and bind double-click event
+        for item in treeview.get_children():
+            treeview.bind('<Double-1>', lambda event, item=item: self.formularios(treeview.item(item, "values")))
+        """
         # Configurar encabezados de columna
-        treeview.heading('fecha', text='Fecha')
-        treeview.heading('clave', text='Clave')
-        treeview.heading('nombre', text='Nombre')
-        treeview.heading('completado', text='Completado?')
+        self.treeview.heading('fecha', text='Fecha')
+        self.treeview.heading('clave', text='Clave')
+        self.treeview.heading('nombre', text='Nombre')
+        self.treeview.heading('completado', text='Completado?')
         completado = "NO"
         
         # Agregar datos
         for result in resultado:
             if resultado[0][10] :
                 completado = "SI"
-                treeview.insert('', tk.END , text=result[0], values=(result[6], result[1], result[2], completado))
+                self.treeview.insert('', tk.END , text=result[0], values=(result[6], result[1], result[2], completado))
         
         # Establecer ancho de columna
-        treeview.column('fecha', width=100)
-        treeview.column('clave', width=100)
-        treeview.column('nombre', width=100)
-        treeview.column('completado', width=110)
+        self.treeview.column('fecha', width=100)
+        self.treeview.column('clave', width=100)
+        self.treeview.column('nombre', width=100)
+        self.treeview.column('completado', width=110)
 
         # Crear un botón "Generar Formulario" que muestra la ventana con los datos correspondientes
         #
-        btn_formulario = customtkinter.CTkButton(self.second_frame, text="Abrir Formulario", command=lambda: self.formularios(treeview.item(treeview.focus(), "values")))
+        btn_formulario = customtkinter.CTkButton(self.second_frame, text="Abrir Formulario", command=lambda: self.formularios(self.treeview.item(self.treeview.focus(), "values")))
         btn_formulario.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
 
         self.lbl_fecha = customtkinter.CTkLabel(self.second_frame, text="")
@@ -425,8 +431,7 @@ class App(customtkinter.CTk):
     def frame_3_button_event(self):
         self.select_frame_by_name("Consultas")
 
-    def change_appearance_mode_event(self, new_appearance_mode):
-        customtkinter.set_appearance_mode(new_appearance_mode)
+ 
     
     def limpiainfo(self):
         self.home_frame_clave_alumno_label.grid_remove()
@@ -789,23 +794,37 @@ class App(customtkinter.CTk):
         
         # Crear un botón para generar documento sellos
         btn_sell = customtkinter.CTkButton(self.second_frame, text="Generar carta de sellos", fg_color="light blue",text_color="black", command=lambda:GeneraCarta.GeneraCarta(resultado[0][1]))
-        btn_sell.grid(row=10, column=4, padx=10, pady=10)
+        btn_sell.grid(row=10, column=4, padx=5, pady=10)
 
         # Crear un botón para generar documento sellos
         btn_cart = customtkinter.CTkButton(self.second_frame, text="Generar carta de no adeudo", text_color="black")
-        btn_cart.grid(row=10, column=5, padx=10, pady=10)
+        btn_cart.grid(row=10, column=5, padx=5, pady=10)
 
         # Crear un botón para generar documento sellos
         btn_edit = customtkinter.CTkButton(self.second_frame, text="Regresa a edición", fg_color="transparent", text_color="black")
+        btn_edit.grid(row=10, column=3, padx=5, pady=10)
 
-    def realizar_busqueda(event, self):
+    def realizar_busqueda(self, event):
         # Coloca aquí el código para realizar la búsqueda
         # Por ejemplo, puedes obtener el texto del Entry con entry.get()
-        texto_busqueda = self.home
-        print(f"Realizando búsqueda para: {texto_busqueda}")
-        lambda:self.buscaAlumno()
+   
+        self.buscaAlumno()
+
+    # The open_formularios method can retrieve the selected row's data
+    def open_formularios(self, event):
+
+        self.formularios(self.treeview.item(self.treeview.focus(), "values"))
+        
+        """selected_item = self.treeview.selection()
+        if selected_item:
+            values = self.treeview.item(selected_item, "values")
+            self.formularios(values)"""
     
 if __name__ == "__main__":
     app = App()
     app.mainloop()
 
+"""
+     texto_busqueda = self.home_frame_Clave_Entry.get()
+        print(f"Realizando búsqueda para: {texto_busqueda}")
+"""

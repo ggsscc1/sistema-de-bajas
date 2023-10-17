@@ -37,6 +37,12 @@ def verificaInicio():
 def cerrar_sesion():
     inicio_recepcion.ventana_InicioR.destroy()
 
+def realizar_busqueda(event):
+        # Coloca aquí el código para realizar la búsqueda
+        # Por ejemplo, puedes obtener el texto del Entry con entry.get()
+   verificaInicio()
+        
+
 #Función para colocar la ventana de Login
 def ventana_inicio():
     #Variables para la colocación de la pantalla
@@ -82,7 +88,9 @@ def ventana_inicio():
     lblContraseña.grid(row=1, column=0, sticky="w")
 
     entrada_login_clave = ttk.Entry(frame_login, width=30, show= '*', textvariable=verifica_clave, font=("Calibri", 14))
+    entrada_login_clave.bind("<Return>",lambda event: realizar_busqueda(event))
     entrada_login_clave.grid(row=1, column=1, padx=10, pady=10)
+    
 
     #Boton Acceder
     btnAcceder = Button(frame_login, text="Acceder", width=15, height=2, font=("Calibri", 12), command=verificaInicio)
@@ -95,3 +103,13 @@ def ventana_inicio():
     ventana_principal.mainloop()
 
 
+"""
+    self.home_frame_Clave_Entry.bind("<Return>",lambda event: self.realizar_busqueda(event))
+
+
+  def realizar_busqueda(self, event):
+        # Coloca aquí el código para realizar la búsqueda
+        # Por ejemplo, puedes obtener el texto del Entry con entry.get()
+   
+        self.buscaAlumno()
+"""
