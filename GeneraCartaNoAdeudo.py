@@ -92,4 +92,4 @@ def GeneraCartaNoAdeudo(claveUnica):
     conexion.desconectar()
 
 
-GeneraCartaNoAdeudo(280109)
+#GeneraCartaNoAdeudo(280109)
