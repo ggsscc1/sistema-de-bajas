@@ -4,7 +4,8 @@ from tkinter import ttk
 import tkinter as tk
 from tkinter import messagebox
 from DBconection import *
-import GeneraCarta
+import GeneraCartaNoAdeudo
+import GeneraCartaNoAdeudo2
 import customtkinter
 from CTkTable import *
 import consulta
@@ -793,11 +794,12 @@ class App(customtkinter.CTk):
 
         
         # Crear un botón para generar documento sellos
-        btn_sell = customtkinter.CTkButton(self.second_frame, text="Generar carta de sellos", fg_color="light blue",text_color="black", command=lambda:GeneraCarta.GeneraCarta(resultado[0][1]))
+        btn_sell = customtkinter.CTkButton(self.second_frame, text="Generar carta de sellos", fg_color="light blue",text_color="black", command=lambda:GeneraCartaNoAdeudo2.GeneraCartaNoAdeudo(resultado[0][1]))
+                                                                                                                                    #GeneraCartaNoAdeudo(claveUnica):
         btn_sell.grid(row=10, column=4, padx=5, pady=10)
 
         # Crear un botón para generar documento sellos
-        btn_cart = customtkinter.CTkButton(self.second_frame, text="Generar carta de no adeudo", text_color="black")
+        btn_cart = customtkinter.CTkButton(self.second_frame, text="Generar carta de no adeudo", text_color="black", command=lambda:GeneraCartaNoAdeudo.GeneraCartaNoAdeudo(resultado[0][1]))
         btn_cart.grid(row=10, column=5, padx=5, pady=10)
 
         # Crear un botón para generar documento sellos
