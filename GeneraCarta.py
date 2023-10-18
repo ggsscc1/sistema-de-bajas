@@ -83,7 +83,7 @@ def GeneraCarta(claveUnica):
         materia3 = resultados[0][14]
     else:
         materia3 = ""
-    pdf.drawString(letter[0]/2-dif, letter[1]-6.75*inch, f"Materia(s) mas dificil(es):         {materia1}")
+    pdf.drawString(letter[0]/2-dif, letter[1]-6.75*inch, f"Materia mas difícil:         {materia1}")
 
     pdf.drawString(letter[0]/2-dif, letter[1]-7*inch,    f"Preparatoria de origen:             {resultados[0][11]}")
 
