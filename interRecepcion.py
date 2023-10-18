@@ -137,10 +137,6 @@ class App(customtkinter.CTk):
         self.treeview.bind("<Double-1>", lambda event: self.open_formularios(event))
       
 
-        """ # Loop through the items and bind double-click event
-        for item in treeview.get_children():
-            treeview.bind('<Double-1>', lambda event, item=item: self.formularios(treeview.item(item, "values")))
-        """
         # Configurar encabezados de columna
         self.treeview.heading('fecha', text='Fecha')
         self.treeview.heading('clave', text='Clave')
@@ -809,7 +805,6 @@ class App(customtkinter.CTk):
     def realizar_busqueda(self, event):
         # Coloca aquí el código para realizar la búsqueda
         # Por ejemplo, puedes obtener el texto del Entry con entry.get()
-   
         self.buscaAlumno()
 
     # The open_formularios method can retrieve the selected row's data

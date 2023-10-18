@@ -1,4 +1,4 @@
-import viejos.Login as Login
+import Loginc2
 
 #abre la pantalla de inicio del sistema
-Login.ventana_inicio()
+Loginc2.root.mainloop()

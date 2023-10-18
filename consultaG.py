@@ -35,6 +35,7 @@ def consulta_carrera2(resultados):
     # Separa las generaciones y cantidades en listas separadas
     carreras = (list(carrera_count.keys()))
     cantidades = list(carrera_count.values())
+    plt.figure(figsize=(16, 9)) 
     plt.pie(cantidades, labels=carreras, autopct = '%1.1f%%')
     plt.title('Cantidad de alumnos por carrera')
     # Mostrar la gráfica en una ventana
@@ -52,7 +53,10 @@ def consulta_generacion2(resultados):
     # Separa las generaciones y cantidades en listas separadas
     generaciones = list(generacion_count.keys())
     cantidades = list(generacion_count.values())
-
+    # Ajusta el ancho y alto de la figura
+    plt.figure(figsize=(16, 9)) 
+    # Configurar las etiquetas en el eje X
+    plt.xticks(rotation=-15, fontsize=10)
     plt.bar(generaciones, cantidades)
     plt.xlabel('Generación')
     plt.ylabel('Cantidad de alumnos')
@@ -80,7 +84,10 @@ def consulta_escuela2(resultados):
     
     escuelas = list(escuela_count.keys())
     cantidades = list(escuela_count.values())
-    plt.figure().set_figwidth(18)
+    # Ajusta el ancho y alto de la figura
+    plt.figure(figsize=(16, 9)) 
+    # Configurar las etiquetas en el eje X
+    plt.xticks(rotation=-15, fontsize=7)
     plt.bar(escuelas, cantidades)
     plt.xlabel('Escuela de procedencia')
     plt.ylabel('Cantidad de alumnos')
@@ -112,7 +119,10 @@ def consulta_tramite2(resultados):
     # Obtener el valor más grande de las cantidades
     
 
-
+    # Ajusta el ancho y alto de la figura
+    plt.figure(figsize=(16, 9)) 
+    # Configurar las etiquetas en el eje X
+    plt.xticks(rotation=-15, fontsize=10)
     plt.bar(tramites, cantidades)
     plt.xlabel('Tramites de baja.')
     plt.ylabel('Cantidad de alumnos')
@@ -141,9 +151,11 @@ def consulta_materia2(resultados):
     # Separa las materias y cantidades en listas separadas
     materias = list(materia_count.keys())
     cantidades = list(materia_count.values())
-    plt.figure().set_figwidth(20)
-    plt.xticks(fontsize=6)
-    plt.xticks(rotation = -15)
+    
+    # Ajusta el ancho y alto de la figura
+    plt.figure(figsize=(16, 9)) 
+    # Configurar las etiquetas en el eje X
+    plt.xticks(rotation=-15, fontsize=7)
     plt.bar(materias, cantidades)
     plt.xlabel('Materias')
     plt.ylabel('Cantidad de Alumnos')
@@ -175,7 +187,7 @@ def consulta_materia2(resultados):
     # Mostrar la gráfica en una ventana
     plt.show()"""
 
-
+"""
 def consulta_generacion():
     # Establecer la conexión con la base de datos
     conexion = mysql.connector.connect(
@@ -574,3 +586,4 @@ def cosulta_grafica():
 
     # Ejecutar el bucle principal de la ventana
     ventana.mainloop()
+"""
