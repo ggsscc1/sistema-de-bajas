@@ -692,3 +692,4 @@ def ventana_IniA():
 
     # Ejecutar el bucle principal de la ventana
     ventanaInicioAdmin.mainloop()
+    
