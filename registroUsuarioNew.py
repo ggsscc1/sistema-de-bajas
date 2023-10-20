@@ -35,15 +35,11 @@ class App(customtkinter.CTk):
         self.navigation_frame.grid(row=0, column=0, sticky="nsew")
         self.navigation_frame.grid_rowconfigure(4, weight=1)
 
-        self.home_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Ver información",
+        self.home_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Información",
                                                    fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
                                                    anchor="w", command=self.home_button_event)
         self.home_button.grid(row=1, column=0, sticky="ew")
 
-        self.frame_2_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Agregar información",
-                                                      fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
-                                                      anchor="w", command=self.frame_2_button_event)
-        self.frame_2_button.grid(row=2, column=0, sticky="ew")
 
         self.frame_3_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Agregar usuario",
                                                       fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
@@ -253,16 +249,16 @@ class App(customtkinter.CTk):
         self.lbl_empresa_valor.grid(row=9, column=1, padx=5, pady=5, sticky="w")
 
         # select default frame
-        self.select_frame_by_name("Ver información")
+        self.select_frame_by_name("Información")
 
     def select_frame_by_name(self, name):
         # set button color for selected button
-        self.home_button.configure(fg_color=("gray75", "gray25") if name == "Ver información" else "transparent")
-        self.frame_2_button.configure(fg_color=("gray75", "gray25") if name == "Agregar información" else "transparent")
+        self.home_button.configure(fg_color=("gray75", "gray25") if name == "Información" else "transparent")
+        
         self.frame_3_button.configure(fg_color=("gray75", "gray25") if name == "Agregar usuario" else "transparent")
 
         # show selected frame
-        if name == "Ver información":
+        if name == "Información":
             self.third_frame.grid(row=0, column=1, sticky="nsew")
 
         else:
@@ -279,10 +275,9 @@ class App(customtkinter.CTk):
 
 
     def home_button_event(self):
-        self.select_frame_by_name("Ver información")
+        self.select_frame_by_name("Información")
 
-    def frame_2_button_event(self):
-        self.select_frame_by_name("Agregar información")
+    
 
     def frame_3_button_event(self):
         self.select_frame_by_name("Agregar usuario")
