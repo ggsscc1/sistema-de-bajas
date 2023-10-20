@@ -114,18 +114,8 @@ class App(customtkinter.CTk):
         self.home_frame_button_Limpiar.grid(row=4, column=2, padx=20, pady=10)
         self.home_frame_button_Limpiar.grid_remove()
 
-
-
-
-
-
-
         # create second frame
         self.second_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
-       
-
-
-
 
 
         # create third frame
@@ -144,8 +134,6 @@ class App(customtkinter.CTk):
         self.style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Calibri', 13)) # Modify the font of the body
         self.style.configure("mystyle.Treeview.Heading", font=('Calibri', 13,'bold')) # Modify the font of the headings
         self.style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
-
-     
 
         # Crear un Treeview con 3 columnas
         treeview2 = ttk.Treeview(self.third_frame, columns=('fecha', 'clave', 'nombre', 'completado'), show='headings', style="mystyle.Treeview")
@@ -174,6 +162,10 @@ class App(customtkinter.CTk):
         
         btn_formulario2 = customtkinter.CTkButton(self.third_frame, text="Abrir Formulario", command=lambda: self.formularios(treeview2.item(treeview2.focus(), "values")))
         btn_formulario2.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
+
+        # Crear un botón para editar formulario
+        btn_sell = customtkinter.CTkButton(self.third_frame, text="Editar formulario", command= lambda:GeneraCarta(resultado[0][1]))
+        btn_sell.grid(row=3, column=1, padx=10, pady=10, sticky = "w")
 
         self.lbl_fecha = customtkinter.CTkLabel(self.third_frame, text="")
         self.lbl_fecha.grid(row=4, column=0, padx=5, pady=5, sticky="e")
@@ -404,9 +396,7 @@ class App(customtkinter.CTk):
         else:
             self.lbl_empresa_valor.configure(text="No aplica")
 
-        # Crear un botón para generar documento sellos
-        btn_sell = customtkinter.CTkButton(self.second_frame, text="Editar formulario",text_color="black", command= lambda:GeneraCarta(resultado[0][1]))
-        btn_sell.grid(row=10, column=5, padx=10, pady=10)
+        
         
 
     
