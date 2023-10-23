@@ -3,15 +3,25 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from PyPDF2 import PdfFileWriter, PdfFileReader
-from datetime import date
 import datetime
 import locale
 
 def GeneraCartaNoAdeudo(claveUnica):
 
-    #obtener fecha actual
-    
-    fecha_actual=datetime.datetime.now()
+    # Configura el idioma en español
+    locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+        
+    # Obtener la fecha actual
+    fecha_actual = datetime.datetime.now()
+
+    # Obtener el nombre del mes en español
+    nombre_mes = fecha_actual.strftime('%B').capitalize()
+
+    # Obtener el día (DD)
+    dia = fecha_actual.strftime('%d')
+
+    # Obtener el año (AAAA)
+    anio = fecha_actual.strftime('%Y')
     
     
     
@@ -27,9 +37,15 @@ def GeneraCartaNoAdeudo(claveUnica):
     
     #Consulta de coordinador
     carrera= resultados[0][7]
-    consulta = f"SELECT nom_coordinador FROM coordinadores WHERE Carrera = {carrera}"
+    if carrera == "Computacion":
+        id = 2
+    else:
+        id=1
+        
+    #print(carrera)
+    consulta = f"SELECT nom_coordinador FROM coordinadores WHERE id_coordiandor = {id}"
     coordiandor = conexion.ejecutar_consulta(consulta)
-    print(coordiandor)
+    print(coordiandor[0][0])
 
     # Crear un archivo PDF en blanco
     pdf = canvas.Canvas(f"Carta de no adeudo {claveUnica}.pdf", pagesize=letter)
@@ -71,7 +87,7 @@ def GeneraCartaNoAdeudo(claveUnica):
     
     #espacio 
     pdf.drawRightString(letter[0]-1.24*inch, letter[1]-5.6*inch, f"A peticion del interesado y para fines que al mismo congengan se extiende la presente")
-    pdf.drawRightString(letter[0]-5.15*inch, letter[1]-5.85*inch, f"a los veintinueve dias del mes de {fecha_actual}")
+    pdf.drawRightString(letter[0]-5.15*inch, letter[1]-5.85*inch, f"a dia {dia} del mes de {nombre_mes} del año {anio}")
 
 
 
@@ -81,7 +97,7 @@ def GeneraCartaNoAdeudo(claveUnica):
     pdf.setFont("Helvetica", 12)
     pdf.drawCentredString(letter[0]/2, letter[1]-7.75*inch, "ATENTAMENTE")
     pdf.drawCentredString(letter[0]/2, letter[1]-9.25*inch, "__________________________________________")
-    
+    pdf.drawCentredString(letter[0]/2, letter[1]-9.50*inch, f"{coordiandor[0][0]}")
     pdf.drawCentredString(letter[0]/2, letter[1]-9.75*inch, f"Coordinador de la Carrera de Ingeniería en {resultados[0][7]}")
 
 

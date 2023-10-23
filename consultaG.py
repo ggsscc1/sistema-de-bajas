@@ -142,7 +142,7 @@ def consulta_materia2(resultados):
 
     # Combina los valores de las tres columnas en una sola lista
     materias = [materia for materia in columnas_materias if materia]
-    print(materias)
+    #print(materias)
     # Cuenta la cantidad de repeticiones de cada materia en la lista
     materia_count = defaultdict(int)
     for materia in materias:
