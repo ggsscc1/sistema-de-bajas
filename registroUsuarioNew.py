@@ -103,12 +103,8 @@ class App(customtkinter.CTk):
         self.home_frame_button_Buscar = customtkinter.CTkButton(self.home_frame, text="Registrar", command=lambda:self.registro())
         self.home_frame_button_Buscar.grid(row=7, column=1, padx=20, pady=10)
 
-        self.home_frame_button_Registrar.grid(row=4, column=1, padx=20, pady=10)
-        self.home_frame_button_Registrar.grid_remove()
         
-        self.home_frame_button_Limpiar = customtkinter.CTkButton(self.home_frame, text="Limpiar", command=lambda:self.limpiainfo())
-        self.home_frame_button_Limpiar.grid(row=4, column=2, padx=20, pady=10)
-        self.home_frame_button_Limpiar.grid_remove()
+        
 
         # create second frame
         self.second_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
@@ -283,21 +279,15 @@ class App(customtkinter.CTk):
         self.select_frame_by_name("Agregar usuario")
     
     def limpiainfo(self):
-        self.home_frame_Clave_Entry1.grid_remove()
-        self.home_frame_Clave_Entry2.grid_remove()
-        self.home_frame_Clave_Entry3.grid_remove()
-        self.home_frame_Clave_Entry4.grid_remove()
-        self.home_frame_Clave_Entry5.grid_remove()
-        self.home_frame_Clave_Entry6.grid_remove()
-      
-        self.home_frame_button_Registrar.grid_remove()
-        self.home_frame_button_Limpiar.grid_remove()
-        self.clave1 = ""
-        self.clave2 = ""
-        self.clave3 = ""
-        self.clave4 = ""
-        self.clave5 = ""
-        self.clave6 = ""
+        
+        self.home_frame_Clave_Entry1.delete(0, "end")
+        self.home_frame_Clave_Entry2.delete(0, "end")
+        self.home_frame_Clave_Entry3.delete(0, "end")
+        self.home_frame_Clave_Entry4.delete(0, "end")
+        self.home_frame_Clave_Entry5.delete(0, "end")
+        self.home_frame_Clave_Entry6.delete(0, "end")
+
+       
         
     def registro(self):
         #claveAlumno = self.claveA.get()
@@ -325,7 +315,13 @@ class App(customtkinter.CTk):
             messagebox.showinfo(message="Usuario registrado con éxito", title="Éxito")
         else:
             messagebox.showerror(message="Error en el registro", title="Error")
-    
+
+        self.home_frame_Clave_Entry1.delete(0, "end")
+        self.home_frame_Clave_Entry2.delete(0, "end")
+        self.home_frame_Clave_Entry3.delete(0, "end")
+        self.home_frame_Clave_Entry4.delete(0, "end")
+        self.home_frame_Clave_Entry5.delete(0, "end")
+        self.home_frame_Clave_Entry6.delete(0, "end")
 
     #funcion para abrir los formularios
     def formularios(self, fila_seleccionada):
