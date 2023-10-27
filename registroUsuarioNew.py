@@ -52,7 +52,7 @@ class App(customtkinter.CTk):
         self.home_frame.grid_columnconfigure(0, weight=1)
 
         #cambiando fuentes
-        self.home_frame_Titulo = customtkinter.CTkLabel(self.home_frame, text="Registrar nuevo usuario", fg_color="darkblue", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
+        self.home_frame_Titulo = customtkinter.CTkLabel(self.home_frame, text="Registrar nuevo usuario", fg_color="white", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
         self.home_frame_Titulo.grid(row=0, column=0, padx=20, pady=10, columnspan=3)
         
         self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Nombre: ", font=customtkinter.CTkFont(size=15, weight="normal"))
@@ -80,23 +80,23 @@ class App(customtkinter.CTk):
         self.clave4 = tk.StringVar()
         self.clave5 = tk.StringVar()
         self.clave6 = tk.StringVar()
-        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave1)
-        self.home_frame_Clave_Entry.grid(row=1, column=1, padx=20, pady=10)
+        self.home_frame_Clave_Entry1 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave1)
+        self.home_frame_Clave_Entry1.grid(row=1, column=1, padx=20, pady=10)
 
-        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave2)
-        self.home_frame_Clave_Entry.grid(row=2, column=1, padx=20, pady=10)
+        self.home_frame_Clave_Entry2 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave2)
+        self.home_frame_Clave_Entry2.grid(row=2, column=1, padx=20, pady=10)
 
-        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave3)
-        self.home_frame_Clave_Entry.grid(row=3, column=1, padx=20, pady=10)
+        self.home_frame_Clave_Entry3 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave3)
+        self.home_frame_Clave_Entry3.grid(row=3, column=1, padx=20, pady=10)
 
-        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave4)
-        self.home_frame_Clave_Entry.grid(row=4, column=1, padx=20, pady=10)
+        self.home_frame_Clave_Entry4 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave4)
+        self.home_frame_Clave_Entry4.grid(row=4, column=1, padx=20, pady=10)
 
-        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave5)
-        self.home_frame_Clave_Entry.grid(row=5, column=1, padx=20, pady=10)
+        self.home_frame_Clave_Entry5 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave5)
+        self.home_frame_Clave_Entry5.grid(row=5, column=1, padx=20, pady=10)
 
-        self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave6)
-        self.home_frame_Clave_Entry.grid(row=6, column=1, padx=20, pady=10)
+        self.home_frame_Clave_Entry6 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave6)
+        self.home_frame_Clave_Entry6.grid(row=6, column=1, padx=20, pady=10)
 
         self.home_frame_button_Registrar = customtkinter.CTkButton(self.home_frame, text="Registrar")
         
@@ -283,12 +283,21 @@ class App(customtkinter.CTk):
         self.select_frame_by_name("Agregar usuario")
     
     def limpiainfo(self):
-        self.home_frame_clave_alumno_label.grid_remove()
-        self.home_frame_nombre_alumno_label.grid_remove()
-        self.home_frame_carrera_alumno_label.grid_remove()
-        self.home_frame_generacion_alumno_label.grid_remove()
+        self.home_frame_Clave_Entry1.grid_remove()
+        self.home_frame_Clave_Entry2.grid_remove()
+        self.home_frame_Clave_Entry3.grid_remove()
+        self.home_frame_Clave_Entry4.grid_remove()
+        self.home_frame_Clave_Entry5.grid_remove()
+        self.home_frame_Clave_Entry6.grid_remove()
+      
         self.home_frame_button_Registrar.grid_remove()
         self.home_frame_button_Limpiar.grid_remove()
+        self.clave1 = ""
+        self.clave2 = ""
+        self.clave3 = ""
+        self.clave4 = ""
+        self.clave5 = ""
+        self.clave6 = ""
         
     def registro(self):
         #claveAlumno = self.claveA.get()
