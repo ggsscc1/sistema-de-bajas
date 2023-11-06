@@ -40,6 +40,10 @@ class App(customtkinter.CTk):
                                                    anchor="w", command=self.home_button_event)
         self.home_button.grid(row=1, column=0, sticky="ew")
 
+        self.frame_2_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Editar usuario",
+                                                      fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
+                                                      anchor="w", command=self.frame_2_button_event)
+        self.frame_2_button.grid(row=2, column=0, sticky="ew")
 
         self.frame_3_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Agregar usuario",
                                                       fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
@@ -109,7 +113,90 @@ class App(customtkinter.CTk):
         # create second frame
         self.second_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
+        # Consulta a realizar
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+        conexion.conectar()
+        consulta = f"SELECT * FROM usuarios"
+        resultado = conexion.ejecutar_consulta(consulta)
+        print(resultado)
+       
 
+         #label formulario
+        
+        self.home_frame_titleUsuario = customtkinter.CTkLabel(self.second_frame, text="Usuarios", fg_color="white", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
+        self.home_frame_titleUsuario.grid(row=0, column=0, padx=20, pady=10, columnspan=3)
+
+        self.style = ttk.Style()
+        self.style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Calibri', 13)) # Modify the font of the body
+        self.style.configure("mystyle.Treeview.Heading", font=('Calibri', 13,'bold')) # Modify the font of the headings
+        self.style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
+
+        # Crear un Treeview con 3 columnas
+        treeview = ttk.Treeview(self.second_frame, columns=('Nom Usuario', 'Email', 'Nombre', 'Ap Paterno'), show='headings', style="mystyle.Treeview")
+        treeview.grid(row= 1, column=0, pady=10, padx=20, sticky="nsew", rowspan=2, columnspan=6)
+
+        # Configurar encabezados de columna
+        treeview.heading('Nom Usuario', text='Nom Usuario')
+        treeview.heading('Email', text='Email')
+        treeview.heading('Nombre', text='Nombre')
+        treeview.heading('Ap Paterno', text='Ap Paterno')
+        
+
+         # Agregar datos
+        for res in resultado:
+            
+
+            if resultado[0][6] :
+                treeview.insert('', tk.END , text=res[0], values=(res[0], res[5], res[2], res[3],))
+
+                
+        # Establecer ancho de columna
+        treeview.column('Nom Usuario', width=200)
+        treeview.column('Email', width=200)
+        treeview.column('Nombre', width=200)
+        treeview.column('Ap Paterno', width=210)
+
+        # Crear un botón "Generar Formulario" que muestra la ventana con los datos correspondientes
+        
+        btn_editar = customtkinter.CTkButton(self.second_frame, text="Ver información", command=lambda: self.usuarios(treeview.item(treeview.focus(), "values")))
+        btn_editar.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
+
+        self.lbl_Nom_usuario = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_Nom_usuario.grid(row=4, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_Nom_usuario_valor = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_Nom_usuario_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_clave2 = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_clave2.grid(row=4, column=2, padx=5, pady=5, sticky="e")
+        self.lbl_clave_valor2 = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_clave_valor2.grid(row=4, column=3, padx=5, pady=5, sticky="w")
+
+        self.lbl_nombre2 = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_nombre2.grid(row=4, column=4, padx=5, pady=5, sticky="e")
+        self.lbl_nombre_valor2 = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_nombre_valor2.grid(row=4, column=5, padx=5, pady=5, sticky="w") 
+        
+        self.lbl_Ap_paterno = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_Ap_paterno.grid(row=5, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_Ap_paterno_valor = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_Ap_paterno_valor.grid(row=5, column=1, padx=5, pady=5, sticky="w")
+        
+        self.lbl_Ap_materno = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_Ap_materno.grid(row=5, column=2, padx=5, pady=5, sticky="e")
+        self.lbl_Ap_materno_valor = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_Ap_materno_valor.grid(row=5, column=3, padx=5, pady=5, sticky="w")
+
+        self.lbl_Email = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_Email.grid(row=5, column=4, padx=5, pady=5, sticky="e")
+        self.lbl_Email_valor = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_Email_valor.grid(row=5, column=5, padx=5, pady=5, sticky="w")
+        
+        #"Motivo de Baja"
+        self.lbl_tipoUs = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_tipoUs.grid(row=6, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_tipoUs_valor = customtkinter.CTkLabel(self.second_frame, text="")
+        self.lbl_tipoUs_valor.grid(row=6, column=1, padx=5, pady=5, sticky="w")
+        ###################################################################################################
         # create third frame
         self.third_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
         # Consulta a realizar
@@ -250,7 +337,7 @@ class App(customtkinter.CTk):
     def select_frame_by_name(self, name):
         # set button color for selected button
         self.home_button.configure(fg_color=("gray75", "gray25") if name == "Información" else "transparent")
-        
+        self.frame_2_button.configure(fg_color=("gray75", "gray25") if name == "Editar usuario" else "transparent")
         self.frame_3_button.configure(fg_color=("gray75", "gray25") if name == "Agregar usuario" else "transparent")
 
         # show selected frame
@@ -260,7 +347,7 @@ class App(customtkinter.CTk):
         else:
             self.third_frame.grid_forget()
 
-        if name == "Agregar información":
+        if name == "Editar usuario":
             self.second_frame.grid(row=0, column=1, sticky="nsew")
         else:
             self.second_frame.grid_forget()
@@ -273,22 +360,12 @@ class App(customtkinter.CTk):
     def home_button_event(self):
         self.select_frame_by_name("Información")
 
-    
+    def frame_2_button_event(self):
+        self.select_frame_by_name("Editar usuario")
 
     def frame_3_button_event(self):
         self.select_frame_by_name("Agregar usuario")
     
-    def limpiainfo(self):
-        
-        self.home_frame_Clave_Entry1.delete(0, "end")
-        self.home_frame_Clave_Entry2.delete(0, "end")
-        self.home_frame_Clave_Entry3.delete(0, "end")
-        self.home_frame_Clave_Entry4.delete(0, "end")
-        self.home_frame_Clave_Entry5.delete(0, "end")
-        self.home_frame_Clave_Entry6.delete(0, "end")
-
-       
-        
     def registro(self):
         #claveAlumno = self.claveA.get()
         #Consultar los datos necesarios
@@ -397,7 +474,42 @@ class App(customtkinter.CTk):
             self.lbl_empresa_valor.configure(text="No aplica")
 
         
+        #funcion para abrir la información del usuario
+    def usuarios(self, fila_seleccionada):
+        #Consulta a realizar
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+        conexion.conectar()
+        print (fila_seleccionada[1])
+        consulta = f"SELECT * FROM usuarios WHERE nom_usuario = '{fila_seleccionada[0]}'"
+        resultado = conexion.ejecutar_consulta(consulta)
+        conexion.desconectar()
+
+        # Crear etiquetas para los campos fecha, clave y nombre
+        #print(resultado[0][6])
         
+        self.lbl_Nom_usuario.configure(text="Nom_usuario:")
+        self.lbl_Nom_usuario_valor.configure(text=resultado[0][0])
+
+        self.lbl_clave2.configure(text="Password:")
+        self.lbl_clave_valor2.configure(text=resultado[0][1])
+
+        self.lbl_nombre2.configure(text="Nombre:")
+        self.lbl_nombre_valor2.configure(text=resultado[0][2])
+
+        self.lbl_Ap_paterno.configure(text="Ap paterno:")
+        self.lbl_Ap_paterno_valor.configure(text=resultado[0][3])
+
+        self.lbl_Ap_materno.configure(text="Ap materno:")
+        self.lbl_Ap_materno_valor.configure(text=resultado[0][4])
+
+        self.lbl_Email.configure(text="Email:")
+        self.lbl_Email_valor.configure( text=resultado[0][5])
+
+        self.lbl_tipoUs.configure(text="Tipo de usuario:")
+        self.lbl_tipoUs_valor.configure(text=resultado[0][6])
+        
+        
+
 
     
 if __name__ == "__main__":
