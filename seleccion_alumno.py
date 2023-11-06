@@ -22,6 +22,9 @@ def seleccionar_formulario(treeview):
         #messagebox.showinfo("Error", "Por favor, selecciona un formulario primero.")
         CTkMessagebox(title="Error", message="Por favor, selecciona un formulario primero.", icon="cancel")
 
+ 
+        
+
 # Función principal para mostrar la lista de espera
 def ventana_InicioForm():
     customtkinter.deactivate_automatic_dpi_awareness()
@@ -55,6 +58,12 @@ def ventana_InicioForm():
 
     # Crear un Treeview con 3 columnas
     treeview = ttk.Treeview(frame, columns=('clave', 'ap_pat', 'ap_mat', 'nombre', 'carrera', 'generacion'), show='headings',style="mystyle.Treeview")
+
+    def open_formularios(event):
+
+        seleccionar_formulario(treeview)
+
+    treeview.bind("<Double-1>", lambda event: open_formularios(event))
 
     # Configurar encabezados de columna
     treeview.heading('clave', text='Clave')

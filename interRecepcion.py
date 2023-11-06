@@ -57,6 +57,9 @@ class App(customtkinter.CTk):
         # create home frame
         self.home_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
         self.home_frame.grid_columnconfigure(0, weight=1)
+        self.home_frame.grid_columnconfigure(1, weight=1)
+        self.home_frame.grid_columnconfigure(2, weight=1)
+        
 
         #cambiando fuentes
         self.home_frame_Titulo = customtkinter.CTkLabel(self.home_frame, text="Sistema de bajas", fg_color="darkblue", text_color="white",font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
@@ -113,11 +116,16 @@ class App(customtkinter.CTk):
 
         # create second frame
         self.second_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
+        self.second_frame.grid_columnconfigure(0, weight=1)
+        self.second_frame.grid_columnconfigure(1, weight=1)
+        self.second_frame.grid_columnconfigure(2, weight=1)
         # Consulta a realizar
         conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         consulta = f"SELECT * FROM formulario"
         resultado = conexion.ejecutar_consulta(consulta)
+
+        
 
         #label formulario
         iniform = customtkinter.CTkLabel(self.second_frame, text="Selecciona tu formulario")
@@ -161,90 +169,118 @@ class App(customtkinter.CTk):
         btn_formulario = customtkinter.CTkButton(self.second_frame, text="Abrir Formulario", command=lambda: self.formularios(self.treeview.item(self.treeview.focus(), "values")))
         btn_formulario.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
 
-        self.lbl_fecha = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_fecha.grid(row=4, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_fecha_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_fecha_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
+        self.firstInterFrame = customtkinter.CTkFrame(self.second_frame)
+        self.firstInterFrame.grid(row=4, column=0, padx=5, pady=5, rowspan=1)
+        self.firstInterFrame.grid_remove()
 
-        self.lbl_clave = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_clave.grid(row=4, column=2, padx=5, pady=5, sticky="e")
-        self.lbl_clave_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_clave_valor.grid(row=4, column=3, padx=5, pady=5, sticky="w")
+        self.secondInterFrame = customtkinter.CTkFrame(self.second_frame)
+        self.secondInterFrame.grid(row=4, column=1, padx=5, pady=5, rowspan=1)
+        self.secondInterFrame.grid_remove()
+        
+        self.thirdInterFrame = customtkinter.CTkFrame(self.second_frame)
+        self.thirdInterFrame.grid(row=4, column=2, padx=5, pady=5, rowspan=1)
+        self.thirdInterFrame.grid_remove()
 
-        self.lbl_nombre = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_nombre.grid(row=4, column=4, padx=5, pady=5, sticky="e")
-        self.lbl_nombre_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_nombre_valor.grid(row=4, column=5, padx=5, pady=5, sticky="w") 
-        
-        self.lbl_correo = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_correo.grid(row=5, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_correo_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_correo_valor.grid(row=5, column=1, padx=5, pady=5, sticky="w")
-        
-        self.lbl_carrera = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_carrera.grid(row=5, column=2, padx=5, pady=5, sticky="e")
-        self.lbl_carrera_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_carrera_valor.grid(row=5, column=3, padx=5, pady=5, sticky="w")
+        self.lbl_fecha = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_fecha.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_fecha_valor = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_fecha_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
 
-        self.lbl_generacion = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_generacion.grid(row=5, column=4, padx=5, pady=5, sticky="e")
-        self.lbl_generacion_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_generacion_valor.grid(row=5, column=5, padx=5, pady=5, sticky="w")
-        
+        self.lbl_correo = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_correo.grid(row=1, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_correo_valor = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_correo_valor.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+
         #"Motivo de Baja"
-        self.lbl_motivo = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_motivo.grid(row=6, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_motivo_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_motivo_valor.grid(row=6, column=1, padx=5, pady=5, sticky="w")
+        self.lbl_motivo = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_motivo.grid(row=2, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_motivo_valor = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_motivo_valor.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
-        #Escuela de procedencia
-        self.lbl_prpa = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_prpa.grid(row=6, column=2, padx=5, pady=5, sticky="e")
-        self.lbl_prepa_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_prepa_valor.grid(row=6, column=3, padx=5, pady=5, sticky="w")
-
-        #materias mas dificiles
-        
-        self.lbl_materia = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia.grid(row=6, column=4, padx=5, pady=5, sticky="e")
-        self.lbl_materia_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia_valor.grid(row=6, column=5, padx=5, pady=5, sticky="w")
-
-        self.lbl_materia2 = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia2.grid(row=7, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_materia2_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia2_valor.grid(row=7, column=1, padx=5, pady=5, sticky="w")
-
-        self.lbl_materia3 = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia3.grid(row=7, column=2, padx=5, pady=5, sticky="e")    
-        self.lbl_materia3_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_materia3_valor.grid(row=7, column=3, padx=5, pady=5, sticky="w")
-        
-        self.lbl_tipoB = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_tipoB.grid(row=7, column=4, padx=5, pady=5, sticky="e")
-        self.lbl_tipoB_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_tipoB_valor.grid(row=7, column=5, padx=5, pady=5, sticky="w")
+        self.lbl_materia2 = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_materia2.grid(row=3, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_materia2_valor = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_materia2_valor.grid(row=3, column=1, padx=5, pady=5, sticky="w")
 
         # Agregar etiquetas para mostrar los datos adicionales
-        self.lbl_motivotexto = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_motivotexto.grid(row=8, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_motivotexto_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_motivotexto_valor.grid(row=8, column=1, padx=5, pady=5, sticky="w")
+        self.lbl_motivotexto = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_motivotexto.grid(row=4, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_motivotexto_valor = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_motivotexto_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
 
-        self.lbl_formatexto = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_formatexto.grid(row=8, column=2, padx=5, pady=5, sticky="e")
-        self.lbl_formatexto_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_formatexto_valor.grid(row=8, column=3, padx=5, pady=5, sticky="w")
+        
+        self.lbl_empresa = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_empresa.grid(row=4, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_empresa_valor = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_empresa_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
 
-        self.lbl_fechaTtexto = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_fechaTtexto.grid(row=8, column=4, padx=5, pady=5, sticky="e")
-        self.lbl_fechaTtexto_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_fechaTtexto_valor.grid(row=8, column=5, padx=5, pady=5, sticky="w")
 
-        self.lbl_empresa = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_empresa.grid(row=9, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_empresa_valor = customtkinter.CTkLabel(self.second_frame, text="")
-        self.lbl_empresa_valor.grid(row=9, column=1, padx=5, pady=5, sticky="w")
+        #self.separator = tk.Frame(self.second_frame, width=2, height=300, background="black")
+        #self.separator.grid(row=4, column=2, padx=5, pady=5, rowspan=10)
+
+        #self.lineadivisora = customtkinter.CTkCanvas(self.second_frame)
+        #self.lineadivisora.create_line(300, 35, 300, 200)
+        #self.lineadivisora.grid(row=4, column=2)
+        #canvas.create_line(300, 35, 300, 200, dash=(4, 2))
+
+        #row 3 y 4
+        
+        self.lbl_clave = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_clave.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_clave_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_clave_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_carrera = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_carrera.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_carrera_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_carrera_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+
+        #Escuela de procedencia
+        self.lbl_prpa = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_prpa.grid(row=1, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_prepa_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_prepa_valor.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_materia3 = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_materia3.grid(row=2, column=0, padx=5, pady=5, sticky="e")    
+        self.lbl_materia3_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_materia3_valor.grid(row=2, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_formatexto = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_formatexto.grid(row=3, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_formatexto_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_formatexto_valor.grid(row=3, column=1, padx=5, pady=5, sticky="w")
+
+
+        #row 6 y 7
+
+        self.lbl_nombre = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_nombre.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_nombre_valor = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_nombre_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w") 
+        
+        self.lbl_generacion = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_generacion.grid(row=1, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_generacion_valor = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_generacion_valor.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+        
+        #materias mas dificiles
+        
+        self.lbl_materia = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_materia.grid(row=2, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_materia_valor = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_materia_valor.grid(row=2, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_tipoB = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_tipoB.grid(row=3, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_tipoB_valor = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_tipoB_valor.grid(row=3, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_fechaTtexto = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_fechaTtexto.grid(row=4, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_fechaTtexto_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_fechaTtexto_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
+
 
         # create third frame
         self.third_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
@@ -727,6 +763,13 @@ class App(customtkinter.CTk):
 
         # Crear etiquetas para los campos fecha, clave y nombre
         #print(resultado[0][6])
+
+
+
+        self.firstInterFrame.grid()
+        self.secondInterFrame.grid()
+        self.thirdInterFrame.grid()
+
         
         self.lbl_fecha.configure(text="Fecha:")
         self.lbl_fecha_valor.configure(text=resultado[0][6])
@@ -791,16 +834,16 @@ class App(customtkinter.CTk):
         
         # Crear un botón para generar documento sellos
         btn_sell = customtkinter.CTkButton(self.second_frame, text="Generar carta de sellos", fg_color="light blue",text_color="black", command=lambda:GeneraCarta.GeneraCarta(resultado[0][1]))
-                                                                                                                                    #GeneraCartaNoAdeudo(claveUnica):, command=lambda:CartaSellos.GeneraCartaNoAdeudo(resultado[0][1])
-        btn_sell.grid(row=10, column=4, padx=5, pady=10)
+        #GeneraCartaNoAdeudo(claveUnica):, command=lambda:CartaSellos.GeneraCartaNoAdeudo(resultado[0][1])
+        btn_sell.grid(row=5, column=1, padx=5, pady=10)
 
         # Crear un botón para generar documento sellos
         btn_cart = customtkinter.CTkButton(self.second_frame, text="Generar carta de no adeudo", text_color="black", command=lambda:GeneraCartaNoAdeudo.GeneraCartaNoAdeudo(resultado[0][1]))
-        btn_cart.grid(row=10, column=5, padx=5, pady=10)
+        btn_cart.grid(row=5, column=2, padx=5, pady=10)
 
         # Crear un botón para generar documento sellos
         btn_edit = customtkinter.CTkButton(self.second_frame, text="Regresa a edición", fg_color="transparent", text_color="black")
-        btn_edit.grid(row=10, column=3, padx=5, pady=10)
+        btn_edit.grid(row=5, column=0, padx=5, pady=10)
 
     def realizar_busqueda(self, event):
         # Coloca aquí el código para realizar la búsqueda

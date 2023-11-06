@@ -129,6 +129,7 @@ def GeneraCarta(claveUnica):
     pdf.drawCentredString(letter[0]/2, letter[1]-10.5*inch, "__________________________________________")
     pdf.drawCentredString(letter[0]/2, letter[1]-10.75*inch, "Nombre y firma del coordinador de carrera")
 
+
     pdf.save()
     # Cerrar la conexión a la base de datos
     conexion.desconectar()
