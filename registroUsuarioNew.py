@@ -54,6 +54,170 @@ class App(customtkinter.CTk):
         # create home frame
         self.home_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
         
+        self.home_frame.grid_columnconfigure(0, weight=1)
+        self.home_frame.grid_columnconfigure(1, weight=1)
+        self.home_frame.grid_columnconfigure(2, weight=1)
+        # Consulta a realizar
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+        conexion.conectar()
+        consulta = f"SELECT * FROM formulario"
+        resultado = conexion.ejecutar_consulta(consulta)
+
+        
+
+        #label formulario
+        iniform = customtkinter.CTkLabel(self.home_frame, text="Selecciona tu formulario")
+        iniform.grid(row=0, column=0, padx=10, pady=10, sticky="w", columnspan=3)
+
+        self.style = ttk.Style()
+        self.style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Calibri', 13)) # Modify the font of the body
+        self.style.configure("mystyle.Treeview.Heading", font=('Calibri', 13,'bold')) # Modify the font of the headings
+        self.style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
+
+     
+
+        # Crear un Treeview con 3 columnas
+        self.treeview2 = ttk.Treeview(self.home_frame, columns=('fecha', 'clave', 'nombre', 'completado'), show='headings', style="mystyle.Treeview")
+        self.treeview2.grid(row= 1, column=0, pady=10, padx=20, sticky="nsew", rowspan=2, columnspan=6)
+
+        self.treeview2.bind("<Double-1>", lambda event: self.open_formularios(event))
+      
+
+        # Configurar encabezados de columna
+        self.treeview2.heading('fecha', text='Fecha')
+        self.treeview2.heading('clave', text='Clave')
+        self.treeview2.heading('nombre', text='Nombre')
+        self.treeview2.heading('completado', text='Completado?')
+        completado = "NO"
+        
+        # Agregar datos
+        for result in resultado:
+            if resultado[0][10] :
+                completado = "SI"
+                self.treeview2.insert('', tk.END , text=result[0], values=(result[6], result[1], result[2], completado))
+        
+        # Establecer ancho de columna
+        self.treeview2.column('fecha', width=100)
+        self.treeview2.column('clave', width=100)
+        self.treeview2.column('nombre', width=100)
+        self.treeview2.column('completado', width=110)
+
+        # Crear un botón "Generar Formulario" que muestra la ventana con los datos correspondientes
+        #
+        btn_formulario = customtkinter.CTkButton(self.home_frame, text="Abrir Formulario", command=lambda: self.formularios(self.treeview2.item(self.treeview2.focus(), "values")))
+        btn_formulario.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
+
+        self.firstInterFrame = customtkinter.CTkFrame(self.home_frame)
+        self.firstInterFrame.grid(row=4, column=0, padx=5, pady=5, rowspan=1)
+        self.firstInterFrame.grid_remove()
+
+        self.secondInterFrame = customtkinter.CTkFrame(self.home_frame)
+        self.secondInterFrame.grid(row=4, column=1, padx=5, pady=5, rowspan=1)
+        self.secondInterFrame.grid_remove()
+        
+        self.thirdInterFrame = customtkinter.CTkFrame(self.home_frame)
+        self.thirdInterFrame.grid(row=4, column=2, padx=5, pady=5, rowspan=1)
+        self.thirdInterFrame.grid_remove()
+
+        self.lbl_fecha = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_fecha.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_fecha_valor = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_fecha_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_correo = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_correo.grid(row=1, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_correo_valor = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_correo_valor.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+
+        #"Motivo de Baja"
+        self.lbl_motivo = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_motivo.grid(row=2, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_motivo_valor = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_motivo_valor.grid(row=2, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_materia2 = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_materia2.grid(row=3, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_materia2_valor = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_materia2_valor.grid(row=3, column=1, padx=5, pady=5, sticky="w")
+
+        # Agregar etiquetas para mostrar los datos adicionales
+        self.lbl_motivotexto = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_motivotexto.grid(row=4, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_motivotexto_valor = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_motivotexto_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
+
+        
+        self.lbl_empresa = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_empresa.grid(row=4, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_empresa_valor = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_empresa_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
+
+
+        #self.separator = tk.Frame(self.home_frame, width=2, height=300, background="black")
+        #self.separator.grid(row=4, column=2, padx=5, pady=5, rowspan=10)
+
+        #self.lineadivisora = customtkinter.CTkCanvas(self.home_frame)
+        #self.lineadivisora.create_line(300, 35, 300, 200)
+        #self.lineadivisora.grid(row=4, column=2)
+        #canvas.create_line(300, 35, 300, 200, dash=(4, 2))
+
+        #row 3 y 4
+        
+        self.lbl_clave = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_clave.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_clave_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_clave_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_carrera = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_carrera.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_carrera_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_carrera_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+
+        #Escuela de procedencia
+        self.lbl_prpa = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_prpa.grid(row=1, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_prepa_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_prepa_valor.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_materia3 = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_materia3.grid(row=2, column=0, padx=5, pady=5, sticky="e")    
+        self.lbl_materia3_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_materia3_valor.grid(row=2, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_formatexto = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_formatexto.grid(row=3, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_formatexto_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_formatexto_valor.grid(row=3, column=1, padx=5, pady=5, sticky="w")
+
+
+        #row 6 y 7
+
+        self.lbl_nombre = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_nombre.grid(row=0, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_nombre_valor = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_nombre_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w") 
+        
+        self.lbl_generacion = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_generacion.grid(row=1, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_generacion_valor = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_generacion_valor.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+        
+        #materias mas dificiles
+        
+        self.lbl_materia = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_materia.grid(row=2, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_materia_valor = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_materia_valor.grid(row=2, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_tipoB = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_tipoB.grid(row=3, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_tipoB_valor = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_tipoB_valor.grid(row=3, column=1, padx=5, pady=5, sticky="w")
+
+        self.lbl_fechaTtexto = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_fechaTtexto.grid(row=4, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_fechaTtexto_valor = customtkinter.CTkLabel(self.secondInterFrame, text="")
+        self.lbl_fechaTtexto_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
 
         
         
@@ -270,7 +434,6 @@ class App(customtkinter.CTk):
         self.third_frame_Clave_Entry5.delete(0, "end")
         self.third_frame_Clave_Entry6.delete(0, "end")
 
-    #funcion para abrir los formularios
     def formularios(self, fila_seleccionada):
         #Consulta a realizar
         conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
@@ -282,6 +445,13 @@ class App(customtkinter.CTk):
 
         # Crear etiquetas para los campos fecha, clave y nombre
         #print(resultado[0][6])
+
+
+
+        self.firstInterFrame.grid()
+        self.secondInterFrame.grid()
+        self.thirdInterFrame.grid()
+
         
         self.lbl_fecha.configure(text="Fecha:")
         self.lbl_fecha_valor.configure(text=resultado[0][6])
@@ -290,7 +460,7 @@ class App(customtkinter.CTk):
         self.lbl_clave_valor.configure(text=resultado[0][1])
 
         self.lbl_nombre.configure(text="Nombre:")
-        self.lbl_nombre_valor.configure(text=resultado[0][2]+"\n"+resultado[0][3]+" "+resultado[0][4])
+        self.lbl_nombre_valor.configure(text=resultado[0][2]+" "+resultado[0][3]+" "+resultado[0][4])
 
         self.lbl_correo.configure(text="Correo electronico:")
         self.lbl_correo_valor.configure(text=resultado[0][5])
@@ -343,6 +513,34 @@ class App(customtkinter.CTk):
         else:
             self.lbl_empresa_valor.configure(text="No aplica")
 
+        
+        # Crear un botón para generar documento sellos
+        btn_sell = customtkinter.CTkButton(self.home_frame, text="Generar carta de sellos", fg_color="light blue",text_color="black", command=lambda:GeneraCarta.GeneraCarta(resultado[0][1]))
+        #GeneraCartaNoAdeudo(claveUnica):, command=lambda:CartaSellos.GeneraCartaNoAdeudo(resultado[0][1])
+        btn_sell.grid(row=5, column=1, padx=5, pady=10)
+
+        # Crear un botón para generar documento sellos
+        btn_cart = customtkinter.CTkButton(self.home_frame, text="Generar carta de no adeudo", text_color="black", command=lambda:GeneraCartaNoAdeudo.GeneraCartaNoAdeudo(resultado[0][1]))
+        btn_cart.grid(row=5, column=2, padx=5, pady=10)
+
+        # Crear un botón para generar documento sellos
+        btn_edit = customtkinter.CTkButton(self.home_frame, text="Regresa a edición", fg_color="transparent", text_color="black")
+        btn_edit.grid(row=5, column=0, padx=5, pady=10)
+
+    def realizar_busqueda(self, event):
+        # Coloca aquí el código para realizar la búsqueda
+        # Por ejemplo, puedes obtener el texto del Entry con entry.get()
+        self.buscaAlumno()
+
+    # The open_formularios method can retrieve the selected row's data
+    def open_formularios(self, event):
+
+        self.formularios(self.treeview2.item(self.treeview2.focus(), "values"))
+        
+        """selected_item = self.treeview.selection()
+        if selected_item:
+            values = self.treeview.item(selected_item, "values")
+            self.formularios(values)"""
         
         #funcion para abrir la información del usuario
     def usuarios(self, fila_seleccionada):
