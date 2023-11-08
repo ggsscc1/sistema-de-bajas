@@ -843,7 +843,7 @@ class App(customtkinter.CTk):
 
         # Crear un botón para generar documento sellos
         btn_edit = customtkinter.CTkButton(self.second_frame, text="Regresa a edición", fg_color="transparent", text_color="black")
-        btn_edit.grid(row=5, column=0, padx=5, pady=10)
+        #btn_edit.grid(row=5, column=0, padx=5, pady=10)
 
     def realizar_busqueda(self, event):
         # Coloca aquí el código para realizar la búsqueda

@@ -6,6 +6,7 @@ from datetime import date
 from tkinter import messagebox
 import customtkinter
 from CTkMessagebox import CTkMessagebox
+from tkcalendar import DateEntry
 
 
 # Función principal para mostrar la lista de espera
@@ -50,7 +51,7 @@ def ventana_Formulario(fila_seleccionada):
     generacionF= StringVar()
     carreraF= StringVar()
     emailF = StringVar()
-    materia1F= StringVar()
+    materia1F= customtkinter.StringVar()
     materia2F= StringVar()
     materia3F= StringVar()
     preparatoriaF= StringVar()
@@ -86,10 +87,15 @@ def ventana_Formulario(fila_seleccionada):
     resMotBaja = conexionPrin.ejecutar_consulta(consultaMotBaja)
     listaMotivosBaja = [mot[0] for mot in resMotBaja]
     
-    
+    #Consulta a base de datos para los tipos de titulacion
+    consultaFormaTitulacion = f"SELECT nombre_formatit FROM forma_titulacion"
+    resFormaTitulacion = conexionPrin.ejecutar_consulta(consultaFormaTitulacion)
+    listaFormaTitulacion = [mot[0] for mot in resFormaTitulacion]
+
+
     # Crea un frame con fondo blanco en el centro de la ventana de formulario
     frame_central = tk.Frame(ventana_formulario, bg="white")
-    frame_central.pack(expand=True, padx=30, pady=30, fill=tk.BOTH)
+    frame_central.pack( padx=30, pady=30)
 
 
     #crear etiqueta para la fecha
@@ -168,9 +174,9 @@ def ventana_Formulario(fila_seleccionada):
     etiqueta_valor_inconveniente.grid(row=12, column=1, padx=20, pady=10)
     
     # Crear entry para caso de que trabaje
-    etiqueta_trabajo = customtkinter.CTkLabel(frame_central, text=" ", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_trabajo.grid(row=2, column=2, sticky="w", padx=20, pady=10)
-    etiqueta_trabajo.grid_remove()
+    etiqueta_actualizable = customtkinter.CTkLabel(frame_central, text=" ", fg_color="white", anchor="w", font=("Arial",16))
+    etiqueta_actualizable.grid(row=2, column=2, sticky="w", padx=20, pady=10)
+    etiqueta_actualizable.grid_remove()
     
     etiqueta_valor_trabajo = customtkinter.CTkEntry(frame_central,width=250, corner_radius=10, textvariable=trabajoF)
     etiqueta_valor_trabajo.grid(row=2, column=3, padx=20, pady=10) 
@@ -192,30 +198,55 @@ def ventana_Formulario(fila_seleccionada):
     def on_combobox1_change():
         value = etiqueta_valor_motivo_baja.get()
         if value == "Titulación":
-            forma_titulacion_label.configure(text="Forma de Titulación:")
-            forma_titulacion_label.grid()
-            forma_titulacion_entry.grid()
+            etiqueta_FechaEgel.grid_remove()
+            FechaEgel_Combo.grid_remove()
+            etiqueta_valor_trabajo.grid_remove()
+            etiqueta_actualizable.configure(text="Forma de Titulación:")
+            etiqueta_actualizable.grid()
+            forma_titulacion_Combo.grid()
         elif value == "Trabajo":
-            etiqueta_trabajo.configure( text="Nombre de la empresa:")
-            etiqueta_trabajo.grid()            
+            etiqueta_FechaEgel.grid_remove()
+            FechaEgel_Combo.grid_remove()
+            forma_titulacion_Combo.grid_remove()
+            etiqueta_actualizable.configure( text="Nombre de la empresa:")
+            etiqueta_actualizable.grid()            
             etiqueta_valor_trabajo.grid()
         else:
-            forma_titulacion_label.configure(text=" ")
-            etiqueta_trabajo.configure( text=" ")
-            forma_titulacion_label.grid_remove()
-            forma_titulacion_entry.grid_remove()
-            etiqueta_trabajo.grid_remove()
+            etiqueta_actualizable.configure( text=" ")
+            forma_titulacion_Combo.grid_remove()
+            etiqueta_actualizable.grid_remove()
             etiqueta_valor_trabajo.grid_remove()
+            etiqueta_FechaEgel.grid_remove()
+            FechaEgel_Combo.grid_remove()
     
+    def on_combobox2_change():
+        value = forma_titulacion_Combo.get()
+        if value == "EGEL":
+            etiqueta_FechaEgel.grid()
+            FechaEgel_Combo.grid()
+        else:
+            etiqueta_FechaEgel.grid_remove()
+            FechaEgel_Combo.grid_remove()
  
-    # Etiqueta y campo de entrada para "Forma de Titulación"
-    forma_titulacion_label = customtkinter.CTkLabel(frame_central, text=" ", fg_color="white", anchor="w", font=("Arial", 16))
-    forma_titulacion_label.grid(row=2, column=2, sticky="w", padx=20, pady=10)
-    forma_titulacion_entry = customtkinter.CTkEntry(frame_central, width=250, corner_radius=10, textvariable=formaTitF)
-    forma_titulacion_entry.grid(row=2, column=3, padx=20, pady=10)
-    forma_titulacion_label.grid_remove()
-    forma_titulacion_entry.grid_remove() 
+    #campo de entrada para "Forma de Titulación"
+    forma_titulacion_Combo =  customtkinter.CTkComboBox(frame_central,  width=250, corner_radius=10, values=listaFormaTitulacion,variable=formaTitF, command=lambda event: on_combobox2_change())
+    forma_titulacion_Combo.grid(row=2, column=3, padx=20, pady=10)
+    forma_titulacion_Combo.grid_remove() 
     
+    #etiqueta y campo de entrada para "Fecha Egel"
+    #del Examen EGEL
+    etiqueta_FechaEgel = customtkinter.CTkLabel(frame_central, text="Fecha aproximada de aplicación: ", fg_color="white", anchor="w", font=("Arial",16))
+    etiqueta_FechaEgel.grid(row=3, column=2, sticky="w", padx=20, pady=10)
+    etiqueta_FechaEgel.grid_remove()
+
+    FechaEgel_Combo =  customtkinter.CTkComboBox(frame_central,  width=250, corner_radius=10, values=["Marzo", "Agosto", "Diciembre"])
+    FechaEgel_Combo.grid(row=3, column=3, padx=20, pady=10)
+    FechaEgel_Combo.grid_remove() 
+
+    
+    
+
+
     fechaF = fecha_actual
     cve_unicaF = fila_seleccionada[0]
     ap_patF = fila_seleccionada[1]
@@ -225,41 +256,24 @@ def ventana_Formulario(fila_seleccionada):
     generacionF = fila_seleccionada[5]
     
     def imprimir_informacion():
-        fecha = fechaF.get()
-        nombre = etiqueta_valor_nombre.cget("text")
-        ap_pat = etiqueta_valor_ap_pat.cget("text")
-        ap_mat = etiqueta_valor_ap_mat.cget("text")
-        cve_unica = etiqueta_valor_clave.cget("text")
-        generacion = etiqueta_valor_generacion.cget("text")
-        carrera = etiqueta_valor_carrera.cget("text")
-        email = emailF.get()
-        materia1 = materia1F.get()
-        materia2 = materia2F.get()
-        materia3 = materia3F.get()
-        preparatoria = preparatoriaF.get()
-        inconveniente = inconvenienteF.get()
-        tipo_baja = tipo_bajaF.get()
-        motivo_baja = motivo_bajaF.get()
-        trabajo = trabajoF.get()
-        formaTit = formaTitF.get()
-
-        print("Fecha:", fecha)
-        print("Nombre:", nombre)
-        print("Apellido Paterno:", ap_pat)
-        print("Apellido Materno:", ap_mat)
-        print("Clave Única:", cve_unica)
-        print("Generación:", generacion)
-        print("Carrera:", carrera)
-        print("Correo Electrónico:", email)
-        print("Materia Difícil 1:", materia1)
-        print("Materia Difícil 2:", materia2)
-        print("Materia Difícil 3:", materia3)
-        print("Preparatoria de Origen:", preparatoria)
-        print("Inconveniente con la Carrera:", inconveniente)
-        print("Tipo de Baja:", tipo_baja)
-        print("Motivo de Baja:", motivo_baja)
-        print("Trabajo (Nombre de la Empresa):", trabajo)
-        print("Forma de Titulación:", formaTit)
+       
+        print("Fecha:",etiqueta_valor_fecha.cget("text"))
+        print("Nombre:", etiqueta_valor_nombre.cget("text"))
+        print("Apellido Paterno:", etiqueta_valor_ap_pat.cget("text"))
+        print("Apellido Materno:", etiqueta_valor_ap_mat.cget("text"))
+        print("Clave Única:", etiqueta_valor_clave.cget("text"))
+        print("Generación:", etiqueta_valor_generacion.cget("text"))
+        print("Carrera:", etiqueta_valor_carrera.cget("text"))
+        print("Correo Electrónico:", etiqueta_valor_correo.get())
+        print("Materia Difícil 1:",  etiqueta_valor_materia1.get())
+        print("Materia Difícil 2:", etiqueta_valor_materia2.get())
+        print("Materia Difícil 3:", etiqueta_valor_materia3.get())
+        print("Preparatoria de Origen:", etiqueta_valor_preparatoria.get())
+        print("Inconveniente con la Carrera:", etiqueta_valor_inconveniente.get())
+        print("Tipo de Baja:", etiqueta_valor_tipo_baja.get())
+        print("Motivo de Baja:", etiqueta_valor_motivo_baja.get())
+        print("Trabajo (Nombre de la Empresa):", etiqueta_valor_trabajo.get())
+        print("Forma de Titulación:", forma_titulacion_Combo.get())
 
         
     # Agrega un botón para cerrar la ventana de formulario debajo del frame
