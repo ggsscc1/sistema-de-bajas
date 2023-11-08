@@ -50,66 +50,14 @@ class App(customtkinter.CTk):
                                                       anchor="w", command=self.frame_3_button_event)
         self.frame_3_button.grid(row=3, column=0, sticky="ew")
 
-
+        #################################################################################################
         # create home frame
         self.home_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
-        self.home_frame.grid_columnconfigure(0, weight=1)
-
-        #cambiando fuentes
-        self.home_frame_Titulo = customtkinter.CTkLabel(self.home_frame, text="Registrar nuevo usuario", fg_color="white", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
-        self.home_frame_Titulo.grid(row=0, column=0, padx=20, pady=10, columnspan=3)
         
-        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Nombre: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.home_frame_Clave.grid(row=1, column=0, padx=20, pady=10, sticky = "w")
-        
-        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Primer apellido: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.home_frame_Clave.grid(row=2, column=0, padx=20, pady=10, sticky = "w")
-        
-        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Segundo apellido: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.home_frame_Clave.grid(row=3, column=0, padx=20, pady=10, sticky = "w")
-
-        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Email: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.home_frame_Clave.grid(row=4, column=0, padx=20, pady=10, sticky = "w")
-
-        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Nuevo nombre de usuario: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.home_frame_Clave.grid(row=5, column=0, padx=20, pady=10, sticky = "w")
-
-        self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Nueva contraseña: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.home_frame_Clave.grid(row=6, column=0, padx=20, pady=10, sticky = "w")
-
-        
-        self.clave1 = tk.StringVar()
-        self.clave2 = tk.StringVar()
-        self.clave3 = tk.StringVar()
-        self.clave4 = tk.StringVar()
-        self.clave5 = tk.StringVar()
-        self.clave6 = tk.StringVar()
-        self.home_frame_Clave_Entry1 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave1)
-        self.home_frame_Clave_Entry1.grid(row=1, column=1, padx=20, pady=10)
-
-        self.home_frame_Clave_Entry2 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave2)
-        self.home_frame_Clave_Entry2.grid(row=2, column=1, padx=20, pady=10)
-
-        self.home_frame_Clave_Entry3 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave3)
-        self.home_frame_Clave_Entry3.grid(row=3, column=1, padx=20, pady=10)
-
-        self.home_frame_Clave_Entry4 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave4)
-        self.home_frame_Clave_Entry4.grid(row=4, column=1, padx=20, pady=10)
-
-        self.home_frame_Clave_Entry5 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave5)
-        self.home_frame_Clave_Entry5.grid(row=5, column=1, padx=20, pady=10)
-
-        self.home_frame_Clave_Entry6 = customtkinter.CTkEntry(self.home_frame, textvariable=self.clave6)
-        self.home_frame_Clave_Entry6.grid(row=6, column=1, padx=20, pady=10)
-
-        self.home_frame_button_Registrar = customtkinter.CTkButton(self.home_frame, text="Registrar")
-        
-        self.home_frame_button_Buscar = customtkinter.CTkButton(self.home_frame, text="Registrar", command=lambda:self.registro())
-        self.home_frame_button_Buscar.grid(row=7, column=1, padx=20, pady=10)
 
         
         
-
+        ##########################################################################################################3
         # create second frame
         self.second_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
@@ -199,138 +147,60 @@ class App(customtkinter.CTk):
         ###################################################################################################
         # create third frame
         self.third_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
-        # Consulta a realizar
-        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
-        conexion.conectar()
-        consulta = f"SELECT * FROM formulario"
-        resultado = conexion.ejecutar_consulta(consulta)
-
-        #label formulario
-        iniform = customtkinter.CTkLabel(self.third_frame, text="Selecciona tu formulario")
-        iniform.grid(row=0, column=0, padx=10, pady=10, sticky="w", columnspan=3)
-
-        self.style = ttk.Style()
-        self.style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Calibri', 13)) # Modify the font of the body
-        self.style.configure("mystyle.Treeview.Heading", font=('Calibri', 13,'bold')) # Modify the font of the headings
-        self.style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
-
-        # Crear un Treeview con 3 columnas
-        treeview2 = ttk.Treeview(self.third_frame, columns=('fecha', 'clave', 'nombre', 'completado'), show='headings', style="mystyle.Treeview")
-        treeview2.grid(row= 1, column=0, pady=10, padx=20, sticky="nsew", rowspan=2, columnspan=6)
-
-        # Configurar encabezados de columna
-        treeview2.heading('fecha', text='Fecha')
-        treeview2.heading('clave', text='Clave')
-        treeview2.heading('nombre', text='Nombre')
-        treeview2.heading('completado', text='Completado?')
-        completado = "NO"
         
-        # Agregar datos
-        for result in resultado:
-            if resultado[0][10] :
-                completado = "SI"
-                treeview2.insert('', tk.END , text=result[0], values=(result[6], result[1], result[2], completado))
+        self.third_frame.grid_columnconfigure(0, weight=1)
+
+        #cambiando fuentes
+        self.third_frame_Titulo = customtkinter.CTkLabel(self.third_frame, text="Registrar nuevo usuario", fg_color="white", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
+        self.third_frame_Titulo.grid(row=0, column=0, padx=20, pady=10, columnspan=3)
         
-        # Establecer ancho de columna
-        treeview2.column('fecha', width=100)
-        treeview2.column('clave', width=100)
-        treeview2.column('nombre', width=100)
-        treeview2.column('completado', width=110)
-
-        # Crear un botón "Generar Formulario" que muestra la ventana con los datos correspondientes
+        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Nombre: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=1, column=0, padx=20, pady=10, sticky = "w")
         
-        btn_formulario2 = customtkinter.CTkButton(self.third_frame, text="Abrir Formulario", command=lambda: self.formularios(treeview2.item(treeview2.focus(), "values")))
-        btn_formulario2.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
-
-        # Crear un botón para editar formulario
-        btn_sell = customtkinter.CTkButton(self.third_frame, text="Editar formulario", command= lambda:GeneraCarta(resultado[0][1]))
-        btn_sell.grid(row=3, column=1, padx=10, pady=10, sticky = "w")
-
-        self.lbl_fecha = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_fecha.grid(row=4, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_fecha_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_fecha_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
-
-        self.lbl_clave = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_clave.grid(row=4, column=2, padx=5, pady=5, sticky="e")
-        self.lbl_clave_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_clave_valor.grid(row=4, column=3, padx=5, pady=5, sticky="w")
-
-        self.lbl_nombre = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_nombre.grid(row=4, column=4, padx=5, pady=5, sticky="e")
-        self.lbl_nombre_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_nombre_valor.grid(row=4, column=5, padx=5, pady=5, sticky="w") 
+        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Primer apellido: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=2, column=0, padx=20, pady=10, sticky = "w")
         
-        self.lbl_correo = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_correo.grid(row=5, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_correo_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_correo_valor.grid(row=5, column=1, padx=5, pady=5, sticky="w")
+        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Segundo apellido: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=3, column=0, padx=20, pady=10, sticky = "w")
+
+        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Email: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=4, column=0, padx=20, pady=10, sticky = "w")
+
+        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Nuevo nombre de usuario: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=5, column=0, padx=20, pady=10, sticky = "w")
+
+        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Nueva contraseña: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=6, column=0, padx=20, pady=10, sticky = "w")
+
         
-        self.lbl_carrera = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_carrera.grid(row=5, column=2, padx=5, pady=5, sticky="e")
-        self.lbl_carrera_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_carrera_valor.grid(row=5, column=3, padx=5, pady=5, sticky="w")
+        self.clave1 = tk.StringVar()
+        self.clave2 = tk.StringVar()
+        self.clave3 = tk.StringVar()
+        self.clave4 = tk.StringVar()
+        self.clave5 = tk.StringVar()
+        self.clave6 = tk.StringVar()
+        self.third_frame_Clave_Entry1 = customtkinter.CTkEntry(self.third_frame, textvariable=self.clave1)
+        self.third_frame_Clave_Entry1.grid(row=1, column=1, padx=20, pady=10)
 
-        self.lbl_generacion = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_generacion.grid(row=5, column=4, padx=5, pady=5, sticky="e")
-        self.lbl_generacion_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_generacion_valor.grid(row=5, column=5, padx=5, pady=5, sticky="w")
+        self.third_frame_Clave_Entry2 = customtkinter.CTkEntry(self.third_frame, textvariable=self.clave2)
+        self.third_frame_Clave_Entry2.grid(row=2, column=1, padx=20, pady=10)
+
+        self.third_frame_Clave_Entry3 = customtkinter.CTkEntry(self.third_frame, textvariable=self.clave3)
+        self.third_frame_Clave_Entry3.grid(row=3, column=1, padx=20, pady=10)
+
+        self.third_frame_Clave_Entry4 = customtkinter.CTkEntry(self.third_frame, textvariable=self.clave4)
+        self.third_frame_Clave_Entry4.grid(row=4, column=1, padx=20, pady=10)
+
+        self.third_frame_Clave_Entry5 = customtkinter.CTkEntry(self.third_frame, textvariable=self.clave5)
+        self.third_frame_Clave_Entry5.grid(row=5, column=1, padx=20, pady=10)
+
+        self.third_frame_Clave_Entry6 = customtkinter.CTkEntry(self.third_frame, textvariable=self.clave6)
+        self.third_frame_Clave_Entry6.grid(row=6, column=1, padx=20, pady=10)
+
+        self.third_frame_button_Registrar = customtkinter.CTkButton(self.third_frame, text="Registrar")
         
-        #"Motivo de Baja"
-        self.lbl_motivo = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_motivo.grid(row=6, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_motivo_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_motivo_valor.grid(row=6, column=1, padx=5, pady=5, sticky="w")
-
-        #Escuela de procedencia
-        self.lbl_prpa = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_prpa.grid(row=6, column=2, padx=5, pady=5, sticky="e")
-        self.lbl_prepa_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_prepa_valor.grid(row=6, column=3, padx=5, pady=5, sticky="w")
-
-        #materias mas dificiles
-        
-        self.lbl_materia = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_materia.grid(row=6, column=4, padx=5, pady=5, sticky="e")
-        self.lbl_materia_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_materia_valor.grid(row=6, column=5, padx=5, pady=5, sticky="w")
-
-        self.lbl_materia2 = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_materia2.grid(row=7, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_materia2_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_materia2_valor.grid(row=7, column=1, padx=5, pady=5, sticky="w")
-
-        self.lbl_materia3 = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_materia3.grid(row=7, column=2, padx=5, pady=5, sticky="e")    
-        self.lbl_materia3_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_materia3_valor.grid(row=7, column=3, padx=5, pady=5, sticky="w")
-        
-        self.lbl_tipoB = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_tipoB.grid(row=7, column=4, padx=5, pady=5, sticky="e")
-        self.lbl_tipoB_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_tipoB_valor.grid(row=7, column=5, padx=5, pady=5, sticky="w")
-
-        # Agregar etiquetas para mostrar los datos adicionales
-        self.lbl_motivotexto = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_motivotexto.grid(row=8, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_motivotexto_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_motivotexto_valor.grid(row=8, column=1, padx=5, pady=5, sticky="w")
-
-        self.lbl_formatexto = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_formatexto.grid(row=8, column=2, padx=5, pady=5, sticky="e")
-        self.lbl_formatexto_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_formatexto_valor.grid(row=8, column=3, padx=5, pady=5, sticky="w")
-
-        self.lbl_fechaTtexto = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_fechaTtexto.grid(row=8, column=4, padx=5, pady=5, sticky="e")
-        self.lbl_fechaTtexto_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_fechaTtexto_valor.grid(row=8, column=5, padx=5, pady=5, sticky="w")
-
-        self.lbl_empresa = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_empresa.grid(row=9, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_empresa_valor = customtkinter.CTkLabel(self.third_frame, text="")
-        self.lbl_empresa_valor.grid(row=9, column=1, padx=5, pady=5, sticky="w")
-
+        self.third_frame_button_Buscar = customtkinter.CTkButton(self.third_frame, text="Registrar", command=lambda:self.registro())
+        self.third_frame_button_Buscar.grid(row=7, column=1, padx=20, pady=10)
         # select default frame
         self.select_frame_by_name("Información")
 
@@ -393,12 +263,12 @@ class App(customtkinter.CTk):
         else:
             messagebox.showerror(message="Error en el registro", title="Error")
 
-        self.home_frame_Clave_Entry1.delete(0, "end")
-        self.home_frame_Clave_Entry2.delete(0, "end")
-        self.home_frame_Clave_Entry3.delete(0, "end")
-        self.home_frame_Clave_Entry4.delete(0, "end")
-        self.home_frame_Clave_Entry5.delete(0, "end")
-        self.home_frame_Clave_Entry6.delete(0, "end")
+        self.third_frame_Clave_Entry1.delete(0, "end")
+        self.third_frame_Clave_Entry2.delete(0, "end")
+        self.third_frame_Clave_Entry3.delete(0, "end")
+        self.third_frame_Clave_Entry4.delete(0, "end")
+        self.third_frame_Clave_Entry5.delete(0, "end")
+        self.third_frame_Clave_Entry6.delete(0, "end")
 
     #funcion para abrir los formularios
     def formularios(self, fila_seleccionada):
