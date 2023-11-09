@@ -107,6 +107,9 @@ class App(customtkinter.CTk):
         btn_formulario = customtkinter.CTkButton(self.home_frame, text="Abrir Formulario", command=lambda: self.formularios(self.treeview2.item(self.treeview2.focus(), "values")))
         btn_formulario.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
 
+        btn_formulario = customtkinter.CTkButton(self.home_frame, text="Editar Formulario", command=lambda: self.formularios(self.treeview2.item(self.treeview2.focus(), "values")))
+        btn_formulario.grid(row= 3, column=1, padx=10, pady=10, sticky="w")
+
         self.firstInterFrame = customtkinter.CTkFrame(self.home_frame)
         self.firstInterFrame.grid(row=4, column=0, padx=5, pady=5, rowspan=1)
         self.firstInterFrame.grid_remove()
@@ -513,19 +516,6 @@ class App(customtkinter.CTk):
         else:
             self.lbl_empresa_valor.configure(text="No aplica")
 
-        
-        # Crear un botón para generar documento sellos
-        btn_sell = customtkinter.CTkButton(self.home_frame, text="Generar carta de sellos", fg_color="light blue",text_color="black", command=lambda:GeneraCarta.GeneraCarta(resultado[0][1]))
-        #GeneraCartaNoAdeudo(claveUnica):, command=lambda:CartaSellos.GeneraCartaNoAdeudo(resultado[0][1])
-        btn_sell.grid(row=5, column=1, padx=5, pady=10)
-
-        # Crear un botón para generar documento sellos
-        btn_cart = customtkinter.CTkButton(self.home_frame, text="Generar carta de no adeudo", text_color="black", command=lambda:GeneraCartaNoAdeudo.GeneraCartaNoAdeudo(resultado[0][1]))
-        btn_cart.grid(row=5, column=2, padx=5, pady=10)
-
-        # Crear un botón para generar documento sellos
-        btn_edit = customtkinter.CTkButton(self.home_frame, text="Regresa a edición", fg_color="transparent", text_color="black")
-        btn_edit.grid(row=5, column=0, padx=5, pady=10)
 
     def realizar_busqueda(self, event):
         # Coloca aquí el código para realizar la búsqueda
