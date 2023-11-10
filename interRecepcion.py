@@ -9,7 +9,7 @@ from CTkTable import *
 import consulta
 import consultaG
 import GeneraCartaNoAdeudo
-import GeneraCarta
+import GeneraCartaSellos
 import os
 import pandas as pd
 from tkinter import filedialog
@@ -833,7 +833,7 @@ class App(customtkinter.CTk):
 
         
         # Crear un botón para generar documento sellos
-        btn_sell = customtkinter.CTkButton(self.second_frame, text="Generar carta de sellos", fg_color="light blue",text_color="black", command=lambda:GeneraCarta.GeneraCarta(resultado[0][1]))
+        btn_sell = customtkinter.CTkButton(self.second_frame, text="Generar carta de sellos", fg_color="light blue",text_color="black", command=lambda:GeneraCartaSellos.GeneraCarta(resultado[0][1]))
         #GeneraCartaNoAdeudo(claveUnica):, command=lambda:CartaSellos.GeneraCartaNoAdeudo(resultado[0][1])
         btn_sell.grid(row=5, column=1, padx=5, pady=10)
 

@@ -33,19 +33,15 @@ def GeneraCartaNoAdeudo(claveUnica):
     # Realizar una solicitud SQL para obtener los datos
     consulta = f"SELECT * FROM formulario WHERE clave_unica = {claveUnica}"
     resultados = conexion.ejecutar_consulta(consulta)
-    #print(resultados[0])
-    
+    print(resultados[0])
+
+   
     #Consulta de coordinador
-    carrera= resultados[0][7]
-    if carrera == "Computacion":
-        id = 2
-    else:
-        id=1
-        
-    #print(carrera)
-    consulta = f"SELECT nom_coordinador FROM coordinadores WHERE id_coordiandor = {id}"
+    carrera = resultados[0][7]
+    print(carrera)
+    consulta = f"SELECT nom_coordinador FROM coordinadores WHERE Carrera = '{carrera}'"
     coordiandor = conexion.ejecutar_consulta(consulta)
-    print(coordiandor[0][0])
+
 
     # Crear un archivo PDF en blanco
     pdf = canvas.Canvas(f"Carta de no adeudo {claveUnica}.pdf", pagesize=letter)
@@ -87,7 +83,7 @@ def GeneraCartaNoAdeudo(claveUnica):
     
     #espacio 
     pdf.drawRightString(letter[0]-1.24*inch, letter[1]-5.6*inch, f"A peticion del interesado y para fines que al mismo congengan se extiende la presente")
-    pdf.drawRightString(letter[0]-5.15*inch, letter[1]-5.85*inch, f"a dia {dia} del mes de {nombre_mes} del año {anio}")
+    pdf.drawRightString(letter[0]-4.54*inch, letter[1]-5.85*inch, f"a dia {dia} del mes de {nombre_mes} del año {anio}")
 
 
 
@@ -98,7 +94,7 @@ def GeneraCartaNoAdeudo(claveUnica):
     pdf.drawCentredString(letter[0]/2, letter[1]-7.75*inch, "ATENTAMENTE")
     pdf.drawCentredString(letter[0]/2, letter[1]-9.25*inch, "__________________________________________")
     pdf.drawCentredString(letter[0]/2, letter[1]-9.50*inch, f"{coordiandor[0][0]}")
-    pdf.drawCentredString(letter[0]/2, letter[1]-9.75*inch, f"Coordinador de la Carrera de Ingeniería en {resultados[0][7]}")
+    pdf.drawCentredString(letter[0]/2, letter[1]-9.80*inch, f"Coordinador de la Carrera de Ingeniería en {resultados[0][7]}")
 
 
     # Guardar el archivo PDF generado
@@ -108,4 +104,4 @@ def GeneraCartaNoAdeudo(claveUnica):
     conexion.desconectar()
 
 
-#GeneraCartaNoAdeudo(280109)
+#GeneraCartaNoAdeudo(280108)
