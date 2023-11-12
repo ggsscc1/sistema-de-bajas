@@ -12,6 +12,7 @@ import consultaG
 import os
 from PIL import Image
 import CTkMessagebox
+from ventana_Formulario import ventana_Formulario  
 
 
 
@@ -107,7 +108,8 @@ class App(customtkinter.CTk):
         btn_formulario = customtkinter.CTkButton(self.home_frame, text="Abrir Formulario", command=lambda: self.formularios(self.treeview2.item(self.treeview2.focus(), "values")))
         btn_formulario.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
 
-        btn_formulario = customtkinter.CTkButton(self.home_frame, text="Editar Formulario", command=lambda: self.formularios(self.treeview2.item(self.treeview2.focus(), "values")))
+        btn_formulario = customtkinter.CTkButton(self.home_frame, text="Editar Formulario", command=lambda: self.seleccionar_formulario(self.treeview2))
+        #btn_formulario = customtkinter.CTkButton(self.home_frame, text="Editar Formulario", command=lambda: self.seleccionar_formulario(self.treeview2.item(self.treeview2.focus(), "values")))
         btn_formulario.grid(row= 3, column=1, padx=10, pady=10, sticky="w")
 
         self.firstInterFrame = customtkinter.CTkFrame(self.home_frame)
@@ -233,10 +235,10 @@ class App(customtkinter.CTk):
         conexion.conectar()
         consulta = f"SELECT * FROM usuarios"
         resultado = conexion.ejecutar_consulta(consulta)
-        print(resultado)
+        #print(resultado)
        
 
-         #label formulario
+        #label formulario
         
         self.home_frame_titleUsuario = customtkinter.CTkLabel(self.second_frame, text="Usuarios", fg_color="white", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
         self.home_frame_titleUsuario.grid(row=0, column=0, padx=20, pady=10, columnspan=3)
@@ -441,7 +443,7 @@ class App(customtkinter.CTk):
         #Consulta a realizar
         conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
-        print (fila_seleccionada[1])
+        #print (fila_seleccionada[1])
         consulta = f"SELECT * FROM formulario WHERE clave_unica = '{fila_seleccionada[1]}'"
         resultado = conexion.ejecutar_consulta(consulta)
         conexion.desconectar()
@@ -537,7 +539,7 @@ class App(customtkinter.CTk):
         #Consulta a realizar
         conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
-        print (fila_seleccionada[1])
+        #print (fila_seleccionada[1])
         consulta = f"SELECT * FROM usuarios WHERE nom_usuario = '{fila_seleccionada[0]}'"
         resultado = conexion.ejecutar_consulta(consulta)
         conexion.desconectar()
@@ -567,7 +569,18 @@ class App(customtkinter.CTk):
         self.lbl_tipoUs_valor.configure(text=resultado[0][6])
         
         
-
+    # Función para seleccionar un formulario y mostrar la ventana de formulario
+    def seleccionar_formulario(self, treeview2):
+        # Obtener la fila seleccionada
+        seleccion = treeview2.selection()
+        if seleccion:
+            fila_seleccionada = treeview2.item(seleccion)['values']
+            # Mostrar la ventana del formulario con la fila seleccionada
+            ventana_Formulario(fila_seleccionada[1])
+            #print(fila_seleccionada[1])
+        else:
+            #messagebox.showinfo("Error", "Por favor, selecciona un formulario primero.")
+            CTkMessagebox(title="Error", message="Por favor, selecciona un formulario primero.", icon="cancel")
 
     
 if __name__ == "__main__":
