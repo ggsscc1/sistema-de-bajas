@@ -13,6 +13,7 @@ import os
 from PIL import Image
 import CTkMessagebox
 from ventana_Formulario import ventana_Formulario  
+from ventana_Usuario import ventana_Usuario  
 
 
 
@@ -226,7 +227,7 @@ class App(customtkinter.CTk):
 
         
         
-        ##########################################################################################################3
+        ##########################################################################################################
         # create second frame
         self.second_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
 
@@ -248,15 +249,18 @@ class App(customtkinter.CTk):
         self.style.configure("mystyle.Treeview.Heading", font=('Calibri', 13,'bold')) # Modify the font of the headings
         self.style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
 
-        # Crear un Treeview con 3 columnas
-        treeview = ttk.Treeview(self.second_frame, columns=('Nom Usuario', 'Email', 'Nombre', 'Ap Paterno'), show='headings', style="mystyle.Treeview")
-        treeview.grid(row= 1, column=0, pady=10, padx=20, sticky="nsew", rowspan=2, columnspan=6)
+        # Crear un Treeview con 5 columnas
+        self.treeview = ttk.Treeview(self.second_frame, columns=('Nom Usuario', 'Email', 'Nombre', 'Ap Paterno', 'Activo'), show='headings', style="mystyle.Treeview")
+        self.treeview.grid(row= 1, column=0, pady=10, padx=20, sticky="nsew", rowspan=2, columnspan=6)
 
+        self.treeview.bind("<Double-1>", lambda event: self.open_usuarios(event))
+        
         # Configurar encabezados de columna
-        treeview.heading('Nom Usuario', text='Nom Usuario')
-        treeview.heading('Email', text='Email')
-        treeview.heading('Nombre', text='Nombre')
-        treeview.heading('Ap Paterno', text='Ap Paterno')
+        self.treeview.heading('Nom Usuario', text='Nom Usuario')
+        self.treeview.heading('Email', text='Email')
+        self.treeview.heading('Nombre', text='Nombre')
+        self.treeview.heading('Ap Paterno', text='Ap Paterno')
+        self.treeview.heading('Activo', text='Activo')
         
 
          # Agregar datos
@@ -264,19 +268,27 @@ class App(customtkinter.CTk):
             
 
             if resultado[0][6] :
-                treeview.insert('', tk.END , text=res[0], values=(res[0], res[5], res[2], res[3],))
+                if res[7] != 1:
+                    activo = "Si"
+                else:
+                    activo = "No"
+                self.treeview.insert('', tk.END , text=res[0], values=(res[0], res[5], res[2], res[3], activo))
 
                 
         # Establecer ancho de columna
-        treeview.column('Nom Usuario', width=200)
-        treeview.column('Email', width=200)
-        treeview.column('Nombre', width=200)
-        treeview.column('Ap Paterno', width=210)
+        self.treeview.column('Nom Usuario', width=200)
+        self.treeview.column('Email', width=200)
+        self.treeview.column('Nombre', width=200)
+        self.treeview.column('Ap Paterno', width=210)
+        self.treeview.column('Activo', width=210)
 
         # Crear un botón "Generar Formulario" que muestra la ventana con los datos correspondientes
         
-        btn_editar = customtkinter.CTkButton(self.second_frame, text="Ver información", command=lambda: self.usuarios(treeview.item(treeview.focus(), "values")))
+        btn_editar = customtkinter.CTkButton(self.second_frame, text="Ver información", command=lambda: self.usuarios(self.treeview.item(self.treeview.focus(), "values")))
         btn_editar.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
+        btn_formularioUser = customtkinter.CTkButton(self.second_frame, text="Editar Información", command=lambda: self.seleccionar_usuario(self.treeview))
+        btn_formularioUser.grid(row= 3, column=1, padx=10, pady=10, sticky="w")
+
 
         self.lbl_Nom_usuario = customtkinter.CTkLabel(self.second_frame, text="")
         self.lbl_Nom_usuario.grid(row=4, column=0, padx=5, pady=5, sticky="e")
@@ -528,12 +540,12 @@ class App(customtkinter.CTk):
     def open_formularios(self, event):
 
         self.formularios(self.treeview2.item(self.treeview2.focus(), "values"))
-        
-        """selected_item = self.treeview.selection()
-        if selected_item:
-            values = self.treeview.item(selected_item, "values")
-            self.formularios(values)"""
-        
+       
+    # The open_usuarios method can retrieve the selected row's data
+    def open_usuarios(self, event):
+
+        self.usuarios(self.treeview.item(self.treeview.focus(), "values"))
+
         #funcion para abrir la información del usuario
     def usuarios(self, fila_seleccionada):
         #Consulta a realizar
@@ -582,6 +594,18 @@ class App(customtkinter.CTk):
             #messagebox.showinfo("Error", "Por favor, selecciona un formulario primero.")
             CTkMessagebox(title="Error", message="Por favor, selecciona un formulario primero.", icon="cancel")
 
+    # Función para seleccionar un usuario y mostrar la ventana de usuario
+    def seleccionar_usuario(self, treeview):
+        # Obtener la fila seleccionada
+        seleccion = treeview.selection()
+        if seleccion:
+            fila_seleccionada = treeview.item(seleccion)['values']
+            # Mostrar la ventana del formulario con la fila seleccionada
+            ventana_Usuario(fila_seleccionada[0])
+            #print(fila_seleccionada[0])
+        else:
+            #messagebox.showinfo("Error", "Por favor, selecciona un formulario primero.")
+            CTkMessagebox(title="Error", message="Por favor, selecciona un formulario primero.", icon="cancel")
     
 if __name__ == "__main__":
     app = App()
