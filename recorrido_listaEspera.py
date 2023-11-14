@@ -14,7 +14,7 @@ def lectura_listaEspera():
     lista_alumnos = []
 
     #Consulta de la lista de espera, ordenada por el apellido paterno del alumno
-    conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+    conexion = ConexionBD(user='newuser',password='root',host='148.224.51.68',database='datosalumnosbajas')
     conexion.conectar()
     consulta = f"SELECT clave_unica, nombre, ap_paterno, ap_materno, carrera, generacion FROM lista_de_espera ORDER BY ap_paterno"
     resultado = conexion.ejecutar_consulta(consulta)
