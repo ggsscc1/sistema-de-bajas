@@ -54,87 +54,96 @@ def ventana_Formulario(fila_seleccionada):
     resFormaTitulacion = conexionPrin.ejecutar_consulta(consultaFormaTitulacion)
     listaFormaTitulacion = [mot[0] for mot in resFormaTitulacion]
 
+    conexionPrin.desconectar()
+
 
     # Crea un frame con fondo blanco en el centro de la ventana de formulario
-    frame_central = tk.Frame(ventana_formulario, bg="white")
+    frame_central = customtkinter.CTkFrame(ventana_formulario, fg_color="white")
     frame_central.pack( padx=30, pady=30)
+
+    inter_frame1 = customtkinter.CTkFrame(frame_central)
+    inter_frame1.grid(row=0, column=0, padx=5, pady=5, rowspan=1)
+
+    inter_frame2 = customtkinter.CTkFrame(frame_central)
+    inter_frame2.grid(row=0, column=1, padx=5, pady=5, rowspan=1)
+
 
 
     #crear etiqueta para la fecha
     #fecha_actual = date.today().strftime("%Y-%m-%d")
     fecha_actual = date.today().strftime("%Y-%m-%d")
-    etiqueta_fecha = customtkinter.CTkLabel(frame_central, text="Fecha:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_fecha.grid(row=0, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_fecha = customtkinter.CTkLabel(frame_central, text=fecha_actual, fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_valor_fecha.grid(row=0, column=1, sticky="w", padx=20, pady=10)
+    etiqueta_fecha = customtkinter.CTkLabel(inter_frame1, text="Fecha:",  anchor="w", font=("Arial",16))
+    etiqueta_fecha.grid(row=0, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_fecha = customtkinter.CTkLabel(inter_frame1, text=fecha_actual,  anchor="w", font=("Arial",16))
+    etiqueta_valor_fecha.grid(row=0, column=1, sticky="w", padx=10, pady=10)
     
     # Crear etiquetas con información del alumno dentro del frame central
-    etiqueta_clave = customtkinter.CTkLabel(frame_central, text="Clave:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_clave.grid(row=1, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_clave = customtkinter.CTkLabel(frame_central, text=fila_seleccionada[0], fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_valor_clave.grid(row=1, column=1, sticky="w", padx=20, pady=10)
+    etiqueta_clave = customtkinter.CTkLabel(inter_frame1, text="Clave:",  anchor="w", font=("Arial",16))
+    etiqueta_clave.grid(row=1, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_clave = customtkinter.CTkLabel(inter_frame1, text=fila_seleccionada[0],  anchor="w", font=("Arial",16))
+    etiqueta_valor_clave.grid(row=1, column=1, sticky="w", padx=10, pady=10)
 
-    etiqueta_nombre = customtkinter.CTkLabel(frame_central, text="Nombre(s):", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_nombre.grid(row=2, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_nombre = customtkinter.CTkLabel(frame_central, text=fila_seleccionada[3], fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_valor_nombre.grid(row=2, column=1, sticky="w", padx=20, pady=10)
+    etiqueta_nombre = customtkinter.CTkLabel(inter_frame1, text="Nombre(s):",  anchor="w", font=("Arial",16))
+    etiqueta_nombre.grid(row=2, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_nombre = customtkinter.CTkLabel(inter_frame1, text=fila_seleccionada[3],  anchor="w", font=("Arial",16))
+    etiqueta_valor_nombre.grid(row=2, column=1, sticky="w", padx=10, pady=10)
 
-    etiqueta_ap_pat = customtkinter.CTkLabel(frame_central, text="Apellido Paterno:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_ap_pat.grid(row=3, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_ap_pat = customtkinter.CTkLabel(frame_central, text=fila_seleccionada[1], fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_valor_ap_pat.grid(row=3, column=1, sticky="w", padx=20, pady=10)
+    etiqueta_ap_pat = customtkinter.CTkLabel(inter_frame1, text="Apellido Paterno:",  anchor="w", font=("Arial",16))
+    etiqueta_ap_pat.grid(row=3, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_ap_pat = customtkinter.CTkLabel(inter_frame1, text=fila_seleccionada[1],  anchor="w", font=("Arial",16))
+    etiqueta_valor_ap_pat.grid(row=3, column=1, sticky="w", padx=10, pady=10)
 
-    etiqueta_ap_mat = customtkinter.CTkLabel(frame_central, text="Apellido Materno:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_ap_mat.grid(row=4, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_ap_mat = customtkinter.CTkLabel(frame_central, text=fila_seleccionada[2], fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_valor_ap_mat.grid(row=4, column=1, sticky="w", padx=20, pady=10)
+    etiqueta_ap_mat = customtkinter.CTkLabel(inter_frame1, text="Apellido Materno:",  anchor="w", font=("Arial",16))
+    etiqueta_ap_mat.grid(row=4, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_ap_mat = customtkinter.CTkLabel(inter_frame1, text=fila_seleccionada[2],  anchor="w", font=("Arial",16))
+    etiqueta_valor_ap_mat.grid(row=4, column=1, sticky="w", padx=10, pady=10)
 
-    etiqueta_carrera = customtkinter.CTkLabel(frame_central, text="Carrera:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_carrera.grid(row=5, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_carrera = customtkinter.CTkLabel(frame_central, text=fila_seleccionada[4], fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_valor_carrera.grid(row=5, column=1, sticky="w", padx=20, pady=10)
+    etiqueta_carrera = customtkinter.CTkLabel(inter_frame1, text="Carrera:",  anchor="w", font=("Arial",16))
+    etiqueta_carrera.grid(row=5, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_carrera = customtkinter.CTkLabel(inter_frame1, text=fila_seleccionada[4],  anchor="w", font=("Arial",16))
+    etiqueta_valor_carrera.grid(row=5, column=1, sticky="w", padx=10, pady=10)
 
-    etiqueta_generacion = customtkinter.CTkLabel(frame_central, text="Generación:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_generacion.grid(row=6, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_generacion = customtkinter.CTkLabel(frame_central, text=fila_seleccionada[5], fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_valor_generacion.grid(row=6, column=1, sticky="w", padx=20, pady=10)
+    etiqueta_generacion = customtkinter.CTkLabel(inter_frame1, text="Generación:",  anchor="w", font=("Arial",16))
+    etiqueta_generacion.grid(row=6, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_generacion = customtkinter.CTkLabel(inter_frame1, text=fila_seleccionada[5],  anchor="w", font=("Arial",16))
+    etiqueta_valor_generacion.grid(row=6, column=1, sticky="w", padx=10, pady=10)
     
     # Crear entry para el correo electronico
-    etiqueta_correo = customtkinter.CTkLabel(frame_central, text="Correo electronico:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_correo.grid(row=7, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_correo = customtkinter.CTkEntry(frame_central,width=250, corner_radius=10)
-    etiqueta_valor_correo.grid(row=7, column=1, padx=20, pady=10) 
+    etiqueta_correo = customtkinter.CTkLabel(inter_frame1, text="Correo electronico:",  anchor="w", font=("Arial",16))
+    etiqueta_correo.grid(row=7, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_correo = customtkinter.CTkEntry(inter_frame1,width=250, corner_radius=10)
+    etiqueta_valor_correo.grid(row=7, column=1, padx=10, pady=10) 
     
     # Crear entry para la materia dificil 1
-    etiqueta_materia1 = customtkinter.CTkLabel(frame_central, text="Materia dificil 1:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_materia1.grid(row=8, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_materia1 = customtkinter.CTkComboBox(frame_central, values= listaMaterias, width=250, corner_radius=10 ,  state="readonly")
-    etiqueta_valor_materia1.grid(row=8, column=1, padx=20, pady=10) 
+    etiqueta_materia1 = customtkinter.CTkLabel(inter_frame1, text="Materia dificil 1:",  anchor="w", font=("Arial",16))
+    etiqueta_materia1.grid(row=8, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_materia1 = customtkinter.CTkComboBox(inter_frame1, values= listaMaterias, width=250, corner_radius=10 ,  state="readonly")
+    etiqueta_valor_materia1.grid(row=8, column=1, padx=10, pady=10) 
     
     # Crear entry para la materia dificil 2
-    etiqueta_materia2 = customtkinter.CTkLabel(frame_central, text="Materia dificil 2:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_materia2.grid(row=9, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_materia2 = customtkinter.CTkComboBox(frame_central, values= listaMaterias, width=250, corner_radius=10,  state="readonly")
-    etiqueta_valor_materia2.grid(row=9, column=1, padx=20, pady=10) 
+    etiqueta_materia2 = customtkinter.CTkLabel(inter_frame2, text="Materia dificil 2:",  anchor="w", font=("Arial",16))
+    etiqueta_materia2.grid(row=0, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_materia2 = customtkinter.CTkComboBox(inter_frame2, values= listaMaterias, width=250, corner_radius=10,  state="readonly")
+    etiqueta_valor_materia2.grid(row=0, column=1, padx=10, pady=10) 
        
     # Crear entry para la materia dificil 3
-    etiqueta_materia3 = customtkinter.CTkLabel(frame_central, text="Materia dificil 3:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_materia3.grid(row=10, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_materia3 = customtkinter.CTkComboBox(frame_central, values= listaMaterias, width=250, corner_radius=10,  state="readonly")
-    etiqueta_valor_materia3.grid(row=10, column=1, padx=20, pady=10) 
+    etiqueta_materia3 = customtkinter.CTkLabel(inter_frame2, text="Materia dificil 3:",  anchor="w", font=("Arial",16))
+    etiqueta_materia3.grid(row=1, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_materia3 = customtkinter.CTkComboBox(inter_frame2, values= listaMaterias, width=250, corner_radius=10,  state="readonly")
+    etiqueta_valor_materia3.grid(row=1, column=1, padx=10, pady=10) 
     
     # Crear entry para la preparatoria de origen
-    etiqueta_preparatoria = customtkinter.CTkLabel(frame_central, text="Preparatoria de origen:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_preparatoria.grid(row=11, column=0, sticky="w", padx=20, pady=10)
-    etiqueta_valor_preparatoria = customtkinter.CTkComboBox(frame_central,values=listaPrepas, width=250, corner_radius=10,  state="readonly", command=lambda event:on_combobox3_change())
-    etiqueta_valor_preparatoria.grid(row=11, column=1, padx=20, pady=10)
+    etiqueta_preparatoria = customtkinter.CTkLabel(inter_frame2, text="Preparatoria de origen:",  anchor="w", font=("Arial",16))
+    etiqueta_preparatoria.grid(row=2, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_preparatoria = customtkinter.CTkComboBox(inter_frame2,values=listaPrepas, width=250, corner_radius=10,  state="readonly", command=lambda event:on_combobox3_change())
+    etiqueta_valor_preparatoria.grid(row=2, column=1, padx=10, pady=10)
 
-    etiqueta_otraPrepa = customtkinter.CTkLabel(frame_central, text="Escribe el nombre de tu preparatoria: ", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_otraPrepa.grid(row=3, column=2, sticky="w", padx=20, pady=10)
+    etiqueta_otraPrepa = customtkinter.CTkLabel(inter_frame2, text="Escribe el nombre de tu preparatoria: ",  anchor="w", font=("Arial",16))
+    etiqueta_otraPrepa.grid(row=3, column=0, sticky="e", padx=10, pady=10)
     etiqueta_otraPrepa.grid_remove()
 
-    etiqueta_otraPrepa_valor =  customtkinter.CTkEntry(frame_central,width=250, corner_radius=10)
-    etiqueta_otraPrepa_valor.grid(row=3, column=3, padx=20, pady=10)
+    etiqueta_otraPrepa_valor =  customtkinter.CTkEntry(inter_frame2,width=250, corner_radius=10)
+    etiqueta_otraPrepa_valor.grid(row=3, column=1, padx=10, pady=10)
     etiqueta_otraPrepa_valor.grid_remove()
     
 
@@ -151,32 +160,32 @@ def ventana_Formulario(fila_seleccionada):
             etiqueta_otraPrepa_valor.grid_remove()
     
     # Crear entry para el inconveniente de la carrera
-    etiqueta_inconveniente = customtkinter.CTkLabel(frame_central, text="Inconveniente con la carrera:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_inconveniente.grid(row=4, column=2, sticky="w", padx=20, pady=10)
-    etiqueta_valor_inconveniente = customtkinter.CTkEntry(frame_central, width=250, corner_radius=10)
-    etiqueta_valor_inconveniente.grid(row=4, column=3, padx=20, pady=10)
+    etiqueta_inconveniente = customtkinter.CTkLabel(inter_frame2, text="Inconveniente con la carrera:",  anchor="w", font=("Arial",16))
+    etiqueta_inconveniente.grid(row=4, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_inconveniente = customtkinter.CTkEntry(inter_frame2, width=250, corner_radius=10)
+    etiqueta_valor_inconveniente.grid(row=4, column=1, padx=10, pady=10)
     
     # Crear entry para caso de que trabaje
-    etiqueta_actualizable = customtkinter.CTkLabel(frame_central, text=" ", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_actualizable.grid(row=2, column=2, sticky="w", padx=20, pady=10)
+    etiqueta_actualizable = customtkinter.CTkLabel(inter_frame2, text=" ",  anchor="w", font=("Arial",16))
+    etiqueta_actualizable.grid(row=8, column=0, sticky="e", padx=10, pady=10)
     etiqueta_actualizable.grid_remove()
     
-    etiqueta_valor_trabajo = customtkinter.CTkEntry(frame_central,width=250, corner_radius=10)
-    etiqueta_valor_trabajo.grid(row=2, column=3, padx=20, pady=10) 
+    etiqueta_valor_trabajo = customtkinter.CTkEntry(inter_frame2,width=250, corner_radius=10)
+    etiqueta_valor_trabajo.grid(row=8, column=1, padx=10, pady=10) 
     etiqueta_valor_trabajo.grid_remove()
 
     
     # Crear entry para el tipo de baja
-    etiqueta_tipo_baja = customtkinter.CTkLabel(frame_central, text="Tipo de baja:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_tipo_baja.grid(row=0, column=2, sticky="w", padx=20, pady=10)
-    etiqueta_valor_tipo_baja = customtkinter.CTkComboBox(frame_central,values= listaTiposBaja, width=250, corner_radius=10,  state="readonly")
-    etiqueta_valor_tipo_baja.grid(row=0, column=3, padx=20, pady=10)
+    etiqueta_tipo_baja = customtkinter.CTkLabel(inter_frame2, text="Tipo de baja:",  anchor="w", font=("Arial",16))
+    etiqueta_tipo_baja.grid(row=6, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_tipo_baja = customtkinter.CTkComboBox(inter_frame2,values= listaTiposBaja, width=250, corner_radius=10,  state="readonly")
+    etiqueta_valor_tipo_baja.grid(row=6, column=1, padx=10, pady=10)
     
     # Crear entry para el motivo de la baja
-    etiqueta_motivo_baja = customtkinter.CTkLabel(frame_central, text="Motivo de la baja:", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_motivo_baja.grid(row=1, column=2, sticky="w", padx=20, pady=10)
-    etiqueta_valor_motivo_baja = customtkinter.CTkComboBox(frame_central,values=listaMotivosBaja,  state="readonly"  , width=250, corner_radius=10, command=lambda event: on_combobox1_change())
-    etiqueta_valor_motivo_baja.grid(row=1, column=3, padx=20, pady=10)
+    etiqueta_motivo_baja = customtkinter.CTkLabel(inter_frame2, text="Motivo de la baja:",  anchor="w", font=("Arial",16))
+    etiqueta_motivo_baja.grid(row=7, column=0, sticky="e", padx=10, pady=10)
+    etiqueta_valor_motivo_baja = customtkinter.CTkComboBox(inter_frame2,values=listaMotivosBaja,  state="readonly"  , width=250, corner_radius=10, command=lambda event: on_combobox1_change())
+    etiqueta_valor_motivo_baja.grid(row=7, column=1, padx=10, pady=10)
 
     def on_combobox1_change():
         value = etiqueta_valor_motivo_baja.get()
@@ -212,18 +221,18 @@ def ventana_Formulario(fila_seleccionada):
             FechaEgel_Combo.grid_remove()
  
     #campo de entrada para "Forma de Titulación"
-    forma_titulacion_Combo =  customtkinter.CTkComboBox(frame_central,  state="readonly",  width=250, corner_radius=10, values=listaFormaTitulacion, command=lambda event: on_combobox2_change())
-    forma_titulacion_Combo.grid(row=2, column=3, padx=20, pady=10)
+    forma_titulacion_Combo =  customtkinter.CTkComboBox(inter_frame2,  state="readonly",  width=250, corner_radius=10, values=listaFormaTitulacion, command=lambda event: on_combobox2_change())
+    forma_titulacion_Combo.grid(row=8, column=1, padx=10, pady=10)
     forma_titulacion_Combo.grid_remove() 
     
     #etiqueta y campo de entrada para "Fecha Egel"
     #del Examen EGEL
-    etiqueta_FechaEgel = customtkinter.CTkLabel(frame_central, text="Fecha aproximada de aplicación: ", fg_color="white", anchor="w", font=("Arial",16))
-    etiqueta_FechaEgel.grid(row=3, column=2, sticky="w", padx=20, pady=10)
+    etiqueta_FechaEgel = customtkinter.CTkLabel(inter_frame2, text="Fecha aproximada de aplicación: ",  anchor="w", font=("Arial",16))
+    etiqueta_FechaEgel.grid(row=9, column=0, sticky="w", padx=10, pady=10)
     etiqueta_FechaEgel.grid_remove()
 
-    FechaEgel_Combo =  customtkinter.CTkComboBox(frame_central,  state="readonly",  width=250, corner_radius=10, values=["Marzo", "Agosto", "Diciembre"])
-    FechaEgel_Combo.grid(row=3, column=3, padx=20, pady=10)
+    FechaEgel_Combo =  customtkinter.CTkComboBox(inter_frame2,  state="readonly",  width=250, corner_radius=10, values=["Marzo", "Agosto", "Diciembre"])
+    FechaEgel_Combo.grid(row=9, column=1, padx=10, pady=10)
     FechaEgel_Combo.grid_remove() 
 
 
@@ -244,10 +253,32 @@ def ventana_Formulario(fila_seleccionada):
         materia3I = etiqueta_valor_materia3.get()
         
         value = etiqueta_valor_preparatoria.get()
+
         if value == "Otra":
             prepaI = etiqueta_otraPrepa_valor.get()
+            conexion = ConexionBD(user='root',password='root',host='localhost',database='datosalumnosbajas')
+
+            conexion.conectar()
+
+            #Ejecución de las consultas
+            insertar = f"INSERT INTO datosalumnosbajas.prepa_procedencia (nombre_prepa) VALUES ('{prepaI}')"
+            resultado1 = conexion.ejecutar_consulta(insertar)
+            #eliminar = f"DELETE FROM datosalumnosbajas.lista_de_espera WHERE clave_unica = {cve_unicaI}"
+            #resultado2 = conexion.ejecutar_consulta(eliminar)
+
+            conexion.desconectar()
         elif value == "Preparatoria Foránea":
             prepaI = etiqueta_otraPrepa_valor.get()
+            conexion = ConexionBD(user='root',password='root',host='localhost',database='datosalumnosbajas')
+
+            conexion.conectar()
+
+            #Ejecución de las consultas
+            insertar = f"INSERT INTO datosalumnosbajas.prepa_procedencia (nombre_prepa) VALUES ('{prepaI}')"
+            resultado1 = conexion.ejecutar_consulta(insertar)
+            #eliminar = f"DELETE FROM datosalumnosbajas.lista_de_espera WHERE clave_unica = {cve_unicaI}"
+            #resultado2 = conexion.ejecutar_consulta(eliminar)
+            conexion.desconectar()
         else:
             prepaI = etiqueta_valor_preparatoria.get()    
             
@@ -271,6 +302,8 @@ def ventana_Formulario(fila_seleccionada):
         #resultado2 = conexion.ejecutar_consulta(eliminar)
 
         print(resultado1)
+
+        conexion.desconectar()
         #print(resultado2)
         
     def imprimir_informacion():
