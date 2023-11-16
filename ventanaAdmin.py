@@ -140,9 +140,10 @@ class App(customtkinter.CTk):
         btn_formulario = customtkinter.CTkButton(self.home_frame, text="Abrir Formulario", command=lambda: self.formularios(self.treeview2.item(self.treeview2.focus(), "values")))
         btn_formulario.grid(row= 3, column=0, padx=10, pady=10)
 
-        btn_formulario = customtkinter.CTkButton(self.home_frame, text="Editar Formulario", command=lambda: self.seleccionar_formulario(self.treeview2))
+        self.btn_EDITAformulario = customtkinter.CTkButton(self.home_frame, text="Editar Formulario", command=lambda: self.updateBase())
         #btn_formulario = customtkinter.CTkButton(self.home_frame, text="Editar Formulario", command=lambda: self.seleccionar_formulario(self.treeview2.item(self.treeview2.focus(), "values")))
-        btn_formulario.grid(row= 3, column=1, padx=10, pady=10)
+        self.btn_EDITAformulario.grid(row= 5, column=2, padx=10, pady=10)
+        self.btn_EDITAformulario.grid_remove()
 
         self.firstInterFrame = customtkinter.CTkFrame(self.home_frame)
         self.firstInterFrame.grid(row=4, column=0, padx=5, pady=5, rowspan=1)
@@ -335,7 +336,7 @@ class App(customtkinter.CTk):
         self.btn_limpiarINFO = customtkinter.CTkButton(self.second_frame, text="Limpiar info", command=lambda: self.edita_usuario())
         self.btn_limpiarINFO.grid(row= 3, column=1, padx=5, pady=5)
 
-        self.btn_formularioUser = customtkinter.CTkButton(self.second_frame, text="Editar Información", command=lambda: self.edita_usuario())
+        self.btn_formularioUser = customtkinter.CTkButton(self.second_frame, text="Editar Información", command=lambda: self.updateBase2())
         self.btn_formularioUser.grid(row= 6, column=5, padx=5, pady=5)
         self.btn_formularioUser.grid_remove()
 
@@ -464,6 +465,130 @@ class App(customtkinter.CTk):
         # select default frame
         self.select_frame_by_name("Formularios")
 
+    def updateBase(self):
+        fecha_valor = self.lbl_fecha_valor.get()
+        clave_valor = self.lbl_clave_valor.get()
+        nombre_valor = self.lbl_nombre_valor.get()
+        correo_valor = self.lbl_correo_valor.get()
+        carrera_valor = self.lbl_carrera_valor.get()
+        generacion_valor = self.lbl_generacion_valor.get()
+        motivo_valor = self.lbl_motivo_valor.get()
+        prepa_valor = self.lbl_prepa_valor.get()
+        materia_valor = self.lbl_materia_valor.get()#depennde
+        materia2_valor = self.lbl_materia2_valor.get()#depennde
+        materia3_valor = self.lbl_materia3_valor.get()#depennde
+        tipoB_valor = self.lbl_tipoB_valor.get()
+        motivoTexto_valor = self.lbl_motivotexto_valor.get()#depende
+        formatexto_valor = self.lbl_formatexto_valor.get()#depende
+        fechaTtexto_valor = self.lbl_fechaTtexto_valor.get()#depende
+        empresa_valor = self.lbl_empresa_valor.get()#depende
+
+        # Conexión a la base de datos
+        conn = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='root',
+            database='datosalumnosbajas'
+        )
+
+        cursor = conn.cursor()
+
+    # Realizar el update en la base de datos
+        query = f"UPDATE formulario SET fecha_solicitud = '{fecha_valor}', clave_unica = '{clave_valor}', email_alumno = '{correo_valor}', carrera = '{carrera_valor}', generacion = '{generacion_valor}', motbaja = '{motivo_valor}', prepa_origen = '{prepa_valor}', tipobaja = '{tipoB_valor}'"
+        #, materia_dificil = '{materia_valor}', materia_dificil2 = '{materia2_valor}', materia_dificil3 = '{materia3_valor}', detalles_baja = '{motivotexto_valor}', forma_titulacion = '{formatexto_valor}', fecha_egel = '{fechaTtexto_valor}'
+
+        if materia_valor:
+            query += f", matdif1 = '{materia_valor}'"
+        if materia2_valor:
+            query += f", matdif2 = '{materia2_valor}'"
+        if materia3_valor:
+            query += f", matdif3 = '{materia3_valor}'"
+        if motivoTexto_valor:
+            query += f", detalles_baja = '{motivoTexto_valor}'"
+        if formatexto_valor != "No aplica":
+            query += f", formatit = '{formatexto_valor}'"
+        if fechaTtexto_valor != "No aplica":
+            query += f", fecha_egel = '{fechaTtexto_valor}'"
+        if empresa_valor != "No aplica":
+            query += f", empresa = '{empresa_valor}'"
+
+        query2 = f"WHERE clave_unica = '{clave_valor}'"
+        queryFinal = query + " " +query2
+        
+        # Ejecutar la consulta SQL
+        cursor.execute(queryFinal)
+
+        # Confirmar los cambios en la base de datos
+        conn.commit()
+
+        # Consultar la base de datos para verificar el resultado actualizado
+        select_query = f"SELECT * FROM formulario WHERE clave_unica = '{clave_valor}'"
+        cursor.execute(select_query)
+        result = cursor.fetchone()
+
+        if result:
+            # Mostrar el resultado actualizado
+            # Confirmación de actualización
+            messagebox.showinfo("Confirmación", "El registro ha sido actualizado correctamente.")
+        else:
+            messagebox.showinfo("Error", "El registro no se ha encontradp.")
+
+        # Cerrar la conexión a la base de datos
+        cursor.close()
+        conn.close()
+    
+    def updateBase2(self):
+        nom_user = self.lbl_Nom_usuario_valor.get()
+        password = self.lbl_clave_valor2.get()
+        nombre_valor = self.lbl_nombre_valor2.get()
+        Ap = self.lbl_Ap_paterno_valor.get()
+        Am = self.lbl_Ap_materno_valor.get()
+        email = self.lbl_Email_valor.get()
+        tipo_us = self.lbl_tipoUs_valor.get()
+        activo = self.lbl_activo_valor.get()
+       
+
+        # Conexión a la base de datos
+        conn = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='root',
+            database='datosalumnosbajas'
+        )
+
+        cursor = conn.cursor()
+
+    # Realizar el update en la base de datos
+        query = f"UPDATE usuarios SET nom_usuario = '{nom_user}', password = '{password}', nombre = '{nombre_valor}', ap_paterno = '{Ap}', ap_materno = '{Am}', email = '{email}', tipo_usuario = '{tipo_us}', activo = '{activo}'"
+        #, materia_dificil = '{materia_valor}', materia_dificil2 = '{materia2_valor}', materia_dificil3 = '{materia3_valor}', detalles_baja = '{motivotexto_valor}', forma_titulacion = '{formatexto_valor}', fecha_egel = '{fechaTtexto_valor}'
+
+       
+
+        query2 = f"WHERE nom_usuario = '{nom_user}'"
+        queryFinal = query + " " +query2
+        
+        # Ejecutar la consulta SQL
+        cursor.execute(queryFinal)
+
+        # Confirmar los cambios en la base de datos
+        conn.commit()
+
+        # Consultar la base de datos para verificar el resultado actualizado
+        select_query = f"SELECT * FROM usuarios WHERE nom_usuario = '{nom_user}'"
+        cursor.execute(select_query)
+        result = cursor.fetchone()
+
+        if result:
+            # Mostrar el resultado actualizado
+            # Confirmación de actualización
+            messagebox.showinfo("Confirmación", "El registro ha sido actualizado correctamente.")
+        else:
+            messagebox.showinfo("Error", "El registro no se ha encontradp.")
+
+        # Cerrar la conexión a la base de datos
+        cursor.close()
+        conn.close()
+    
     def select_frame_by_name(self, name):
         # set button color for selected button
         self.home_button.configure(fg_color=("gray75", "gray25") if name == "Formularios" else "transparent")
@@ -543,7 +668,7 @@ class App(customtkinter.CTk):
         #print(resultado[0][6])
 
 
-
+        self.btn_EDITAformulario.grid()
         self.firstInterFrame.grid()
         self.secondInterFrame.grid()
         self.thirdInterFrame.grid()
