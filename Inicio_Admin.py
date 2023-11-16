@@ -7,7 +7,7 @@ from tkinter import messagebox
 from tkcalendar import DateEntry
 from GeneraCarta import * 
 import os
-from registroUsuarioNew import App
+
 
 #Función que se ejecuta cuando se presiona el botón "Cerrar Sesión"
 def cerrar_sesion():

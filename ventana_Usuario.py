@@ -120,7 +120,7 @@ def ventana_Usuario(fila_seleccionada):
 
     def elimina_usuario():
         #updateElimina = f"SELECT * FROM usuarios WHERE nom_usuario = '{fila_seleccionada}'"
-        updateElimina = f"update usuarios set eliminado = 1 where nom_usuario = '{nomUsuarioU}'"
+        updateElimina = f"update usuarios set activo = 1 where nom_usuario = '{nomUsuarioU}'"
         
         res = conexionUsuario.ejecutar_consulta(updateElimina)
 
