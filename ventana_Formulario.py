@@ -26,7 +26,7 @@ def ventana_Formulario(fila_seleccionada):
     
     
     #Conexion a la base de datos
-    conexionPrin = ConexionBD(user='newuser',password='root',host='148.224.51.68',database='datosalumnosbajas')
+    conexionPrin = ConexionBD(user='root',password='root',host='localhost',database='datosalumnosbajas')
     conexionPrin.conectar()
     
     #Consulta a base de datos para las materias
@@ -260,7 +260,7 @@ def ventana_Formulario(fila_seleccionada):
         fechaEgelI = FechaEgel_Combo.get()
 
         #Conexión con la base de datos
-        conexion = ConexionBD(user='newuser',password='root',host='148.224.51.68',database='datosalumnosbajas')
+        conexion = ConexionBD(user='root',password='root',host='localhost',database='datosalumnosbajas')
 
         conexion.conectar()
 

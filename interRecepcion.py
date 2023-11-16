@@ -72,7 +72,7 @@ class App(customtkinter.CTk):
         self.home_frame_claveA = tk.StringVar()
         self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.home_frame_claveA)
         self.home_frame_Clave_Entry.bind("<Return>",lambda event: self.realizar_busqueda(event))
-        self.home_frame_Clave_Entry.grid(row=1, column=1, padx=5, pady=10)
+        self.home_frame_Clave_Entry.grid(row=1, column=1, padx=5, pady=10, sticky="w")
 
         
 
@@ -93,7 +93,7 @@ class App(customtkinter.CTk):
         self.home_frame_generacion_alumno_valor = customtkinter.CTkLabel(self.home_frame, anchor="w",text="", font=customtkinter.CTkFont(size=15, weight="normal"))
 
         self.home_frame_button_Buscar = customtkinter.CTkButton(self.home_frame, text="Buscar", command=lambda:self.buscaAlumno())
-        self.home_frame_button_Buscar.grid(row=1, column=2, padx=20, pady=10)
+        self.home_frame_button_Buscar.grid(row=1, column=2, padx=20, pady=10, sticky="w")
 
         
         self.home_frame_clave_alumno_label.grid(row=2, column=0, padx=5, pady=10, sticky="e")
@@ -120,7 +120,7 @@ class App(customtkinter.CTk):
         self.second_frame.grid_columnconfigure(1, weight=1)
         self.second_frame.grid_columnconfigure(2, weight=1)
         # Consulta a realizar
-        conexion = ConexionBD(user='newuser', password='root', host='148.224.51.68', database='datosalumnosbajas')
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         consulta = f"SELECT * FROM formulario"
         resultado = conexion.ejecutar_consulta(consulta)
@@ -308,7 +308,7 @@ class App(customtkinter.CTk):
         BuscarAnio = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.anioC)
         BuscarAnio.grid(row=1, column=1, padx=10, pady=10, sticky="e")
 
-        conexion = ConexionBD(user='newuser', password='root', host='148.224.51.68', database='datosalumnosbajas')
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         consulta = f"SELECT * FROM datosalumnosbajas.view_anio;"
         
@@ -341,7 +341,7 @@ class App(customtkinter.CTk):
         BuscarGen = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.generacionC)
         BuscarGen.grid(row=1, column=3, padx=10, pady=10, sticky="e")
 
-        conexion = ConexionBD(user='newuser', password='root', host='148.224.51.68', database='datosalumnosbajas')
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         consulta = f"SELECT * FROM datosalumnosbajas.view_generaciones;"
         resultados = conexion.ejecutar_consulta(consulta)
@@ -357,7 +357,7 @@ class App(customtkinter.CTk):
         BuscarCarrera = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.carreraC)
         BuscarCarrera.grid(row=2, column=1, padx=10, pady=10, sticky="w")
 
-        conexion = ConexionBD(user='newuser', password='root', host='148.224.51.68', database='datosalumnosbajas')
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         consulta = f"SELECT * FROM datosalumnosbajas.view_carreras;"
         resultados = conexion.ejecutar_consulta(consulta)
@@ -372,7 +372,7 @@ class App(customtkinter.CTk):
         BuscarTipoBaja = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.tipoC)
         BuscarTipoBaja.grid(row=2, column=3, padx=10, pady=10, sticky="w")
 
-        conexion = ConexionBD(user='newuser', password='root', host='148.224.51.68', database='datosalumnosbajas')
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         consulta = f"SELECT nombre_tipobaja FROM tipo_de_baja"
         resultados = conexion.ejecutar_consulta(consulta)
@@ -387,7 +387,7 @@ class App(customtkinter.CTk):
         BuscarMotivoBaja = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.motivoC)
         BuscarMotivoBaja.grid(row=3, column=1, padx=10, pady=10, sticky="w")
 
-        conexion = ConexionBD(user='newuser', password='root', host='148.224.51.68', database='datosalumnosbajas')
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         consulta = f"SELECT nombre_motbaja FROM motivo_baja"
         resultados = conexion.ejecutar_consulta(consulta)
@@ -403,7 +403,7 @@ class App(customtkinter.CTk):
         BuscarMateriaDificil = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.materiaC)
         BuscarMateriaDificil.grid(row=3, column=3, padx=10, pady=10, sticky="w")
 
-        conexion = ConexionBD(user='newuser', password='root', host='148.224.51.68', database='datosalumnosbajas')
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         consulta = f"SELECT nombre_materia FROM materias_dificiles"
         resultados = conexion.ejecutar_consulta(consulta)
@@ -419,7 +419,7 @@ class App(customtkinter.CTk):
         BuscarEscuelaProc = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.escuelaC)
         BuscarEscuelaProc.grid(row=4, column=1, padx=10, pady=10, sticky="w")
         
-        conexion = ConexionBD(user='newuser', password='root', host='148.224.51.68', database='datosalumnosbajas')
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         consulta = f"SELECT nombre_prepa FROM prepa_procedencia"
         resultados = conexion.ejecutar_consulta(consulta)
@@ -494,8 +494,8 @@ class App(customtkinter.CTk):
 
         # Conexión a la base de datos
         conn = mysql.connector.connect(
-            host='148.224.51.68',
-            user='newuser',
+            host='localhost',
+            user='root',
             password='root',
             database='datosalumnosbajas'
         )
@@ -685,7 +685,7 @@ class App(customtkinter.CTk):
         claveAlumno = self.home_frame_claveA.get()
         print(claveAlumno)
         # Realizar la consulta del alumno mediante su clave única
-        conexion = ConexionBD(user='newuser', password='root', host='148.224.51.68', database='datosalumnosbajas')
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         consulta = f"SELECT * FROM alumnos_infbasica WHERE clave_unica = '{claveAlumno}'"
         resultado = conexion.ejecutar_consulta(consulta)
@@ -709,8 +709,8 @@ class App(customtkinter.CTk):
     def insertaEnLista(self):
         clave = self.home_frame_claveR.get()
         conn = mysql.connector.connect(
-        host='148.224.51.68',
-        user='newuser',
+        host='localhost',
+        user='root',
         password='root',
         database='datosalumnosbajas'
         )
@@ -754,7 +754,7 @@ class App(customtkinter.CTk):
 
     def formularios(self, fila_seleccionada):
         #Consulta a realizar
-        conexion = ConexionBD(user='newuser', password='root', host='148.224.51.68', database='datosalumnosbajas')
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
         print (fila_seleccionada[1])
         consulta = f"SELECT * FROM formulario WHERE clave_unica = '{fila_seleccionada[1]}'"
