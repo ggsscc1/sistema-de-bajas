@@ -22,6 +22,36 @@ from ventana_Usuario import ventana_Usuario
 
 class App(customtkinter.CTk):
     def __init__(self):
+        #Conexion a la base de datos
+        conexionPrin = ConexionBD(user='root',password='root',host='localhost',database='datosalumnosbajas')
+        conexionPrin.conectar()
+        
+        #Consulta a base de datos para las materias
+        consultaMaterias = f"SELECT nombre_materia FROM materias_dificiles"
+        resMaterias = conexionPrin.ejecutar_consulta(consultaMaterias)
+        listaMaterias = [mat[0] for mat in resMaterias]
+        
+        #Consulta a base de datos para las preparatorias
+        consultaPrepas = f"SELECT nombre_prepa FROM prepa_procedencia"
+        resPrepas = conexionPrin.ejecutar_consulta(consultaPrepas)
+        listaPrepas = [tb[0] for tb in resPrepas]
+        
+        #Consulta a base de datos para los tipos de bajas
+        consultaTipoBaja = f"SELECT nombre_tipobaja FROM tipo_de_baja"
+        restiposBaja = conexionPrin.ejecutar_consulta(consultaTipoBaja)
+        listaTiposBaja = [tb[0] for tb in restiposBaja]
+        
+        #Consulta a base de datos para los motivos de baja
+        consultaMotBaja = f"SELECT nombre_motbaja FROM motivo_baja"
+        resMotBaja = conexionPrin.ejecutar_consulta(consultaMotBaja)
+        listaMotivosBaja = [mot[0] for mot in resMotBaja]
+        
+        #Consulta a base de datos para los tipos de titulacion
+        consultaFormaTitulacion = f"SELECT nombre_formatit FROM forma_titulacion"
+        resFormaTitulacion = conexionPrin.ejecutar_consulta(consultaFormaTitulacion)
+        listaFormaTitulacion = [mot[0] for mot in resFormaTitulacion]
+
+        conexionPrin.desconectar()
         super().__init__()
 
         self.title("Sistema de bajas - Registrar nuevo usuario")
@@ -139,13 +169,13 @@ class App(customtkinter.CTk):
         #"Motivo de Baja"
         self.lbl_motivo = customtkinter.CTkLabel(self.firstInterFrame, text="")
         self.lbl_motivo.grid(row=2, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_motivo_valor = customtkinter.CTkEntry(self.firstInterFrame)
+        self.lbl_motivo_valor = customtkinter.CTkComboBox(self.firstInterFrame, values=listaMotivosBaja)
         self.lbl_motivo_valor.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
-        self.lbl_materia2 = customtkinter.CTkLabel(self.firstInterFrame, text="")
-        self.lbl_materia2.grid(row=3, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_materia2_valor = customtkinter.CTkEntry(self.firstInterFrame)
-        self.lbl_materia2_valor.grid(row=3, column=1, padx=5, pady=5, sticky="w")
+        self.lbl_materia2 = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_materia2.grid(row=2, column=0, padx=5, pady=5, sticky="e")
+        self.lbl_materia2_valor = customtkinter.CTkComboBox(self.thirdInterFrame, values=listaMaterias)
+        self.lbl_materia2_valor.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
         # Agregar etiquetas para mostrar los datos adicionales
         self.lbl_motivotexto = customtkinter.CTkLabel(self.firstInterFrame, text="")
@@ -183,17 +213,17 @@ class App(customtkinter.CTk):
         #Escuela de procedencia
         self.lbl_prpa = customtkinter.CTkLabel(self.secondInterFrame, text="")
         self.lbl_prpa.grid(row=1, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_prepa_valor = customtkinter.CTkEntry(self.secondInterFrame)
+        self.lbl_prepa_valor = customtkinter.CTkComboBox(self.secondInterFrame, values=listaPrepas)
         self.lbl_prepa_valor.grid(row=1, column=1, padx=5, pady=5, sticky="w")
 
-        self.lbl_materia3 = customtkinter.CTkLabel(self.secondInterFrame, text="")
-        self.lbl_materia3.grid(row=2, column=0, padx=5, pady=5, sticky="e")    
-        self.lbl_materia3_valor = customtkinter.CTkEntry(self.secondInterFrame)
-        self.lbl_materia3_valor.grid(row=2, column=1, padx=5, pady=5, sticky="w")
+        self.lbl_materia3 = customtkinter.CTkLabel(self.firstInterFrame, text="")
+        self.lbl_materia3.grid(row=3, column=0, padx=5, pady=5, sticky="e")    
+        self.lbl_materia3_valor = customtkinter.CTkComboBox(self.firstInterFrame, values=listaMaterias)
+        self.lbl_materia3_valor.grid(row=3, column=1, padx=5, pady=5, sticky="w")
 
         self.lbl_formatexto = customtkinter.CTkLabel(self.secondInterFrame, text="")
         self.lbl_formatexto.grid(row=3, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_formatexto_valor = customtkinter.CTkEntry(self.secondInterFrame)
+        self.lbl_formatexto_valor = customtkinter.CTkComboBox(self.secondInterFrame, values=listaFormaTitulacion)
         self.lbl_formatexto_valor.grid(row=3, column=1, padx=5, pady=5, sticky="w")
 
 
@@ -211,19 +241,19 @@ class App(customtkinter.CTk):
         
         #materias mas dificiles
         
-        self.lbl_materia = customtkinter.CTkLabel(self.thirdInterFrame, text="")
+        self.lbl_materia = customtkinter.CTkLabel(self.secondInterFrame, text="")
         self.lbl_materia.grid(row=2, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_materia_valor = customtkinter.CTkEntry(self.thirdInterFrame)
+        self.lbl_materia_valor = customtkinter.CTkComboBox(self.secondInterFrame, values=listaMaterias)
         self.lbl_materia_valor.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
         self.lbl_tipoB = customtkinter.CTkLabel(self.thirdInterFrame, text="")
         self.lbl_tipoB.grid(row=3, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_tipoB_valor = customtkinter.CTkEntry(self.thirdInterFrame)
+        self.lbl_tipoB_valor = customtkinter.CTkComboBox(self.thirdInterFrame, values=listaTiposBaja)
         self.lbl_tipoB_valor.grid(row=3, column=1, padx=5, pady=5, sticky="w")
 
         self.lbl_fechaTtexto = customtkinter.CTkLabel(self.secondInterFrame, text="")
         self.lbl_fechaTtexto.grid(row=4, column=0, padx=5, pady=5, sticky="e")
-        self.lbl_fechaTtexto_valor = customtkinter.CTkEntry(self.secondInterFrame)
+        self.lbl_fechaTtexto_valor = customtkinter.CTkComboBox(self.secondInterFrame, values=["Marzo", "Agosto", "Diciembre"])
         self.lbl_fechaTtexto_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
 
         
@@ -550,31 +580,31 @@ class App(customtkinter.CTk):
         #self.lbl_generacion_valor.configure( text=resultado[0][8])
 
         self.lbl_motivo.configure(text="Motivo de baja:")
-        self.lbl_motivo_valor.delete(0, tk.END)
-        self.lbl_motivo_valor.insert(0,resultado[0][10])
+        self.lbl_motivo_valor.set("")
+        self.lbl_motivo_valor.set(resultado[0][10])
         #self.lbl_motivo_valor.configure(text=resultado[0][10])
         
         self.lbl_prpa.configure(text="Preparatoria de procedencia:")
-        self.lbl_prepa_valor.delete(0, tk.END)
-        self.lbl_prepa_valor.insert(0,resultado[0][11])
+        self.lbl_prepa_valor.set("")
+        self.lbl_prepa_valor.set(resultado[0][11])
         #self.lbl_prepa_valor.configure(text=resultado[0][11])
 
         self.lbl_materia.configure(text="Materia más dificil:")
-        self.lbl_materia_valor.delete(0, tk.END)
-        self.lbl_materia_valor.insert(0,resultado[0][12])
+        self.lbl_materia_valor.set("")
+        self.lbl_materia_valor.set(resultado[0][12])
         #self.lbl_materia_valor.configure(text=resultado[0][12])
         self.lbl_materia2.configure(text="Materia más dificil II:")
-        self.lbl_materia2_valor.delete(0, tk.END)
-        self.lbl_materia2_valor.insert(0,resultado[0][13])
+        self.lbl_materia2_valor.set("")
+        self.lbl_materia2_valor.set(resultado[0][13])
         #self.lbl_materia2_valor.configure(text=resultado[0][13])
         self.lbl_materia3.configure(text="Materia más dificil III:")
-        self.lbl_materia3_valor.delete(0, tk.END)
-        self.lbl_materia3_valor.insert(0,resultado[0][14])
+        self.lbl_materia3_valor.set("")
+        self.lbl_materia3_valor.set(resultado[0][14])
         #self.lbl_materia3_valor.configure(text=resultado[0][14])
 
         self.lbl_tipoB.configure(text="Tipo de baja:")
-        self.lbl_tipoB_valor.delete(0, tk.END)
-        self.lbl_tipoB_valor.insert(0,resultado[0][9])
+        self.lbl_tipoB_valor.set("")
+        self.lbl_tipoB_valor.set(resultado[0][9])
         #self.lbl_tipoB_valor.configure(text=resultado[0][9])
 
         self.lbl_motivotexto.configure(text="Porqué se da de baja:")
@@ -583,25 +613,25 @@ class App(customtkinter.CTk):
 
         self.lbl_formatexto.configure(text="Forma Titulacion:")
         if resultado[0][15]:
-            self.lbl_formatexto_valor.delete(0, tk.END)
-            self.lbl_formatexto_valor.insert(0, resultado[0][15])
+            self.lbl_formatexto_valor.set("")
+            self.lbl_formatexto_valor.set(resultado[0][15])
             #self.lbl_formatexto_valor.configure(text=resultado[0][15])
             #self.lbl_formatexto_valor['text']= resultado[0][15]
         else:
-            self.lbl_formatexto_valor.delete(0, tk.END)
-            self.lbl_formatexto_valor.insert(0, "No aplica")
+            self.lbl_formatexto_valor.set("")
+            self.lbl_formatexto_valor.set("No aplica")
             #self.lbl_formatexto_valor.configure(text="No aplica")
         
         
 
         self.lbl_fechaTtexto.configure(text="Fecha EGEL:")
         if resultado[0][16]:
-            self.lbl_fechaTtexto_valor.delete(0, tk.END)
-            self.lbl_fechaTtexto_valor.insert(0, resultado[0][16])
+            self.lbl_fechaTtexto_valor.set("")
+            self.lbl_fechaTtexto_valor.set(resultado[0][16])
            # self.lbl_fechaTtexto_valor.configure(text=resultado[0][16])
         else:
-            self.lbl_fechaTtexto_valor.delete(0, tk.END)
-            self.lbl_fechaTtexto_valor.insert(0, "No aplica")
+            self.lbl_fechaTtexto_valor.set("")
+            self.lbl_fechaTtexto_valor.set( "No aplica")
             #self.lbl_fechaTtexto_valor.configure(text="No aplica")
     
 
