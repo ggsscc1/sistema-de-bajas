@@ -592,8 +592,6 @@ class App2(customtkinter.CTk):
         Loginc2.run()
     
     def registro(self):
-        #claveAlumno = self.claveA.get()
-        #Consultar los datos necesarios
         bd_nombre = self.third_frame_Clave_Entry1.get()
         bd_ap_paterno = self.third_frame_Clave_Entry2.get()
         bd_ap_materno = self.third_frame_Clave_Entry3.get()
@@ -601,37 +599,42 @@ class App2(customtkinter.CTk):
         bd_nom_usuario = self.third_frame_Clave_Entry5.get()
         bd_password = self.third_frame_Clave_Entry6.get()
 
-        """print(bd_nombre)
-        print(bd_ap_paterno)
-        print(bd_ap_materno)
-        print(bd_email)
-        print(bd_nom_usuario)
-        print(bd_password)"""
+        if not all([bd_nombre, bd_ap_paterno, bd_email, bd_nom_usuario, bd_password]):
+            messagebox.showerror(message="Todos los campos son obligatorios", title="Error")
+            return
 
-        #Consulta necesaria para el registro del usuario
-        conexion = ConexionBD(user='root',password='root',host='localhost',database='datosalumnosbajas')
+        # Hash the password before storing it
+        
+
+        # Database interaction
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
-        insertar = f"INSERT INTO usuarios (nom_usuario, password, nombre, ap_paterno, ap_materno, email, tipo_usuario, activo) VALUES ('{bd_nom_usuario}','{bd_password}','{bd_nombre}','{bd_ap_paterno}','{bd_ap_materno}','{bd_email}','1', '0')"
-        resultado = conexion.ejecutar_consulta(insertar)
 
-        print(resultado)
+        insertar = f"INSERT INTO usuarios (nom_usuario, password, nombre, ap_paterno, ap_materno, email, tipo_usuario, activo) " \
+                f"VALUES ('{bd_nom_usuario}', '{bd_password}', " \
+                f"'{bd_nombre}', '{bd_ap_paterno}', '{bd_ap_materno}', '{bd_email}', '1', '0')"
 
-        validacion = f"SELECT * FROM usuarios WHERE nom_usuario = '{bd_nom_usuario}'"
-        resVal = conexion.ejecutar_consulta(validacion)
+        # Execute the query and check for errors
+        try:
+            resultado = conexion.ejecutar_consulta(insertar)
+           
+
+            if resultado is not None:
+                messagebox.showinfo(message="Usuario registrado con éxito", title="Éxito")
+                self.clear_entry_fields()
+            else:
+                messagebox.showerror(message="Error en el registro", title="Error")
+        except Exception as e:
+            messagebox.showerror(message=f"Error en el registro: {str(e)}", title="Error")
 
         conexion.desconectar()
 
-        #Validar
-        if(resVal[0][0] == bd_nom_usuario):
-            messagebox.showinfo(message="Usuario registrado con éxito", title="Éxito")
-            self.third_frame_Clave_Entry1.delete(0, "end")
-            self.third_frame_Clave_Entry2.delete(0, "end")
-            self.third_frame_Clave_Entry3.delete(0, "end")
-            self.third_frame_Clave_Entry4.delete(0, "end")
-            self.third_frame_Clave_Entry5.delete(0, "end")
-            self.third_frame_Clave_Entry6.delete(0, "end")
-        else:
-            messagebox.showerror(message="Error en el registro", title="Error")
+    def clear_entry_fields(self):
+    # Clear all entry fields
+        for entry in [self.third_frame_Clave_Entry1, self.third_frame_Clave_Entry2,
+                    self.third_frame_Clave_Entry3, self.third_frame_Clave_Entry4,
+                    self.third_frame_Clave_Entry5, self.third_frame_Clave_Entry6]:
+            entry.delete(0, "end")
 
         
 
