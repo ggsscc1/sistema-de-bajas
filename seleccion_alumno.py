@@ -6,7 +6,7 @@ from recorrido_listaEspera import lectura_listaEspera
 from datetime import date
 from tkinter import messagebox
 import customtkinter
-from CTkMessagebox import CTkMessagebox
+from tkinter import messagebox
 from ventana_Formulario import ventana_Formulario  
 
         
@@ -19,8 +19,8 @@ def seleccionar_formulario(treeview):
         # Mostrar la ventana del formulario con la fila seleccionada
         ventana_Formulario(fila_seleccionada)
     else:
-        #messagebox.showinfo("Error", "Por favor, selecciona un formulario primero.")
-        CTkMessagebox(title="Error", message="Por favor, selecciona un formulario primero.", icon="cancel")
+        messagebox.showerror("Error", "Por favor, selecciona un formulario primero.")
+
 
  
         

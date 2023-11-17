@@ -5,7 +5,6 @@ import tkinter as tk
 from tkinter import messagebox
 from DBconection import *
 import customtkinter
-from CTkTable import *
 import consulta
 import consultaG
 import GeneraCartaNoAdeudo
