@@ -4,7 +4,8 @@ from tkinter import ttk
 import customtkinter
 import inicio_recepcion
 import Inicio_Admin
-from interRecepcion import App
+from interRecepcion import crear_y_ejecutar
+from ventana_Admin import crea_y_ejecuta
 from DBconection import *
 import os
 
@@ -58,11 +59,11 @@ def verificaInicio():
         if resultado[0][0] == 1:  
             root.destroy()
             # mandar llamar interRecepcion.App
-            app_recepcion = App()
-            app_recepcion.mainloop()
+            app_instance = crear_y_ejecutar()
+
         elif resultado[0][0] == 0:        
             root.destroy()  
-            Inicio_Admin.ventana_IniA()
+            app_instance = crea_y_ejecuta()
 
     # Si no se encuentra al usuario, notifica un error
     else:
@@ -73,4 +74,7 @@ def verificaInicio():
 btnlogin = customtkinter.CTkButton(master=frame, text="Login", command=verificaInicio)
 btnlogin.pack(pady=12, padx=10)
 
-root.mainloop()
+
+
+def run():
+    root.mainloop()

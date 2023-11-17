@@ -14,10 +14,11 @@ import os
 import pandas as pd
 from tkinter import filedialog
 from pathlib import Path
+import Loginc2
 
-class App(customtkinter.CTk):
-    def __init__(self):
-        super().__init__()
+class App1(customtkinter.CTk):
+    def __init__(self, master=None):
+        super().__init__(master)
         self.title("Sistema de bajas - Recepción")
         #self.geometry("700x450")
 
@@ -39,18 +40,23 @@ class App(customtkinter.CTk):
 
         self.home_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Inicio",
                                                    fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
-                                                   anchor="w", command=self.home_button_event)
+                                                   anchor="w", command=lambda:self.home_button_event())
         self.home_button.grid(row=1, column=0, sticky="ew")
 
         self.frame_2_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Formularios",
                                                       fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
-                                                      anchor="w", command=self.frame_2_button_event)
+                                                      anchor="w", command=lambda:self.frame_2_button_event())
         self.frame_2_button.grid(row=2, column=0, sticky="ew")
 
         self.frame_3_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Consultas",
                                                       fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
-                                                      anchor="w", command=self.frame_3_button_event)
+                                                      anchor="w", command=lambda:self.frame_3_button_event())
         self.frame_3_button.grid(row=3, column=0, sticky="ew")
+
+        self.frame_logoutbutton = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Cerrar sesión",
+                                                      fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("red", "gray30"),
+                                                      anchor="w", command=lambda:self.frame_4_button())
+        self.frame_logoutbutton.grid(row=4, column=0, sticky="ews")
 
        
 
@@ -119,17 +125,16 @@ class App(customtkinter.CTk):
         self.second_frame.grid_columnconfigure(0, weight=1)
         self.second_frame.grid_columnconfigure(1, weight=1)
         self.second_frame.grid_columnconfigure(2, weight=1)
-        # Consulta a realizar
-        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
-        conexion.conectar()
-        consulta = f"SELECT * FROM formulario"
-        resultado = conexion.ejecutar_consulta(consulta)
+      
 
         
 
         #label formulario
         iniform = customtkinter.CTkLabel(self.second_frame, text="Selecciona tu formulario")
-        iniform.grid(row=0, column=0, padx=10, pady=10, sticky="w", columnspan=3)
+        iniform.grid(row=0, column=0, padx=10, pady=10)
+
+        self.botonrecargar = customtkinter.CTkButton(self.second_frame, text="Recarga la tabla", command=lambda:self.updatetreeview())
+        self.botonrecargar.grid(row=0, column=1, padx=10, pady=10)
 
         self.style = ttk.Style()
         self.style.configure("mystyle.Treeview", highlightthickness=0, bd=0, font=('Calibri', 13)) # Modify the font of the body
@@ -141,8 +146,10 @@ class App(customtkinter.CTk):
         # Crear un Treeview con 3 columnas
         self.treeview = ttk.Treeview(self.second_frame, columns=('fecha', 'clave', 'nombre', 'completado'), show='headings', style="mystyle.Treeview")
         self.treeview.grid(row= 1, column=0, pady=10, padx=20, sticky="nsew", rowspan=2, columnspan=6)
-
+        
         self.treeview.bind("<Double-1>", lambda event: self.open_formularios(event))
+
+       
       
 
         # Configurar encabezados de columna
@@ -150,13 +157,6 @@ class App(customtkinter.CTk):
         self.treeview.heading('clave', text='Clave')
         self.treeview.heading('nombre', text='Nombre')
         self.treeview.heading('completado', text='Completado?')
-        completado = "NO"
-        
-        # Agregar datos
-        for result in resultado:
-            if resultado[0][10] :
-                completado = "SI"
-                self.treeview.insert('', tk.END , text=result[0], values=(result[6], result[1], result[2], completado))
         
         # Establecer ancho de columna
         self.treeview.column('fecha', width=100)
@@ -164,10 +164,20 @@ class App(customtkinter.CTk):
         self.treeview.column('nombre', width=100)
         self.treeview.column('completado', width=110)
 
+        
+
         # Crear un botón "Generar Formulario" que muestra la ventana con los datos correspondientes
         #
         btn_formulario = customtkinter.CTkButton(self.second_frame, text="Abrir Formulario", command=lambda: self.formularios(self.treeview.item(self.treeview.focus(), "values")))
         btn_formulario.grid(row= 3, column=0, padx=10, pady=10, sticky="w")
+
+        # Crear un botón para generar documento sellos
+        self.btn_CartaSellos = customtkinter.CTkButton(self.second_frame, text="Generar carta de sellos", fg_color="light blue",text_color="black")
+        self.btn_CartaSellos.grid(row=5, column=1, padx=5, pady=10)
+
+        # Crear un botón para generar documento sellos
+        self.btn_CartaNoAdeudo = customtkinter.CTkButton(self.second_frame, text="Generar carta de no adeudo", text_color="black")
+        self.btn_CartaNoAdeudo.grid(row=5, column=2, padx=5, pady=10)
 
         self.firstInterFrame = customtkinter.CTkFrame(self.second_frame)
         self.firstInterFrame.grid(row=4, column=0, padx=5, pady=5, rowspan=1)
@@ -319,23 +329,9 @@ class App(customtkinter.CTk):
         #BuscarAnio.configure(values= "" + [str(resultado[0]) for resultado in resultados])
         BuscarAnio.configure(values=[""]+[str(resultado[0]) for resultado in resultados])
         
-
-        # Limpiar el ComboBox
-        
-        #BuscarAnio['values'] = ()
-        
-        # Agregar los resultados al ComboBox
-        #BuscarAnio.configure(values=[""] + [resultado[0] for resultado in resultados])
-        #BuscarAnio['values'] = [""] + [resultado[0] for resultado in resultados]
-        
-        #SELECT * FROM datosalumnosbajas.view_generaciones;
-
         #Búsqueda por GENERACIÓN. En la línea de values es dónde se anexan los valores del combobox. 
         Generacion = customtkinter.CTkLabel(self.third_frame, text="Generación:")
         Generacion.grid(row=1, column=2, padx=10, pady=10, sticky="e")
-
-        #BuscarGeneracion = ttk.Entry(self.third_frame, width=20, variable=generacionC)
-        #BuscarGeneracion.place(x=85, y=100)
 
         #combobox para la busqueda por generacion de los alumnos
         BuscarGen = customtkinter.CTkComboBox(self.third_frame, state="readonly", variable=self.generacionC)
@@ -463,6 +459,8 @@ class App(customtkinter.CTk):
 
     def frame_3_button_event(self):
         self.select_frame_by_name("Consultas")
+
+    
 
  
     
@@ -832,14 +830,13 @@ class App(customtkinter.CTk):
             self.lbl_empresa_valor.configure(text="No aplica")
 
         
-        # Crear un botón para generar documento sellos
-        btn_sell = customtkinter.CTkButton(self.second_frame, text="Generar carta de sellos", fg_color="light blue",text_color="black", command=lambda:GeneraCartaSellos.GeneraCarta(resultado[0][1]))
-        #GeneraCartaNoAdeudo(claveUnica):, command=lambda:CartaSellos.GeneraCartaNoAdeudo(resultado[0][1])
-        btn_sell.grid(row=5, column=1, padx=5, pady=10)
+        
 
-        # Crear un botón para generar documento sellos
-        btn_cart = customtkinter.CTkButton(self.second_frame, text="Generar carta de no adeudo", text_color="black", command=lambda:GeneraCartaNoAdeudo.GeneraCartaNoAdeudo(resultado[0][1]))
-        btn_cart.grid(row=5, column=2, padx=5, pady=10)
+        self.btn_CartaSellos.configure(command=lambda:GeneraCartaSellos.GeneraCarta(resultado[0][1]))
+        self.btn_CartaNoAdeudo.configure(command=lambda:GeneraCartaNoAdeudo.GeneraCartaNoAdeudo(resultado[0][1]))
+
+        self.btn_CartaSellos.grid()
+        self.btn_CartaNoAdeudo.grid()
 
         # Crear un botón para generar documento sellos
         btn_edit = customtkinter.CTkButton(self.second_frame, text="Regresa a edición", fg_color="transparent", text_color="black")
@@ -860,11 +857,51 @@ class App(customtkinter.CTk):
             values = self.treeview.item(selected_item, "values")
             self.formularios(values)"""
     
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+    def updatetreeview(self):
+        self.treeview.grid_remove()
+        self.firstInterFrame.grid_remove()
+        self.secondInterFrame.grid_remove()
+        self.thirdInterFrame.grid_remove()
+        self.btn_CartaSellos.grid_remove()
+        self.btn_CartaNoAdeudo.grid_remove()
 
-"""
-     texto_busqueda = self.home_frame_Clave_Entry.get()
-        print(f"Realizando búsqueda para: {texto_busqueda}")
-"""
+        # Consulta a realizar
+        conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
+        conexion.conectar()
+        consulta = f"SELECT * FROM formulario"
+        resultado = conexion.ejecutar_consulta(consulta)
+        
+        completado = "NO"
+        self.treeview.delete(*self.treeview.get_children())
+        # Agregar datos
+        for result in resultado:
+            if resultado[0][10] :
+                completado = "SI"
+                self.treeview.insert('', tk.END , text=result[0], values=(result[6], result[1], result[2], completado))
+
+         # Llamar a la función después de 1000 milisegundos (1 segundo)
+        self.after(500, self.show_treeview)
+
+        conexion.desconectar()
+
+    def show_treeview(self):
+        self.treeview.grid()
+
+    def frame_4_button(self):
+        self.after(500, self.destroy())
+        Loginc2.run()
+        
+       
+        
+        
+
+def crear_y_ejecutar():
+    app = App1()
+    app.updatetreeview()
+    app.mainloop()
+    return app
+
+if __name__ == "__main__":
+   app_instance = crear_y_ejecutar()
+
+    

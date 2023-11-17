@@ -12,7 +12,7 @@ from tkinter import *
 def GeneraCarta(claveUnica):
     claveUnica =  claveUnica
     #Crear conexion a la base de datos
-    conexion = ConexionBD(user='newuser',password='root',host='148.224.51.68',database='datosalumnosbajas')
+    conexion = ConexionBD(user='root',password='root',host='localhost',database='datosalumnosbajas')
     conexion.conectar()
 
     # Realizar una solicitud SQL para obtener los datos
