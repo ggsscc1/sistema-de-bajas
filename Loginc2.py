@@ -49,7 +49,7 @@ def verificaInicio():
     # Consulta para buscar al usuario en la base de datos
     conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
     conexion.conectar()
-    consulta = f"SELECT tipo_usuario FROM usuarios WHERE nom_usuario = '{usuario}' AND password = '{clave}'"
+    consulta = f"SELECT tipo_usuario FROM usuarios WHERE nom_usuario = '{usuario}' AND password = '{clave}' AND activo = 0;"
     resultado = conexion.ejecutar_consulta(consulta)
     
 
