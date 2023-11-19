@@ -634,7 +634,7 @@ def updateBase():
         # Confirmación de actualización
         messagebox.showinfo("Confirmación", "El registro ha sido actualizado correctamente.")
     else:
-        messagebox.showinfo("Error", "El registro no se ha encontradp.")
+        messagebox.showinfo("Error", "El registro no se ha encontrado.")
 
     # Cerrar la conexión a la base de datos
     cursor.close()
