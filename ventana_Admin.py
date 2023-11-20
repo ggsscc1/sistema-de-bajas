@@ -10,16 +10,7 @@ import customtkinter
 import consulta
 import consultaG
 import os
-from PIL import Image
-import CTkMessagebox
 import Loginc2
-
-
-
-
-
-
-    
 
 class App2(customtkinter.CTk):
     def __init__(self):
@@ -432,6 +423,7 @@ class App2(customtkinter.CTk):
         self.select_frame_by_name("Formularios")
 
     def updateBase(self):
+        #obtien los campos del formulario
         fecha_valor = self.lbl_fecha_valor.get()
         clave_valor = self.lbl_clave_valor.get()
         nombre_valor = self.lbl_nombre_valor.get()
@@ -459,10 +451,10 @@ class App2(customtkinter.CTk):
 
         cursor = conn.cursor()
 
-    # Realizar el update en la base de datos
+    # consulta a Realizar el update en la base de datos
         query = f"UPDATE formulario SET fecha_solicitud = '{fecha_valor}', clave_unica = '{clave_valor}', email_alumno = '{correo_valor}', carrera = '{carrera_valor}', generacion = '{generacion_valor}', motbaja = '{motivo_valor}', prepa_origen = '{prepa_valor}', tipobaja = '{tipoB_valor}'"
-        #, materia_dificil = '{materia_valor}', materia_dificil2 = '{materia2_valor}', materia_dificil3 = '{materia3_valor}', detalles_baja = '{motivotexto_valor}', forma_titulacion = '{formatexto_valor}', fecha_egel = '{fechaTtexto_valor}'
-
+        
+        #dependiendo si estan estos valores si no no
         if materia_valor:
             query += f", matdif1 = '{materia_valor}'"
         if materia2_valor:
@@ -587,8 +579,8 @@ class App2(customtkinter.CTk):
     def frame_3_button_event(self):
         self.select_frame_by_name("Agregar usuario")
 
-    def frame_4_button(self):
-        self.destroy()
+    def frame_4_button(self):#clase actual
+        self.destroy()#cierra la clase actual (el programa)
         Loginc2.run()
     
     def registro(self):
@@ -839,7 +831,8 @@ class App2(customtkinter.CTk):
         self.lbl_activo_valor.insert(0, resultado[0][7])
         
 
-    def updatetreeviewFORMS(self):
+    def updatetreeviewFORMS(self):#self = clase actual
+        #remueve la tabla y los campos de formulario en caso de que esten abiertos asi como el boton de editar
         self.treeview2.grid_remove()
         self.firstInterFrame.grid_remove()
         self.secondInterFrame.grid_remove()
@@ -853,22 +846,27 @@ class App2(customtkinter.CTk):
         resultado = conexion.ejecutar_consulta(consulta)
         
         completado = "NO"
+
+        #elimina los registros de la tabla
         self.treeview2.delete(*self.treeview2.get_children())
-        # Agregar datos
+
+        # Agregar datos en la tabla
         for result in resultado:
             if resultado[0][10] :
                 completado = "SI"
+                #insserta los datos en la tabla
                 self.treeview2.insert('', tk.END , text=result[0], values=(result[6], result[1], result[2], completado))
 
-         # Llamar a la función después de 1000 milisegundos (1 segundo)
+        # Llamar a la función después de 1000 milisegundos (1 segundo)
         self.after(500, self.show_treeviewFORMS)
 
         conexion.desconectar()
 
-    def show_treeviewFORMS(self):
-        self.treeview2.grid()
+    def show_treeviewFORMS(self):#self = clase actual
+        self.treeview2.grid()#muestra la tabla
 
-    def updatetreeview(self):
+    def updatetreeview(self):#self = clase actual
+        #remueve la tabla y los campos de formulario en caso de que esten abiertos asi como el boton de editar usuario
         self.treeview.grid_remove()
         self.firstInterFrameUSER.grid_remove()
         self.secondInterFrameUSER.grid_remove()
@@ -894,6 +892,7 @@ class App2(customtkinter.CTk):
                     tipo = "Admin (0)"
                 else:
                     tipo = "Recepcion (1)"
+                #inserta datos en la tabla
                 self.treeview.insert('', tk.END , text=res[0], values=(res[0], res[5], res[2], res[3], tipo, activo))
         
         # Llamar a la función después de 500 milisegundos (0.5 segundo)
@@ -901,8 +900,8 @@ class App2(customtkinter.CTk):
 
         conexion.desconectar()
 
-    def show_treeview(self):
-        self.treeview.grid()
+    def show_treeview(self):#self = clase actual
+        self.treeview.grid()#muestra la tabla
     
 def crea_y_ejecuta():
     app = App2()

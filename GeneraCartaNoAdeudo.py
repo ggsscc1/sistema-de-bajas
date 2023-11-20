@@ -2,7 +2,6 @@ from DBconection import *
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
-from PyPDF2 import PdfFileWriter, PdfFileReader
 import datetime
 import locale
 

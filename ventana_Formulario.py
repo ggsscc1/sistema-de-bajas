@@ -387,6 +387,7 @@ def ventana_Formulario(fila_seleccionada):
         #print(resultado2)
 
     def insertaValidacion():
+        #obtine los valores de los campos del formulario
         fechaI = etiqueta_valor_fecha.cget("text")
         nombreI = etiqueta_valor_nombre.cget("text")
         ap_patI = etiqueta_valor_ap_pat.cget("text")
@@ -413,11 +414,10 @@ def ventana_Formulario(fila_seleccionada):
 
             conexion.conectar()
 
-                #Ejecución de las consultas
+            #Ejecución de las consultas
             insertar = f"INSERT INTO datosalumnosbajas.prepa_procedencia (nombre_prepa) VALUES ('{prepaI}')"
             resultado1 = conexion.ejecutar_consulta(insertar)
-                #eliminar = f"DELETE FROM datosalumnosbajas.lista_de_espera WHERE clave_unica = {cve_unicaI}"
-                #resultado2 = conexion.ejecutar_consulta(eliminar)
+  
 
             conexion.desconectar()
         elif value == "Preparatoria Foránea":
@@ -426,15 +426,17 @@ def ventana_Formulario(fila_seleccionada):
 
             conexion.conectar()
 
-                #Ejecución de las consultas
+            #Ejecución de las consultas
             insertar = f"INSERT INTO datosalumnosbajas.prepa_procedencia (nombre_prepa) VALUES ('{prepaI}')"
             resultado1 = conexion.ejecutar_consulta(insertar)
-                #eliminar = f"DELETE FROM datosalumnosbajas.lista_de_espera WHERE clave_unica = {cve_unicaI}"
-                #resultado2 = conexion.ejecutar_consulta(eliminar)
+
             conexion.desconectar()
         else:
             prepaI = etiqueta_valor_preparatoria.get()
 
+        
+
+        #si no se llenaron los campos obligatorios muestra un mensaje de error
         if not all([fechaI, nombreI, ap_patI, cve_unicaI, generacionI, carreraI, emailI, value,
                     materia1I, mot_realI, tipo_bajaI]):
             messagebox.showerror(message="Porfavor llena los campos obligatorios", title="Error")
@@ -447,20 +449,24 @@ def ventana_Formulario(fila_seleccionada):
         conexion = ConexionBD(user='root', password='root', host='localhost', database='datosalumnosbajas')
         conexion.conectar()
 
+        #hace la insercion en el formulario
         insertar = f"INSERT INTO datosalumnosbajas.formulario (fecha_solicitud, clave_unica, nombre, ap_paterno, ap_materno, generacion, carrera, email_alumno, matdif1, matdif2, matdif3, prepa_origen, tipobaja, detalles_baja, empresa, formatit, fecha_egel, motbaja) VALUES ('{fechaI}','{cve_unicaI}','{nombreI}','{ap_patI}','{ap_matI}','{generacionI}','{carreraI}','{emailI}','{materia1I}','{materia2I}','{materia3I}','{prepaI}','{tipo_bajaI}','{inconvenienteI}','{trabajoI}','{formaTitI}','{fechaEgelI}','{mot_realI}')"
 
         # Execute the query and check for errors
         try:
+            #verifica la insercion
             resultado = conexion.ejecutar_consulta(insertar)
             
 
             if resultado is not None:
+                #si la insercion se realizo correctamente muestra un mensaje de exito
                 messagebox.showinfo(message="Formulario registrado con éxito", title="Éxito")
                 eliminar = f"DELETE FROM datosalumnosbajas.lista_de_espera WHERE clave_unica = {cve_unicaI}"
                 resultado2 = conexion.ejecutar_consulta(eliminar)
                 print(resultado2)
                 ventana_formulario.destroy()
             else:
+                #muestra mensaje de error
                 messagebox.showerror(message="Error en el registro", title="Error")
         except Exception as e:
             messagebox.showerror(message=f"Error en el registro: {str(e)}", title="Error")

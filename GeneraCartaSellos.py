@@ -2,11 +2,8 @@ from DBconection import *
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
-from PyPDF2 import PdfFileWriter, PdfFileReader
 from datetime import date
-from tkinter import filedialog
-from pathlib import Path
-from tkinter import *
+
 
 #Función auxiliar para la creación de la carta de no adeudo
 def GeneraCarta(claveUnica):

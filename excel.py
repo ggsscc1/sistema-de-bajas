@@ -48,6 +48,7 @@ def ventanaConsulta():
                                    'Motivo baja', 'Prepa origen', 'Materia difícil I', 'Materia difícil II',
                                    'Materia difícil III', 'Forma titulación', 'Fecha egel', 'Detalles baja', 'Empresa')
 
+    #nombra a las columnas de la tabla
     tabla_resultados.column('#0', width=0, stretch=NO)
     tabla_resultados.column('ID', anchor=CENTER, width=40)
     tabla_resultados.column('Clave', anchor=CENTER, width=60)
@@ -69,6 +70,7 @@ def ventanaConsulta():
     tabla_resultados.column('Detalles baja', anchor=CENTER, width=110)
     tabla_resultados.column('Empresa', anchor=CENTER, width=100)
 
+    #nombra los encabezados de la tabla
     tabla_resultados.heading('#0', text='', anchor=CENTER)
     tabla_resultados.heading('ID', text='ID', anchor=CENTER)
     tabla_resultados.heading('Clave', text='Clave', anchor=CENTER)
@@ -162,20 +164,3 @@ def exportar_a_excel():
     else:
         messagebox.showwarning("Exportar a Excel", "Debes seleccionar un directorio y proporcionar un nombre de archivo.")
 
-
-    """
-    if directorio and nombre_archivo:
-        # Crear un objeto Path para el directorio y el archivo
-        directorio_path = Path(directorio)
-        archivo_path = Path(nombre_archivo)
-
-        # Combinar el directorio y el nombre de archivo correctamente
-        archivo_guardar = directorio_path / archivo_path
-
-        # Guardar el DataFrame en un archivo Excel
-        
-        df.to_excel(archivo_guardar, index=False)
-        messagebox.showinfo("Exportar a Excel", "Los datos se exportaron correctamente.")
-    else:
-        messagebox.showwarning("Exportar a Excel", "Debes seleccionar un directorio y proporcionar un nombre de archivo.")   
-    """

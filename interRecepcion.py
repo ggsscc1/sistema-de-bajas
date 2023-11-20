@@ -723,8 +723,8 @@ class App1(customtkinter.CTk):
         # Obtener los resultados de la consulta
         results = cursor.fetchall()
 
-        #print(results[0][1])
-
+        
+        #Realiza la insercion en la tabla formulario
         if(results is not NONE):
             sql_insercion = f"INSERT INTO lista_de_espera (clave_unica, nombre, ap_paterno, ap_materno, carrera, generacion) VALUES ('{results[0][0]}', '{results[0][1]}', '{results[0][2]}', '{results[0][3]}', '{results[0][4]}', '{results[0][5]}')"
             cursor.execute(sql_insercion)
@@ -758,40 +758,50 @@ class App1(customtkinter.CTk):
         resultado = conexion.ejecutar_consulta(consulta)
         conexion.desconectar()
 
-        # Crear etiquetas para los campos fecha, clave y nombre
-        #print(resultado[0][6])
-
-
-
+        #muestra los grids en que se muestra la informacion
         self.firstInterFrame.grid()
         self.secondInterFrame.grid()
         self.thirdInterFrame.grid()
 
-        
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_fecha.configure(text="Fecha:")
         self.lbl_fecha_valor.configure(text=resultado[0][6])
 
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_clave.configure(text="Clave:")
         self.lbl_clave_valor.configure(text=resultado[0][1])
 
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_nombre.configure(text="Nombre:")
         self.lbl_nombre_valor.configure(text=resultado[0][2]+" "+resultado[0][3]+" "+resultado[0][4])
 
+
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_correo.configure(text="Correo electronico:")
         self.lbl_correo_valor.configure(text=resultado[0][5])
 
+
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_carrera.configure(text="Carrera:")
         self.lbl_carrera_valor.configure(text=resultado[0][7])
 
+
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_generacion.configure(text="Generacion:")
         self.lbl_generacion_valor.configure( text=resultado[0][8])
 
+
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_motivo.configure(text="Motivo de baja:")
         self.lbl_motivo_valor.configure(text=resultado[0][10])
         
+
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_prpa.configure(text="Preparatoria de procedencia:")
         self.lbl_prepa_valor.configure(text=resultado[0][11])
 
+
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_materia.configure(text="Materia más dificil:")
         self.lbl_materia_valor.configure(text=resultado[0][12])
         self.lbl_materia2.configure(text="Materia más dificil II:")
@@ -799,12 +809,17 @@ class App1(customtkinter.CTk):
         self.lbl_materia3.configure(text="Materia más dificil III:")
         self.lbl_materia3_valor.configure(text=resultado[0][14])
 
+
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_tipoB.configure(text="Tipo de baja:")
         self.lbl_tipoB_valor.configure(text=resultado[0][9])
 
+
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_motivotexto.configure(text="Porqué se da de baja:")
         self.lbl_motivotexto_valor.configure(text=resultado[0][17])
 
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_formatexto.configure(text="Forma Titulacion:")
         if resultado[0][15]:
             self.lbl_formatexto_valor.configure(text=resultado[0][15])
@@ -813,14 +828,14 @@ class App1(customtkinter.CTk):
             self.lbl_formatexto_valor.configure(text="No aplica")
         
         
-
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_fechaTtexto.configure(text="Fecha EGEL:")
         if resultado[0][16]:
             self.lbl_fechaTtexto_valor.configure(text=resultado[0][16])
         else:
             self.lbl_fechaTtexto_valor.configure(text="No aplica")
     
-
+        #actualiza los camppos con los resultado de la consulta
         self.lbl_empresa.configure(text="Empresa la que trabaja:")
         if resultado[0][18]:
             self.lbl_empresa_valor.configure(text=resultado[0][18])
@@ -830,16 +845,14 @@ class App1(customtkinter.CTk):
 
         
         
-
+        #actualiza los botones de generar cartas
         self.btn_CartaSellos.configure(command=lambda:GeneraCartaSellos.GeneraCarta(resultado[0][1]))
         self.btn_CartaNoAdeudo.configure(command=lambda:GeneraCartaNoAdeudo.GeneraCartaNoAdeudo(resultado[0][1]))
 
         self.btn_CartaSellos.grid()
         self.btn_CartaNoAdeudo.grid()
 
-        # Crear un botón para generar documento sellos
-        btn_edit = customtkinter.CTkButton(self.second_frame, text="Regresa a edición", fg_color="transparent", text_color="black")
-        #btn_edit.grid(row=5, column=0, padx=5, pady=10)
+
 
     def realizar_busqueda(self, event):
         # Coloca aquí el código para realizar la búsqueda
@@ -850,12 +863,7 @@ class App1(customtkinter.CTk):
     def open_formularios(self, event):
 
         self.formularios(self.treeview.item(self.treeview.focus(), "values"))
-        
-        """selected_item = self.treeview.selection()
-        if selected_item:
-            values = self.treeview.item(selected_item, "values")
-            self.formularios(values)"""
-    
+
     def updatetreeview(self):
         self.treeview.grid_remove()
         self.firstInterFrame.grid_remove()
