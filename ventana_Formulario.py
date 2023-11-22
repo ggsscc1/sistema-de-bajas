@@ -12,9 +12,10 @@ from tkcalendar import DateEntry
 # Función principal para mostrar la lista de espera
 def ventana_Formulario(fila_seleccionada):
     print(fila_seleccionada)
-    customtkinter.deactivate_automatic_dpi_awareness()
+    #customtkinter.deactivate_automatic_dpi_awareness()
     customtkinter.set_appearance_mode("light")
     ventana_formulario = customtkinter.CTk()
+
 
     # Configurar el tamaño y el título de la ventana
     screen_width = ventana_formulario.winfo_screenwidth()
@@ -22,6 +23,7 @@ def ventana_Formulario(fila_seleccionada):
     screen_resolution = str(screen_width) + 'x' + str(screen_height)
     ventana_formulario.geometry(screen_resolution)
     ventana_formulario.title(f"Formulario: {fila_seleccionada[0]}")
+    ventana_formulario.state('zoomed')
     
     
     
@@ -115,7 +117,7 @@ def ventana_Formulario(fila_seleccionada):
     etiqueta_valor_generacion.grid(row=6, column=1, sticky="w", padx=10, pady=10)
     
     # Crear entry para el correo electronico
-    etiqueta_correo = customtkinter.CTkLabel(inter_frame1, text="*Correo electronico:",  anchor="w", font=("Arial",16), text_color="red")
+    etiqueta_correo = customtkinter.CTkLabel(inter_frame1, text="*Correo electrónico:",  anchor="w", font=("Arial",16), text_color="red")
     etiqueta_correo.grid(row=7, column=0, sticky="e", padx=10, pady=10)
     etiqueta_valor_correo = customtkinter.CTkEntry(inter_frame1,width=250, corner_radius=10)
     if resFormulario and len(resFormulario) > 0:
@@ -126,7 +128,7 @@ def ventana_Formulario(fila_seleccionada):
     etiqueta_valor_correo.grid(row=7, column=1, padx=10, pady=10) 
     
     # Crear entry para la materia dificil 1
-    etiqueta_materia1 = customtkinter.CTkLabel(inter_frame1, text="*Materia dificil 1:",  anchor="w", font=("Arial",16), text_color="red")
+    etiqueta_materia1 = customtkinter.CTkLabel(inter_frame1, text="*Materia difícil 1:",  anchor="w", font=("Arial",16), text_color="red")
     etiqueta_materia1.grid(row=8, column=0, sticky="e", padx=10, pady=10)
     etiqueta_valor_materia1 = customtkinter.CTkComboBox(inter_frame1, values= listaMaterias, width=250, corner_radius=10 ,  state="readonly")
     if resFormulario and len(resFormulario[0]) > 11:
@@ -136,7 +138,7 @@ def ventana_Formulario(fila_seleccionada):
     etiqueta_valor_materia1.grid(row=8, column=1, padx=10, pady=10) 
     
     # Crear entry para la materia dificil 2
-    etiqueta_materia2 = customtkinter.CTkLabel(inter_frame2, text="Materia dificil 2:",  anchor="w", font=("Arial",16))
+    etiqueta_materia2 = customtkinter.CTkLabel(inter_frame2, text="Materia difícil 2:",  anchor="w", font=("Arial",16))
     etiqueta_materia2.grid(row=0, column=0, sticky="e", padx=10, pady=10)
     etiqueta_valor_materia2 = customtkinter.CTkComboBox(inter_frame2, values= listaMaterias, width=250, corner_radius=10,  state="readonly")
     if resFormulario and len(resFormulario[0]) > 12:
@@ -146,7 +148,7 @@ def ventana_Formulario(fila_seleccionada):
     etiqueta_valor_materia2.grid(row=0, column=1, padx=10, pady=10) 
        
     # Crear entry para la materia dificil 3
-    etiqueta_materia3 = customtkinter.CTkLabel(inter_frame2, text="Materia dificil 3:",  anchor="w", font=("Arial",16))
+    etiqueta_materia3 = customtkinter.CTkLabel(inter_frame2, text="Materia difícil 3:",  anchor="w", font=("Arial",16))
     etiqueta_materia3.grid(row=1, column=0, sticky="e", padx=10, pady=10)
     etiqueta_valor_materia3 = customtkinter.CTkComboBox(inter_frame2, values= listaMaterias, width=250, corner_radius=10,  state="readonly")
     if resFormulario and len(resFormulario[0]) > 13:

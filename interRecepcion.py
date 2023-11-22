@@ -13,7 +13,7 @@ import os
 import pandas as pd
 from tkinter import filedialog
 from pathlib import Path
-import Loginc2
+
 
 class App1(customtkinter.CTk):
     def __init__(self, master=None):
@@ -129,7 +129,7 @@ class App1(customtkinter.CTk):
         
 
         #label formulario
-        iniform = customtkinter.CTkLabel(self.second_frame, text="Selecciona tu formulario")
+        iniform = customtkinter.CTkLabel(self.second_frame, text="Selecciona un formulario")
         iniform.grid(row=0, column=0, padx=10, pady=10)
 
         self.botonrecargar = customtkinter.CTkButton(self.second_frame, text="Recarga la tabla", command=lambda:self.updatetreeview())
@@ -155,7 +155,7 @@ class App1(customtkinter.CTk):
         self.treeview.heading('fecha', text='Fecha')
         self.treeview.heading('clave', text='Clave')
         self.treeview.heading('nombre', text='Nombre')
-        self.treeview.heading('completado', text='Completado?')
+        self.treeview.heading('completado', text='¿Completado?')
         
         # Establecer ancho de columna
         self.treeview.column('fecha', width=100)
@@ -601,23 +601,23 @@ class App1(customtkinter.CTk):
         btn_exportar.grid(row=0, column=0, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_Gen = customtkinter.CTkButton(frame_sec1, text="Grafica Generacion", command=lambda:consultaG.consulta_generacion2(results))
+        btn_Gen = customtkinter.CTkButton(frame_sec1, text="Gráfica Generación", command=lambda:consultaG.consulta_generacion2(results))
         btn_Gen.grid(row=0, column=1, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_Carrera = customtkinter.CTkButton(frame_sec1, text="Grafica Carrera", command=lambda:consultaG.consulta_carrera2(results))
+        btn_Carrera = customtkinter.CTkButton(frame_sec1, text="Gráfica Carrera", command=lambda:consultaG.consulta_carrera2(results))
         btn_Carrera.grid(row=0, column=2, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_escuela = customtkinter.CTkButton(frame_sec1, text="Grafica escuela", command=lambda:consultaG.consulta_escuela2(results))
+        btn_escuela = customtkinter.CTkButton(frame_sec1, text="Gráfica escuela", command=lambda:consultaG.consulta_escuela2(results))
         btn_escuela.grid(row=0, column=3, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_tramite = customtkinter.CTkButton(frame_sec1, text="Grafica tramite", command=lambda:consultaG.consulta_tramite2(results))
+        btn_tramite = customtkinter.CTkButton(frame_sec1, text="Gráfica tramite", command=lambda:consultaG.consulta_tramite2(results))
         btn_tramite.grid(row=0, column=4, padx=5, pady=10)
 
         # Agregar botón de exportar a Excel
-        btn_Mat = customtkinter.CTkButton(frame_sec1, text="Materia dificil", command=lambda:consultaG.consulta_materia2(results))
+        btn_Mat = customtkinter.CTkButton(frame_sec1, text="Gráfica Materia difícil", command=lambda:consultaG.consulta_materia2(results))
         btn_Mat.grid(row=0, column=5, padx=5, pady=10)
 
         ventana_resultados.mainloop()
@@ -777,7 +777,7 @@ class App1(customtkinter.CTk):
 
 
         #actualiza los camppos con los resultado de la consulta
-        self.lbl_correo.configure(text="Correo electronico:")
+        self.lbl_correo.configure(text="Correo electrónico:")
         self.lbl_correo_valor.configure(text=resultado[0][5])
 
 
@@ -787,7 +787,7 @@ class App1(customtkinter.CTk):
 
 
         #actualiza los camppos con los resultado de la consulta
-        self.lbl_generacion.configure(text="Generacion:")
+        self.lbl_generacion.configure(text="Generación:")
         self.lbl_generacion_valor.configure( text=resultado[0][8])
 
 
@@ -802,11 +802,11 @@ class App1(customtkinter.CTk):
 
 
         #actualiza los camppos con los resultado de la consulta
-        self.lbl_materia.configure(text="Materia más dificil:")
+        self.lbl_materia.configure(text="Materia más difícil:")
         self.lbl_materia_valor.configure(text=resultado[0][12])
-        self.lbl_materia2.configure(text="Materia más dificil II:")
+        self.lbl_materia2.configure(text="Materia más difícil II:")
         self.lbl_materia2_valor.configure(text=resultado[0][13])
-        self.lbl_materia3.configure(text="Materia más dificil III:")
+        self.lbl_materia3.configure(text="Materia más difícil III:")
         self.lbl_materia3_valor.configure(text=resultado[0][14])
 
 
@@ -820,7 +820,7 @@ class App1(customtkinter.CTk):
         self.lbl_motivotexto_valor.configure(text=resultado[0][17])
 
         #actualiza los camppos con los resultado de la consulta
-        self.lbl_formatexto.configure(text="Forma Titulacion:")
+        self.lbl_formatexto.configure(text="Forma titulación:")
         if resultado[0][15]:
             self.lbl_formatexto_valor.configure(text=resultado[0][15])
             #self.lbl_formatexto_valor['text']= resultado[0][15]
@@ -896,6 +896,7 @@ class App1(customtkinter.CTk):
 
     def frame_4_button(self):
         self.after(500, self.destroy())
+        import Loginc2
         Loginc2.run()
         
        

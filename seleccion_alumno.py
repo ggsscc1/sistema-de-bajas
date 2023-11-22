@@ -31,12 +31,14 @@ def ventana_InicioForm():
     customtkinter.set_appearance_mode("light")
     ventana_Iniform = customtkinter.CTk()
 
+
   # Configurar el tamaño y el título de la ventana
     screen_width = ventana_Iniform.winfo_screenwidth()
     screen_height = ventana_Iniform.winfo_screenheight()
     screen_resolution = str(screen_width) + 'x' + str(screen_height)
     ventana_Iniform.geometry(screen_resolution)
     ventana_Iniform.title("Sistema de Bajas")
+
 
     # Agregar el título sistema de bajas
     lbl_SB = Label(text="Sistema de bajas", fg="white", bg="darkblue", width="300", height="2", font=("Arial", 30))

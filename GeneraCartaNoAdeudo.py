@@ -4,6 +4,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 import datetime
 import locale
+import os
 
 def GeneraCartaNoAdeudo(claveUnica):
 
@@ -43,7 +44,9 @@ def GeneraCartaNoAdeudo(claveUnica):
 
 
     # Crear un archivo PDF en blanco
-    pdf = canvas.Canvas(f"Carta de no adeudo {claveUnica}.pdf", pagesize=letter)
+    pdf_filename = f"Carta de no adeudo {claveUnica}.pdf"  # Puedes cambiar el nombre del archivo según tus necesidades
+    pdf_path = os.path.join(os.path.expanduser("~"), "Downloads", pdf_filename)
+    pdf = canvas.Canvas(pdf_path, pagesize=letter)
 
     # Agregar la imagen en la parte superior izquierda
     pdf.drawInlineImage("LogoUniversidad.png", 30, letter[1]-2.4*inch, width=1.2*inch, height=1.2*inch)
@@ -81,8 +84,8 @@ def GeneraCartaNoAdeudo(claveUnica):
     pdf.drawRightString(letter[0]-3.25*inch, letter[1]-5.25*inch, f"no tiene adeudos a la fecha en los laboratorios de la carrera")
     
     #espacio 
-    pdf.drawRightString(letter[0]-1.24*inch, letter[1]-5.6*inch, f"A peticion del interesado y para fines que al mismo congengan se extiende la presente")
-    pdf.drawRightString(letter[0]-4.54*inch, letter[1]-5.85*inch, f"a dia {dia} del mes de {nombre_mes} del año {anio}")
+    pdf.drawRightString(letter[0]-1.24*inch, letter[1]-5.6*inch, f"A petición del interesado y para fines que al mismo convengan se extiende la presente")
+    pdf.drawRightString(letter[0]-4.54*inch, letter[1]-5.85*inch, f"a día  {dia} del mes de {nombre_mes} del año {anio}")
 
 
 

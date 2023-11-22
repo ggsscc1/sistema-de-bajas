@@ -5,12 +5,11 @@ import tkinter as tk
 from tkinter import messagebox
 from tkcalendar import DateEntry
 from DBconection import *
-from GeneraCarta import * 
 import customtkinter
 import consulta
 import consultaG
 import os
-import Loginc2
+
 
 class App2(customtkinter.CTk):
     def __init__(self):
@@ -48,7 +47,7 @@ class App2(customtkinter.CTk):
 
         super().__init__()
 
-        self.title("Sistema de bajas - Registrar nuevo usuario")
+        self.title("Sistema de bajas")
         #self.geometry("700x450")
 
         # set grid layout 1x2
@@ -114,7 +113,7 @@ class App2(customtkinter.CTk):
         self.treeview2.heading('fecha', text='Fecha')
         self.treeview2.heading('clave', text='Clave')
         self.treeview2.heading('nombre', text='Nombre')
-        self.treeview2.heading('completado', text='Completado?')
+        self.treeview2.heading('completado', text='¿Completado?')
 
         # Establecer ancho de columna
         self.treeview2.column('fecha', width=100)
@@ -266,10 +265,10 @@ class App2(customtkinter.CTk):
         self.treeview.bind("<Double-1>", lambda event: self.open_usuarios(event))
         
         # Configurar encabezados de columna
-        self.treeview.heading('Nom Usuario', text='Nom Usuario')
-        self.treeview.heading('Email', text='Email')
+        self.treeview.heading('Nom Usuario', text='Nombre de usuario')
+        self.treeview.heading('Email', text='Correo')
         self.treeview.heading('Nombre', text='Nombre')
-        self.treeview.heading('Ap Paterno', text='Ap Paterno')
+        self.treeview.heading('Ap Paterno', text='Apellido Paterno')
         self.treeview.heading('Tipo', text='Tipo')
         self.treeview.heading('Activo', text='Activo')
         
@@ -383,7 +382,7 @@ class App2(customtkinter.CTk):
         self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Segundo apellido: ", font=customtkinter.CTkFont(size=15, weight="normal"))
         self.third_frame_Clave.grid(row=3, column=0,padx=10, pady=10, sticky = "e")
 
-        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Email: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Correo electrónico: ", font=customtkinter.CTkFont(size=15, weight="normal"))
         self.third_frame_Clave.grid(row=4, column=0,padx=10, pady=10, sticky = "e")
 
         self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Nuevo nombre de usuario: ", font=customtkinter.CTkFont(size=15, weight="normal"))
@@ -489,7 +488,7 @@ class App2(customtkinter.CTk):
             # Confirmación de actualización
             messagebox.showinfo("Confirmación", "El registro ha sido actualizado correctamente.")
         else:
-            messagebox.showinfo("Error", "El registro no se ha encontradp.")
+            messagebox.showinfo("Error", "El registro no se ha encontrado.")
 
         # Cerrar la conexión a la base de datos
         cursor.close()
@@ -541,7 +540,7 @@ class App2(customtkinter.CTk):
             # Confirmación de actualización
             messagebox.showinfo("Confirmación", "El registro ha sido actualizado correctamente.")
         else:
-            messagebox.showinfo("Error", "El registro no se ha encontradp.")
+            messagebox.showinfo("Error", "El registro no se ha encontrado.")
 
         # Cerrar la conexión a la base de datos
         cursor.close()
@@ -580,6 +579,7 @@ class App2(customtkinter.CTk):
         self.select_frame_by_name("Agregar usuario")
 
     def frame_4_button(self):#clase actual
+        import Loginc2
         self.destroy()#cierra la clase actual (el programa)
         Loginc2.run()
     
@@ -592,7 +592,7 @@ class App2(customtkinter.CTk):
         bd_password = self.third_frame_Clave_Entry6.get()
 
         if not all([bd_nombre, bd_ap_paterno, bd_email, bd_nom_usuario, bd_password]):
-            messagebox.showerror(message="Todos los campos son obligatorios", title="Error")
+            messagebox.showerror(message="Ingresa los campos obligatorios", title="Error")
             return
 
         # Hash the password before storing it
@@ -664,7 +664,7 @@ class App2(customtkinter.CTk):
         self.lbl_nombre_valor.insert(0,resultado[0][2]+" "+resultado[0][3]+" "+resultado[0][4])
         #self.lbl_nombre_valor.configure(text=resultado[0][2]+" "+resultado[0][3]+" "+resultado[0][4])
 
-        self.lbl_correo.configure(text="Correo electronico:")
+        self.lbl_correo.configure(text="Correo electrónico:")
         self.lbl_correo_valor.delete(0, tk.END)
         self.lbl_correo_valor.insert(0,resultado[0][5])
         #self.lbl_correo_valor.configure(text=resultado[0][5])
@@ -674,7 +674,7 @@ class App2(customtkinter.CTk):
         self.lbl_carrera_valor.insert(0,resultado[0][7])
         #self.lbl_carrera_valor.configure(text=resultado[0][7])
 
-        self.lbl_generacion.configure(text="Generacion:")
+        self.lbl_generacion.configure(text="Generación:")
         self.lbl_generacion_valor.delete(0, tk.END)
         self.lbl_generacion_valor.insert(0,resultado[0][8])
         #self.lbl_generacion_valor.configure( text=resultado[0][8])
@@ -689,15 +689,15 @@ class App2(customtkinter.CTk):
         self.lbl_prepa_valor.set(resultado[0][11])
         #self.lbl_prepa_valor.configure(text=resultado[0][11])
 
-        self.lbl_materia.configure(text="Materia más dificil:")
+        self.lbl_materia.configure(text="Materia más difícil:")
         self.lbl_materia_valor.set("")
         self.lbl_materia_valor.set(resultado[0][12])
         #self.lbl_materia_valor.configure(text=resultado[0][12])
-        self.lbl_materia2.configure(text="Materia más dificil II:")
+        self.lbl_materia2.configure(text="Materia más difícil II:")
         self.lbl_materia2_valor.set("")
         self.lbl_materia2_valor.set(resultado[0][13])
         #self.lbl_materia2_valor.configure(text=resultado[0][13])
-        self.lbl_materia3.configure(text="Materia más dificil III:")
+        self.lbl_materia3.configure(text="Materia más difícil III:")
         self.lbl_materia3_valor.set("")
         self.lbl_materia3_valor.set(resultado[0][14])
         #self.lbl_materia3_valor.configure(text=resultado[0][14])
@@ -707,11 +707,11 @@ class App2(customtkinter.CTk):
         self.lbl_tipoB_valor.set(resultado[0][9])
         #self.lbl_tipoB_valor.configure(text=resultado[0][9])
 
-        self.lbl_motivotexto.configure(text="Porqué se da de baja:")
+        self.lbl_motivotexto.configure(text="Porque se da de baja:")
         self.lbl_motivotexto_valor.delete(0, tk.END)
         self.lbl_motivotexto_valor.insert(0,resultado[0][17])
 
-        self.lbl_formatexto.configure(text="Forma Titulacion:")
+        self.lbl_formatexto.configure(text="Forma titulación:")
         if resultado[0][15]:
             self.lbl_formatexto_valor.set("")
             self.lbl_formatexto_valor.set(resultado[0][15])
@@ -724,7 +724,7 @@ class App2(customtkinter.CTk):
         
         
 
-        self.lbl_fechaTtexto.configure(text="Fecha EGEL:")
+        self.lbl_fechaTtexto.configure(text="Fecha aproximada EGEL:")
         if resultado[0][16]:
             self.lbl_fechaTtexto_valor.set("")
             self.lbl_fechaTtexto_valor.set(resultado[0][16])
@@ -783,14 +783,14 @@ class App2(customtkinter.CTk):
         self.btn_formularioUser.grid()
         self.lbl_Nom_usuario_valor.delete(0, tk.END)
         self.lbl_Nom_usuario.grid()
-        self.lbl_Nom_usuario.configure(text="Nom_usuario:")
+        self.lbl_Nom_usuario.configure(text="Nombre de usuario:")
         self.lbl_Nom_usuario_valor.grid()
         self.lbl_Nom_usuario_valor.insert(0, resultado[0][0])
         #self.lbl_Nom_usuario_valor.configure(value=resultado[0][0])
 
         self.lbl_clave_valor2.delete(0, tk.END)
         self.lbl_clave2.grid()
-        self.lbl_clave2.configure(text="Password:")
+        self.lbl_clave2.configure(text="Contraseña:")
         self.lbl_clave_valor2.grid()
         self.lbl_clave_valor2.insert(0, resultado[0][1])
 
@@ -802,19 +802,19 @@ class App2(customtkinter.CTk):
 
         self.lbl_Ap_paterno_valor.delete(0, tk.END)
         self.lbl_Ap_paterno.grid()
-        self.lbl_Ap_paterno.configure(text="Ap paterno:")
+        self.lbl_Ap_paterno.configure(text="Apellido paterno:")
         self.lbl_Ap_paterno_valor.grid()
         self.lbl_Ap_paterno_valor.insert(0, resultado[0][3])
 
         self.lbl_Ap_materno_valor.delete(0, tk.END)
         self.lbl_Ap_materno.grid()
-        self.lbl_Ap_materno.configure(text="Ap materno:")
+        self.lbl_Ap_materno.configure(text="Apellido materno:")
         self.lbl_Ap_materno_valor.grid()
         self.lbl_Ap_materno_valor.insert(0, resultado[0][4])
 
         self.lbl_Email_valor.delete(0, tk.END)
         self.lbl_Email.grid()
-        self.lbl_Email.configure(text="Email:")
+        self.lbl_Email.configure(text="Correo electrónico:")
         self.lbl_Email_valor.grid()
         self.lbl_Email_valor.insert(0, resultado[0][5])
 
@@ -826,7 +826,7 @@ class App2(customtkinter.CTk):
 
         self.lbl_activo_valor.delete(0, tk.END)
         self.lbl_activo.grid()
-        self.lbl_activo.configure(text="Activo: ")
+        self.lbl_activo.configure(text="Activo:")
         self.lbl_activo_valor.grid()
         self.lbl_activo_valor.insert(0, resultado[0][7])
         

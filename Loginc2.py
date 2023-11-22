@@ -2,8 +2,6 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 import customtkinter
-import inicio_recepcion
-import Inicio_Admin
 from interRecepcion import crear_y_ejecutar
 from ventana_Admin import crea_y_ejecuta
 from DBconection import *
@@ -71,7 +69,7 @@ def verificaInicio():
         conexion.desconectar()
 
 
-btnlogin = customtkinter.CTkButton(master=frame, text="Login", command=verificaInicio)
+btnlogin = customtkinter.CTkButton(master=frame, text="Inicia sesión", command=verificaInicio)
 btnlogin.pack(pady=12, padx=10)
 
 
