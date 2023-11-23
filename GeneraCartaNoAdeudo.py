@@ -56,7 +56,7 @@ def GeneraCartaNoAdeudo(claveUnica):
     pdf.drawCentredString(letter[0]/2, letter[1]-1.25*inch, "Universidad Autonoma de San Luis Potosí")
     pdf.drawCentredString(letter[0]/2, letter[1]-1.5*inch, "Facultad de Ingeniería")
     pdf.setFont("Helvetica", 14)
-    pdf.drawCentredString(letter[0]/2, letter[1]-1.75*inch, "Area de ciencias de la computacion")
+    pdf.drawCentredString(letter[0]/2, letter[1]-1.75*inch, "Area de Ciencias de la Computación")
     pdf.setFont("Helvetica-Bold", 14)
     pdf.drawCentredString(letter[0]/2, letter[1]-2*inch, "CARTA DE NO ADEUDO")
 

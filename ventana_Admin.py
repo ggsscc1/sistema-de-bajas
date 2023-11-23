@@ -47,7 +47,7 @@ class App2(customtkinter.CTk):
 
         super().__init__()
 
-        self.title("Sistema de bajas")
+        self.title("Sistema de bajas - Administrador")
         #self.geometry("700x450")
 
         # set grid layout 1x2

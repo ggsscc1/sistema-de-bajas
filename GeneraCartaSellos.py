@@ -33,7 +33,7 @@ def GeneraCarta(claveUnica):
     pdf.drawCentredString(letter[0]/2, letter[1]-0.75*inch, "Universidad Autónoma de San Luis Potosí")
     pdf.drawCentredString(letter[0]/2, letter[1]-1*inch, "Facultad de Ingeniería")
     pdf.setFont("Helvetica", 14)
-    pdf.drawCentredString(letter[0]/2, letter[1]-1.25*inch, "Área de ciencias de la computación")
+    pdf.drawCentredString(letter[0]/2, letter[1]-1.25*inch, "Área de Ciencias de la Computación")
     pdf.drawCentredString(letter[0]/2, letter[1]-1.5*inch, "CARTA DE NO ADEUDO")
 
     # Agregar la imagen en la parte superior derecha
