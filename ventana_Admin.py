@@ -308,6 +308,8 @@ class App2(customtkinter.CTk):
         self.lbl_Nom_usuario_valor = customtkinter.CTkEntry(self.firstInterFrameUSER)
         self.lbl_Nom_usuario_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
         self.lbl_Nom_usuario_valor.grid_remove()
+        self.lbl_Nom_usuario_valor.configure(validate="key")
+        self.lbl_Nom_usuario_valor.configure(validatecommand=(self.register(self.validate_entry35CHAR), "%S", "%P"))
 
 
         self.lbl_clave2 = customtkinter.CTkLabel(self.firstInterFrameUSER, text="")
@@ -316,13 +318,17 @@ class App2(customtkinter.CTk):
         self.lbl_clave_valor2 = customtkinter.CTkEntry(self.firstInterFrameUSER)
         self.lbl_clave_valor2.grid(row=1, column=1, padx=5, pady=5, sticky="w")
         self.lbl_clave_valor2.grid_remove()
+        self.lbl_clave_valor2.configure(validate="key")
+        self.lbl_clave_valor2.configure(validatecommand=(self.register(self.validate_entry30CHAR), "%S", "%P"))
 
         self.lbl_nombre2 = customtkinter.CTkLabel(self.firstInterFrameUSER, text="")
         self.lbl_nombre2.grid(row=2, column=0, padx=5, pady=5, sticky="e")
         self.lbl_nombre2.grid_remove()
         self.lbl_nombre_valor2 = customtkinter.CTkEntry(self.firstInterFrameUSER)
         self.lbl_nombre_valor2.grid(row=2, column=1, padx=5, pady=5, sticky="w")
-        self.lbl_nombre_valor2.grid_remove() 
+        self.lbl_nombre_valor2.grid_remove()
+        self.lbl_nombre_valor2.configure(validate="key")
+        self.lbl_nombre_valor2.configure(validatecommand=(self.register(self.validate_entry45CHAR), "%S", "%P"))
         
         self.lbl_Ap_paterno = customtkinter.CTkLabel(self.secondInterFrameUSER, text="")
         self.lbl_Ap_paterno.grid(row=0, column=0, padx=5, pady=5, sticky="e")
@@ -330,6 +336,9 @@ class App2(customtkinter.CTk):
         self.lbl_Ap_paterno_valor = customtkinter.CTkEntry(self.secondInterFrameUSER)
         self.lbl_Ap_paterno_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
         self.lbl_Ap_paterno_valor.grid_remove()
+        # Set up validation of characters
+        self.lbl_Ap_paterno_valor.configure(validate="key")
+        self.lbl_Ap_paterno_valor.configure(validatecommand=(self.register(self.validate_entry30CHAR), "%S", "%P"))
         
         self.lbl_Ap_materno = customtkinter.CTkLabel(self.secondInterFrameUSER, text="")
         self.lbl_Ap_materno.grid(row=1, column=0, padx=5, pady=5, sticky="e")
@@ -337,6 +346,9 @@ class App2(customtkinter.CTk):
         self.lbl_Ap_materno_valor = customtkinter.CTkEntry(self.secondInterFrameUSER)
         self.lbl_Ap_materno_valor.grid(row=1, column=1, padx=5, pady=5, sticky="w")
         self.lbl_Ap_materno_valor.grid_remove()
+        # Set up validation of characters
+        self.lbl_Ap_materno_valor.configure(validate="key")
+        self.lbl_Ap_materno_valor.configure(validatecommand=(self.register(self.validate_entry30CHAR), "%S", "%P"))
 
         self.lbl_Email = customtkinter.CTkLabel(self.secondInterFrameUSER, text="")
         self.lbl_Email.grid(row=2, column=0, padx=5, pady=5, sticky="e")
@@ -344,6 +356,9 @@ class App2(customtkinter.CTk):
         self.lbl_Email_valor = customtkinter.CTkEntry(self.secondInterFrameUSER)
         self.lbl_Email_valor.grid(row=2, column=1, padx=5, pady=5, sticky="w")
         self.lbl_Email_valor.grid_remove()
+        # Set up validation of characters
+        self.lbl_Email_valor.configure(validate="key")
+        self.lbl_Email_valor.configure(validatecommand=(self.register(self.validate_entry50CHAR), "%S", "%P"))
         
         #tipo de usuario
         self.lbl_tipoUs = customtkinter.CTkLabel(self.thirdInterFrameUSER, text="")
@@ -352,6 +367,8 @@ class App2(customtkinter.CTk):
         self.lbl_tipoUs_valor = customtkinter.CTkEntry(self.thirdInterFrameUSER)
         self.lbl_tipoUs_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
         self.lbl_tipoUs_valor.grid_remove()
+        self.lbl_tipoUs_valor.configure(validate="key")
+        self.lbl_tipoUs_valor.configure(validatecommand=(self.register(self.digitos), "%S", "%P"))
 
         #activo
         self.lbl_activo = customtkinter.CTkLabel(self.thirdInterFrameUSER, text="")
@@ -360,6 +377,8 @@ class App2(customtkinter.CTk):
         self.lbl_activo_valor = customtkinter.CTkEntry(self.thirdInterFrameUSER)
         self.lbl_activo_valor.grid(row=1, column=1, padx=5, pady=5, sticky="w")
         self.lbl_activo_valor.grid_remove()
+        self.lbl_activo_valor.configure(validate="key")
+        self.lbl_activo_valor.configure(validatecommand=(self.register(self.digitos), "%S", "%P"))
         
         
         # create third frame
@@ -367,59 +386,142 @@ class App2(customtkinter.CTk):
         self.third_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
         
         self.third_frame.grid_columnconfigure(0, weight=1)
-        self.third_frame.grid_columnconfigure(1, weight=1)
+        
+
+        
 
         #cambiando fuentes
         self.third_frame_Titulo = customtkinter.CTkLabel(self.third_frame, text="Registrar nuevo usuario", fg_color="white", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
         self.third_frame_Titulo.grid(row=0, column=0, padx=10, pady=10, columnspan=3)
+
+        self.oneInterFrame = customtkinter.CTkFrame(self.third_frame)
+        self.oneInterFrame.grid(row=1, column=0, padx=5, pady=5, rowspan=1)
         
-        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Nombre: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.third_frame_Clave.grid(row=1, column=0,padx=10, pady=10, sticky = "e")
+
+        self.twoInterFrame = customtkinter.CTkFrame(self.third_frame)
+        self.twoInterFrame.grid(row=2, column=0, padx=5, pady=5, rowspan=1)
         
-        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Primer apellido: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.third_frame_Clave.grid(row=2, column=0,padx=10, pady=10, sticky = "e")
+
+        self.third_frame_Clave = customtkinter.CTkLabel(self.oneInterFrame, text="Información básica: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=0, column=0,padx=5, pady=10, sticky = "nswe", columnspan=2)
         
-        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Segundo apellido: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.third_frame_Clave.grid(row=3, column=0,padx=10, pady=10, sticky = "e")
-
-        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Correo electrónico: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.third_frame_Clave.grid(row=4, column=0,padx=10, pady=10, sticky = "e")
-
-        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Nuevo nombre de usuario: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.third_frame_Clave.grid(row=5, column=0,padx=10, pady=10, sticky = "e")
-
-        self.third_frame_Clave = customtkinter.CTkLabel(self.third_frame, text="Nueva contraseña: ", font=customtkinter.CTkFont(size=15, weight="normal"))
-        self.third_frame_Clave.grid(row=6, column=0,padx=10, pady=10, sticky = "e")
-
+        self.third_frame_Clave = customtkinter.CTkLabel(self.oneInterFrame, text="Nombre: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=1, column=0,padx=5, pady=10, sticky = "e")
         
-    
-        self.third_frame_Clave_Entry1 = customtkinter.CTkEntry(self.third_frame)
-        self.third_frame_Clave_Entry1.grid(row=1, column=1,padx=10, pady=10, sticky = "w")
+        self.third_frame_Clave = customtkinter.CTkLabel(self.oneInterFrame, text="Primer apellido: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=2, column=0,padx=5, pady=10, sticky = "e")
+        
+        self.third_frame_Clave = customtkinter.CTkLabel(self.oneInterFrame, text="Segundo apellido: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=3, column=0,padx=5, pady=10, sticky = "e")
 
-        self.third_frame_Clave_Entry2 = customtkinter.CTkEntry(self.third_frame)
-        self.third_frame_Clave_Entry2.grid(row=2, column=1,padx=10, pady=10, sticky = "w")
+        ###################################################################
+        #inter frame 2
+        
+        self.third_frame_Clave = customtkinter.CTkLabel(self.twoInterFrame, text="Información de usuario: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=0, column=0,padx=5, pady=10, sticky = "nswe", columnspan=2)
 
-        self.third_frame_Clave_Entry3 = customtkinter.CTkEntry(self.third_frame)
-        self.third_frame_Clave_Entry3.grid(row=3, column=1,padx=10, pady=10, sticky = "w")
+        self.third_frame_Clave = customtkinter.CTkLabel(self.twoInterFrame, text="Correo electrónico: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=1, column=0,padx=5, pady=10, sticky = "e")
 
-        self.third_frame_Clave_Entry4 = customtkinter.CTkEntry(self.third_frame)
-        self.third_frame_Clave_Entry4.grid(row=4, column=1,padx=10, pady=10, sticky = "w")
+        self.third_frame_Clave = customtkinter.CTkLabel(self.twoInterFrame, text="Nombre de usuario: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=2, column=0,padx=5, pady=10, sticky = "e")
 
-        self.third_frame_Clave_Entry5 = customtkinter.CTkEntry(self.third_frame)
-        self.third_frame_Clave_Entry5.grid(row=5, column=1,padx=10, pady=10, sticky = "w")
+        self.third_frame_Clave = customtkinter.CTkLabel(self.twoInterFrame, text="Contraseña: ", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.third_frame_Clave.grid(row=3, column=0,padx=5, pady=10, sticky = "e")
 
-        self.third_frame_Clave_Entry6 = customtkinter.CTkEntry(self.third_frame, show='*')
-        self.third_frame_Clave_Entry6.grid(row=6, column=1,padx=10, pady=10, sticky = "w")
+
+        self.third_frame_Clave_Entry1 = customtkinter.CTkEntry(self.oneInterFrame)
+        self.third_frame_Clave_Entry1.grid(row=1, column=1,padx=5, pady=10, sticky = "w")
+
+        # Set up validation to allow only 45 characters
+        self.third_frame_Clave_Entry1.configure(validate="key")
+        self.third_frame_Clave_Entry1.configure(validatecommand=(self.register(self.validate_entry45CHAR), "%S", "%P"))
+
+        self.third_frame_Clave_Entry2 = customtkinter.CTkEntry(self.oneInterFrame)
+        self.third_frame_Clave_Entry2.grid(row=2, column=1,padx=5, pady=10, sticky = "w")
+
+        # Set up validation of characters
+        self.third_frame_Clave_Entry2.configure(validate="key")
+        self.third_frame_Clave_Entry2.configure(validatecommand=(self.register(self.validate_entry30Apellidos), "%S", "%P"))
+
+        self.third_frame_Clave_Entry3 = customtkinter.CTkEntry(self.oneInterFrame)
+        self.third_frame_Clave_Entry3.grid(row=3, column=1,padx=5, pady=10, sticky = "w")
+
+        # Set up validation of characters
+        self.third_frame_Clave_Entry3.configure(validate="key")
+        self.third_frame_Clave_Entry3.configure(validatecommand=(self.register(self.validate_entry30Apellidos), "%S", "%P"))
+
+
+        ############################################
+        #second frame
+
+        self.third_frame_Clave_Entry4 = customtkinter.CTkEntry(self.twoInterFrame)
+        self.third_frame_Clave_Entry4.grid(row=1, column=1,padx=5, pady=10, sticky = "w")
+
+        # Set up validation of characters
+        self.third_frame_Clave_Entry4.configure(validate="key")
+        self.third_frame_Clave_Entry4.configure(validatecommand=(self.register(self.validate_entry50CHAR), "%S", "%P"))
+
+        self.third_frame_Clave_Entry5 = customtkinter.CTkEntry(self.twoInterFrame)
+        self.third_frame_Clave_Entry5.grid(row=2, column=1,padx=5, pady=10, sticky = "w")
+
+        # Set up validation of characters
+        self.third_frame_Clave_Entry5.configure(validate="key")
+        self.third_frame_Clave_Entry5.configure(validatecommand=(self.register(self.validate_entry35CHAR), "%S", "%P"))
+
+        self.third_frame_Clave_Entry6 = customtkinter.CTkEntry(self.twoInterFrame, show='*')
+        self.third_frame_Clave_Entry6.grid(row=3, column=1,padx=5, pady=10, sticky = "w")
+
+        # Set up validation of characters
+        self.third_frame_Clave_Entry6.configure(validate="key")
+        self.third_frame_Clave_Entry6.configure(validatecommand=(self.register(self.validate_entry30CHAR), "%S", "%P"))
+
 
         self.third_frame_button_Registrar = customtkinter.CTkButton(self.third_frame, text="Registrar")
         
         self.third_frame_button_Buscar = customtkinter.CTkButton(self.third_frame, text="Registrar", command=lambda:self.registro())
-        self.third_frame_button_Buscar.grid(row=7, column=1, pady=10)
+        self.third_frame_button_Buscar.grid(row=3, column=0, pady=10)
 
 
         ##########################################################################################
         # select default frame
         self.select_frame_by_name("Formularios")
+
+    def digitos(self, char, current_value):
+        # Allow the user to enter characters
+        if char.isalpha() or char.isspace():
+            return False
+
+        # Check if the entered character is between 0 and 1
+        return len(current_value) <=1 and 0 <= float(char) <= 1 if char.isdigit() or char == '.' else False
+
+    
+    def validate_entry30CHAR(self, char, current_value):
+        # Check if the length of the current value is less than or equal to 
+        return len(current_value + char) <= 30 #tamanio en la base de datos
+    
+    def validate_entry30Apellidos(self, char, current_value):
+        # Check if the length of the current value is less than or equal to 
+        return len(current_value + char) <= 30 and char.isalpha()#tamanio en la base de datos
+    
+    def validate_entry35CHAR(self, char, current_value):
+        # Check if the length of the current value is less than or equal to 
+        return len(current_value + char) <= 35#tamanio en la base de datos
+    
+    def validate_entry45CHAR(self, char, current_value):
+        # Check if the length of the current value is less than or equal to 
+        return len(current_value + char) <= 45 and char.isalpha()
+
+    def validate_entry50CHAR(self, char, current_value):
+        return len(current_value + char) <= 50#tamanio en la base de datos
+    
+    def validate_entry60CHAR(self, char, current_value):
+        return len(current_value + char) <= 60 and char.isalpha() #tamanio en la base de datos
+    
+    
+    
+   
+    
 
     def updateBase(self):
         #obtien los campos del formulario
@@ -450,7 +552,7 @@ class App2(customtkinter.CTk):
 
         cursor = conn.cursor()
 
-    # consulta a Realizar el update en la base de datos
+        # consulta a Realizar el update en la base de datos
         query = f"UPDATE formulario SET fecha_solicitud = '{fecha_valor}', clave_unica = '{clave_valor}', email_alumno = '{correo_valor}', carrera = '{carrera_valor}', generacion = '{generacion_valor}', motbaja = '{motivo_valor}', prepa_origen = '{prepa_valor}', tipobaja = '{tipoB_valor}'"
         
         #dependiendo si estan estos valores si no no
@@ -591,11 +693,17 @@ class App2(customtkinter.CTk):
         bd_nom_usuario = self.third_frame_Clave_Entry5.get()
         bd_password = self.third_frame_Clave_Entry6.get()
 
-        if not all([bd_nombre, bd_ap_paterno, bd_email, bd_nom_usuario, bd_password]):
+        if not all([bd_nombre, bd_ap_paterno, bd_email, bd_nom_usuario, bd_password]) :
             messagebox.showerror(message="Ingresa los campos obligatorios", title="Error")
             return
+        
+        # Verificar si bd_email contiene el carácter "@"
+        if "@" not in bd_email:
+            messagebox.showerror(message="Ingresa un correo electrónico valido", title="Error")
+            return
+        
 
-        # Hash the password before storing it
+        # Hash the password before storing itS
         
 
         # Database interaction
