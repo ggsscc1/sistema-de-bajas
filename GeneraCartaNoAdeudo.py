@@ -93,7 +93,7 @@ def GeneraCartaNoAdeudo(claveUnica):
     pdf.setFont("Helvetica", 12)
     pdf.drawCentredString(letter[0]/2, letter[1]-7.75*inch, "ATENTAMENTE")
     pdf.drawCentredString(letter[0]/2, letter[1]-9.25*inch, "__________________________________________")
-    pdf.drawCentredString(letter[0]/2, letter[1]-9.50*inch, f"{coordiandor[0][0]}")
+    #pdf.drawCentredString(letter[0]/2, letter[1]-9.50*inch, f"{coordiandor[0][0]}")
     pdf.drawCentredString(letter[0]/2, letter[1]-9.80*inch, f"Coordinador de la Carrera de Ingeniería en {resultados[0][7]}")
 
 

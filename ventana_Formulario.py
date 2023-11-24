@@ -9,6 +9,7 @@ from CTkMessagebox import CTkMessagebox
 from tkcalendar import DateEntry
 
 
+
 # Función principal para mostrar la lista de espera
 def ventana_Formulario(fila_seleccionada):
     print(fila_seleccionada)
@@ -114,16 +115,35 @@ def ventana_Formulario(fila_seleccionada):
     etiqueta_valor_generacion = customtkinter.CTkLabel(inter_frame1, text=fila_seleccionada[5],  anchor="w", font=("Arial",16))
     etiqueta_valor_generacion.grid(row=6, column=1, sticky="w", padx=10, pady=10)
     
+    def validar_longitud(*args):
+        contenido = etiqueta_valor_correo.get()
+        if len(contenido) > 60:
+            messagebox.showwarning("Advertencia", "La longitud máxima es de 60 caracteres.")
+            #Cortar el contenido si excede los 60 caracteres
+            etiqueta_valor_correo.delete(0, tk.END)
+        return True
+   
     # Crear entry para el correo electronico
     etiqueta_correo = customtkinter.CTkLabel(inter_frame1, text="*Correo electronico:",  anchor="w", font=("Arial",16), text_color="red")
     etiqueta_correo.grid(row=7, column=0, sticky="e", padx=10, pady=10)
     etiqueta_valor_correo = customtkinter.CTkEntry(inter_frame1,width=250, corner_radius=10)
+    # Configurar la validación
+    # Crear etiqueta para campos obligatorios
+    etiqueta_obligatorio = customtkinter.CTkLabel(frame_central, text="Campos con * son obligatorios",  anchor="w", font=("Arial",12), text_color="red")
+    etiqueta_obligatorio.grid(row=8, column=1, sticky="e", padx=10, pady=10)
+
+    vcmd = (etiqueta_valor_correo.register(validar_longitud), "%P")
+    etiqueta_valor_correo.configure(validate="key", validatecommand=vcmd)
+
     if resFormulario and len(resFormulario) > 0:
         if len(resFormulario[0]) > 6:
             if resFormulario[0][6] is not None:
                 etiqueta_valor_correo.delete(0, tk.END)
                 etiqueta_valor_correo.insert(0, resFormulario[0][6])
     etiqueta_valor_correo.grid(row=7, column=1, padx=10, pady=10) 
+    
+    
+
     
     # Crear entry para la materia dificil 1
     etiqueta_materia1 = customtkinter.CTkLabel(inter_frame1, text="*Materia dificil 1:",  anchor="w", font=("Arial",16), text_color="red")
@@ -186,6 +206,14 @@ def ventana_Formulario(fila_seleccionada):
             etiqueta_otraPrepa.grid_remove()
             etiqueta_otraPrepa_valor.grid_remove()
     
+    def validar_longitud2(*args):
+        contenido = etiqueta_valor_inconveniente.get()
+        if len(contenido) > 200:
+            messagebox.showwarning("Advertencia", "La longitud máxima es de 200 caracteres.")
+            # Cortar el contenido si excede los 60 caracteres
+            etiqueta_valor_inconveniente.delete(0, tk.END)
+        return True
+    
     # Crear entry para el inconveniente de la carrera
     etiqueta_inconveniente = customtkinter.CTkLabel(inter_frame2, text="Inconveniente con la carrera:",  anchor="w", font=("Arial",16))
     etiqueta_inconveniente.grid(row=4, column=0, sticky="e", padx=10, pady=10)
@@ -196,6 +224,9 @@ def ventana_Formulario(fila_seleccionada):
             etiqueta_valor_inconveniente.insert(0, resFormulario[0][16])
     etiqueta_valor_inconveniente.grid(row=4, column=1, padx=10, pady=10)
     
+    vcmd2 = (etiqueta_valor_inconveniente.register(validar_longitud2), "%P")
+    etiqueta_valor_inconveniente.configure(validate="key", validatecommand=vcmd2)
+
     # Crear entry para caso de que trabaje
     etiqueta_actualizable = customtkinter.CTkLabel(inter_frame2, text=" ",  anchor="w", font=("Arial",16))
     etiqueta_actualizable.grid(row=8, column=0, sticky="e", padx=10, pady=10)
