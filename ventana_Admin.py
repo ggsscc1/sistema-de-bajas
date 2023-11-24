@@ -152,6 +152,9 @@ class App2(customtkinter.CTk):
         self.lbl_correo.grid(row=1, column=0, padx=5, pady=5, sticky="e")
         self.lbl_correo_valor = customtkinter.CTkEntry(self.firstInterFrame)
         self.lbl_correo_valor.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+        self.lbl_correo_valor.configure(validate="key")
+        self.lbl_correo_valor.configure(validatecommand=(self.register(self.validate_entry60CHAR), "%S", "%P"))
+        
 
         #"Motivo de Baja"
         self.lbl_motivo = customtkinter.CTkLabel(self.firstInterFrame, text="")
@@ -169,23 +172,31 @@ class App2(customtkinter.CTk):
         self.lbl_motivotexto.grid(row=4, column=0, padx=5, pady=5, sticky="e")
         self.lbl_motivotexto_valor = customtkinter.CTkEntry(self.firstInterFrame)
         self.lbl_motivotexto_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
-
+        self.lbl_motivotexto_valor.configure(validate="key")
+        self.lbl_motivotexto_valor.configure(validatecommand=(self.register(self.validate_entry45), "%S", "%P"))
         
         self.lbl_empresa = customtkinter.CTkLabel(self.thirdInterFrame, text="")
         self.lbl_empresa.grid(row=4, column=0, padx=5, pady=5, sticky="e")
         self.lbl_empresa_valor = customtkinter.CTkEntry(self.thirdInterFrame)
         self.lbl_empresa_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
+        self.lbl_empresa_valor.configure(validate="key")
+        self.lbl_empresa_valor.configure(validatecommand=(self.register(self.validate_entry45), "%S", "%P"))
 
         
         self.lbl_clave = customtkinter.CTkLabel(self.secondInterFrame, text="")
         self.lbl_clave.grid(row=0, column=0, padx=5, pady=5, sticky="e")
         self.lbl_clave_valor = customtkinter.CTkEntry(self.secondInterFrame)
         self.lbl_clave_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+        self.lbl_clave_valor.configure(validate="key")
+        self.lbl_clave_valor.configure(validatecommand=(self.register(self.digitos7), "%S", "%P"))
 
         self.lbl_carrera = customtkinter.CTkLabel(self.secondInterFrame, text="")
         self.lbl_carrera.grid(row=0, column=0, padx=5, pady=5, sticky="e")
         self.lbl_carrera_valor = customtkinter.CTkEntry(self.secondInterFrame)
         self.lbl_carrera_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+        self.lbl_carrera_valor.configure(validate="key")
+        self.lbl_carrera_valor.configure(validatecommand=(self.register(self.validate_entry45), "%S", "%P"))
+
 
         #Escuela de procedencia
         self.lbl_prpa = customtkinter.CTkLabel(self.secondInterFrame, text="")
@@ -209,12 +220,17 @@ class App2(customtkinter.CTk):
         self.lbl_nombre = customtkinter.CTkLabel(self.thirdInterFrame, text="")
         self.lbl_nombre.grid(row=0, column=0, padx=5, pady=5, sticky="e")
         self.lbl_nombre_valor = customtkinter.CTkEntry(self.thirdInterFrame)
-        self.lbl_nombre_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w") 
+        self.lbl_nombre_valor.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+        self.lbl_nombre_valor.configure(validate="key")
+        self.lbl_nombre_valor.configure(validatecommand=(self.register(self.validate_entry45), "%S", "%P"))
+
         
         self.lbl_generacion = customtkinter.CTkLabel(self.thirdInterFrame, text="")
         self.lbl_generacion.grid(row=1, column=0, padx=5, pady=5, sticky="e")
         self.lbl_generacion_valor = customtkinter.CTkEntry(self.thirdInterFrame)
         self.lbl_generacion_valor.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+        self.lbl_generacion_valor.configure(validate="key")
+        self.lbl_generacion_valor.configure(validatecommand=(self.register(self.digitos4), "%S", "%P"))
         
         #materias mas dificiles
         
@@ -232,7 +248,6 @@ class App2(customtkinter.CTk):
         self.lbl_fechaTtexto.grid(row=4, column=0, padx=5, pady=5, sticky="e")
         self.lbl_fechaTtexto_valor = customtkinter.CTkComboBox(self.secondInterFrame, values=["Marzo", "Agosto", "Diciembre"])
         self.lbl_fechaTtexto_valor.grid(row=4, column=1, padx=5, pady=5, sticky="w")
-
         
         
         ##########################################################################################################
@@ -338,7 +353,7 @@ class App2(customtkinter.CTk):
         self.lbl_Ap_paterno_valor.grid_remove()
         # Set up validation of characters
         self.lbl_Ap_paterno_valor.configure(validate="key")
-        self.lbl_Ap_paterno_valor.configure(validatecommand=(self.register(self.validate_entry30CHAR), "%S", "%P"))
+        self.lbl_Ap_paterno_valor.configure(validatecommand=(self.register(self.validate_entry30Apellidos), "%S", "%P"))
         
         self.lbl_Ap_materno = customtkinter.CTkLabel(self.secondInterFrameUSER, text="")
         self.lbl_Ap_materno.grid(row=1, column=0, padx=5, pady=5, sticky="e")
@@ -348,7 +363,7 @@ class App2(customtkinter.CTk):
         self.lbl_Ap_materno_valor.grid_remove()
         # Set up validation of characters
         self.lbl_Ap_materno_valor.configure(validate="key")
-        self.lbl_Ap_materno_valor.configure(validatecommand=(self.register(self.validate_entry30CHAR), "%S", "%P"))
+        self.lbl_Ap_materno_valor.configure(validatecommand=(self.register(self.validate_entry30Apellidos), "%S", "%P"))
 
         self.lbl_Email = customtkinter.CTkLabel(self.secondInterFrameUSER, text="")
         self.lbl_Email.grid(row=2, column=0, padx=5, pady=5, sticky="e")
@@ -390,18 +405,20 @@ class App2(customtkinter.CTk):
 
         
 
-        #cambiando fuentes
+        #Titulo
         self.third_frame_Titulo = customtkinter.CTkLabel(self.third_frame, text="Registrar nuevo usuario", fg_color="white", font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
-        self.third_frame_Titulo.grid(row=0, column=0, padx=10, pady=10, columnspan=3)
+        self.third_frame_Titulo.grid(row=0, column=0, padx=10, pady=10, columnspan=1)
 
+
+        #frmaes para separar la informacion
         self.oneInterFrame = customtkinter.CTkFrame(self.third_frame)
-        self.oneInterFrame.grid(row=1, column=0, padx=5, pady=5, rowspan=1)
-        
-
+        self.oneInterFrame.grid(row=1, column=0, pady=5)
+    
         self.twoInterFrame = customtkinter.CTkFrame(self.third_frame)
-        self.twoInterFrame.grid(row=2, column=0, padx=5, pady=5, rowspan=1)
+        self.twoInterFrame.grid(row=2, column=0, padx=10, pady=5)
         
 
+        #labels
         self.third_frame_Clave = customtkinter.CTkLabel(self.oneInterFrame, text="Información básica: ", font=customtkinter.CTkFont(size=15, weight="normal"))
         self.third_frame_Clave.grid(row=0, column=0,padx=5, pady=10, sticky = "nswe", columnspan=2)
         
@@ -495,7 +512,14 @@ class App2(customtkinter.CTk):
         # Check if the entered character is between 0 and 1
         return len(current_value) <=1 and 0 <= float(char) <= 1 if char.isdigit() or char == '.' else False
 
+    def digitos4(self, char, current_value):
+        # Check if the length of the current value is less than or equal to 
+       return len(current_value) <= 4 and char.isdigit()
     
+    def digitos7(self, char, current_value):
+        # Check if the length of the current value is less than or equal to 
+       return len(current_value) <= 7 and char.isdigit()
+
     def validate_entry30CHAR(self, char, current_value):
         # Check if the length of the current value is less than or equal to 
         return len(current_value + char) <= 30 #tamanio en la base de datos
@@ -508,6 +532,10 @@ class App2(customtkinter.CTk):
         # Check if the length of the current value is less than or equal to 
         return len(current_value + char) <= 35#tamanio en la base de datos
     
+    def validate_entry45(self, char, current_value):
+        # Check if the length of the current value is less than or equal to 
+        return len(current_value) <= 45 
+    
     def validate_entry45CHAR(self, char, current_value):
         # Check if the length of the current value is less than or equal to 
         return len(current_value + char) <= 45 and char.isalpha()
@@ -516,7 +544,7 @@ class App2(customtkinter.CTk):
         return len(current_value + char) <= 50#tamanio en la base de datos
     
     def validate_entry60CHAR(self, char, current_value):
-        return len(current_value + char) <= 60 and char.isalpha() #tamanio en la base de datos
+        return len(current_value + char) <= 60 #tamanio en la base de datos
     
     
     

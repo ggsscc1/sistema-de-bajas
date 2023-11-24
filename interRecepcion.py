@@ -68,7 +68,10 @@ class App1(customtkinter.CTk):
 
         #cambiando fuentes
         self.home_frame_Titulo = customtkinter.CTkLabel(self.home_frame, text="Sistema de bajas", fg_color="darkblue", text_color="white",font=customtkinter.CTkFont(size=20, weight="bold"), padx=5, pady=5, corner_radius=15)
-        self.home_frame_Titulo.grid(row=0, column=0, padx=20, pady=10, columnspan=3)
+        self.home_frame_Titulo.grid(row=0, column=0, padx=20, pady=10, columnspan=2)
+
+        self.home_frame_Titulo = customtkinter.CTkLabel(self.home_frame, text="Ingresa la clave\nasí: 123456", font=customtkinter.CTkFont(size=15, weight="normal"))
+        self.home_frame_Titulo.grid(row=0, column=2, padx=10, pady=10)
         
         self.home_frame_Clave = customtkinter.CTkLabel(self.home_frame, text="Clave única del alumno: ", font=customtkinter.CTkFont(size=15, weight="normal"))
         self.home_frame_Clave.grid(row=1, column=0, padx=5, pady=10, sticky="e")
@@ -78,6 +81,8 @@ class App1(customtkinter.CTk):
         self.home_frame_Clave_Entry = customtkinter.CTkEntry(self.home_frame, textvariable=self.home_frame_claveA)
         self.home_frame_Clave_Entry.bind("<Return>",lambda event: self.realizar_busqueda(event))
         self.home_frame_Clave_Entry.grid(row=1, column=1, padx=5, pady=10, sticky="w")
+        self.home_frame_Clave_Entry.configure(validate="key")
+        self.home_frame_Clave_Entry.configure(validatecommand=(self.register(self.validate_entryClave), "%S", "%P"))
 
         
 
@@ -112,11 +117,11 @@ class App1(customtkinter.CTk):
         self.home_frame_generacion_alumno_valor.grid(row=5, column=1, padx=5, pady=10, sticky="w")
 
         self.home_frame_button_Registrar = customtkinter.CTkButton(self.home_frame, text="Registrar", command=lambda:self.insertaEnLista())
-        self.home_frame_button_Registrar.grid(row=6, column=2, padx=20, pady=10)
+        self.home_frame_button_Registrar.grid(row=6, column=2, padx=20, pady=10, sticky="w")
         self.home_frame_button_Registrar.grid_remove()
         
         self.home_frame_button_Limpiar = customtkinter.CTkButton(self.home_frame, text="Limpiar", command=lambda:self.limpiainfo(), fg_color="transparent", text_color="black")
-        self.home_frame_button_Limpiar.grid(row=6, column=1, padx=20, pady=10)
+        self.home_frame_button_Limpiar.grid(row=6, column=1, padx=20, pady=10, sticky="e")
         self.home_frame_button_Limpiar.grid_remove()
 
         # create second frame
@@ -655,6 +660,10 @@ class App1(customtkinter.CTk):
 
     def abre_consultaG(self):
         consultaG.cosulta_grafica()
+
+    def validate_entryClave(self, char, current_value):
+        # Check if the length of the current value is less than or equal to 
+       return len(current_value) <= 7 and char.isdigit()
         
 
     def mostrar_informacion_alumno(self):
